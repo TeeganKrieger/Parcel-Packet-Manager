@@ -4,7 +4,7 @@
   <h3 align="center">Simple Networking, Serialization, and Synchronization.</h3>
 </div>
 
-<a>Documentation</a>
+<a href="https://teegankrieger.github.io/Parcel-Packet-Manager/index.html">Documentation</a>
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
