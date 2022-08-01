@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp2.1</TargetFramework>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Folder Include="Serialization\Exceptions\" />
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>ParcelTests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Lib.Harmony" Version="2.2.1" />
+	</ItemGroup>
+
+</Project>
