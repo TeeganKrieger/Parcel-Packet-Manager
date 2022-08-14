@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Parcel.Serialization;
@@ -16,7 +17,7 @@ namespace Parcel
     /// KeyValuePairs. Properties cannot be changed once the Peer has been constructed.
     /// </remarks>
     [OptIn]
-    public sealed class Peer : IEnumerable<KeyValuePair<string, object>>
+    public sealed class Peer : IEquatable<Peer>, IEnumerable<KeyValuePair<string, object>>
     {
         private const string EXCP_KEY_NOT_FOUND = "Key not found. The peer does not contain a property with the key \"{0}\"";
 
@@ -158,12 +159,22 @@ namespace Parcel
         #endregion
 
 
+        #region IEQUATABLE IMPLEMENTATION
+
+        public bool Equals(Peer other)
+        {
+            return other != null && GUID == other.GUID;
+        }
+
+        #endregion
+
+
         #region OVERRIDES
 
         ///<inheritdoc/>
         public override bool Equals(object obj)
         {
-            return obj is Peer peer && GUID == peer.GUID;
+            return obj != null && obj is Peer other && GUID == other.GUID;
         }
 
         ///<inheritdoc/>
@@ -175,13 +186,18 @@ namespace Parcel
         ///<inheritdoc/>
         public static bool operator ==(Peer left, Peer right)
         {
-            return left.Equals(right);
+            if ((object)left != null)
+                return left.Equals(right);
+            else if ((object)right != null)
+                return false;
+            else
+                return true;
         }
 
         ///<inheritdoc/>
         public static bool operator !=(Peer left, Peer right)
         {
-            return !left.Equals(right);
+            return !(left == right);
         }
 
         ///<inheritdoc/>

@@ -31,10 +31,10 @@ namespace Parcel.Serialization
                 int flag = reader.ReadByte();
 
                 ObjectCache iKeyCache = (flag & KEY_TYPE_FLAG) == KEY_TYPE_FLAG ? ObjectCache.FromHash(reader.ReadTypeHashCode()) : keyCache;
-                object key = reader.ReadObject(iKeyCache.Type);
+                object key = reader.ReadWithoutTypeInfo(iKeyCache.Type);
 
                 ObjectCache iValueCache = (flag & VALUE_TYPE_FLAG) == VALUE_TYPE_FLAG ? ObjectCache.FromHash(reader.ReadTypeHashCode()) : valueCache;
-                object value = reader.ReadObject(iValueCache.Type);
+                object value = reader.ReadWithoutTypeInfo(iValueCache.Type);
 
                 dict.Add(key, value);
             }
@@ -64,11 +64,11 @@ namespace Parcel.Serialization
 
                 if ((flag & KEY_TYPE_FLAG) == KEY_TYPE_FLAG)
                     writer.Write(keyType.GetTypeHashCode());
-                writer.Write(de.Key, false);
+                writer.WriteWithoutTypeInfo(de.Key);
                 
                 if ((flag & VALUE_TYPE_FLAG) == VALUE_TYPE_FLAG)
                     writer.Write(valueType.GetTypeHashCode());
-                writer.Write(de.Value, false);
+                writer.WriteWithoutTypeInfo(de.Value);
             }
 
         }

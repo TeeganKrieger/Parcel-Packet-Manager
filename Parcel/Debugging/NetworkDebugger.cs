@@ -122,7 +122,7 @@ namespace Parcel.Debug
         /// Add an event indicating a Packet was resent.
         /// </summary>
         /// <param name="sequenceNumber">The sequence number of the Packet.</param>
-        public void AddPacketResentEvent(uint sequenceNumber)
+        public void AddPacketResentEvent(int sequenceNumber)
         {
             if (this._frames.TryPeek(out Frame currentFrame))
                 currentFrame.PacketsResent++;
@@ -177,6 +177,15 @@ namespace Parcel.Debug
 
             this._globalFrame.ExceptionsCaught++;
             this._logger?.WriteLine($"Encountered an exception\n{ex}", Severity.Error);
+        }
+
+        /// <summary>
+        /// Write a message to the <see cref="Logger"/>, if it exists.
+        /// </summary>
+        /// <param name="message">The message to write.</param>
+        public void WriteMessage(string message)
+        {
+            this._logger?.WriteLine(message, Severity.Message);
         }
 
         /// <summary>

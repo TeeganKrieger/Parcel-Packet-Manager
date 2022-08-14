@@ -1,5 +1,6 @@
 ﻿using Parcel.DataStructures;
 using Parcel.Lib;
+using Parcel.Networking;
 using Parcel.Packets;
 using Parcel.Serialization;
 using System;
@@ -25,9 +26,12 @@ namespace Parcel
     /// </remarks>
     public class ParcelServer
     {
-        private static string EXCP_NO_SUBSCRIBERS = "Failed to perform operation because no subscribers were provided. Include at least 1 subscriber.";
-        private static string EXCP_ASSIGN_FROM = "failed to create SyncedObject. The type {0} does not inherit SyncedObject.";
+        private const string EXCP_NO_SUBSCRIBERS = "Failed to perform operation because no subscribers were provided. Include at least 1 subscriber.";
+        private const string EXCP_ASSIGN_FROM = "failed to create SyncedObject. The type {0} does not inherit SyncedObject.";
         private const string EXCP_SETTINGS = "Failed to create ParcelClient. ParcelSettings instance is already bound to another ParcelClient or ParcelServer.";
+        private const string EXCP_PEER_NOT_CONNECTED = "Failed to perform operation because the specified Peer is not connected to this server.";
+        private const string MSG_ALREADY_CONNECTED = "You are already connected to this Server.";
+        private const string EXCP_DISPOSED = "Failed to perform operation because the server has already been disposed.";
 
         private INetworkAdapter _networkAdapter;
 
@@ -44,15 +48,38 @@ namespace Parcel
 
         private int _loopCounter = 0;
 
+        private bool _disposed;
+
+        /// <summary>
+        /// Invoked when a connection to the server is being processed.
+        /// </summary>
+        /// <remarks>
+        /// This event allows for rejecting connections. When this event is invoked, 
+        /// all subscribed expressions will be evaluated and if all return true, the connection will be allowed.
+        /// </remarks>
+        public event InitialConnectionDelegate OnInitialConnection
+        {
+            add { this._networkAdapter.OnInitialConnection += value; }
+            remove { this._networkAdapter.OnInitialConnection -= value; }
+        }
+
         /// <summary>
         /// Invoked when a connection is made to the server.
         /// </summary>
-        public event ConnectionEvent ConnectionEvent;
+        public event ConnectionDelegate OnRemoteConnected
+        {
+            add { this._networkAdapter.OnConnection += value; }
+            remove { this._networkAdapter.OnConnection -= value; }
+        }
 
         /// <summary>
         /// Invoked when a disconnection is made to the server.
         /// </summary>
-        public event ConnectionEvent DisconnectionEvent;
+        public event DisconnectionDelegate OnRemoteDisconnected
+        {
+            add { this._networkAdapter.OnDisconnection += value; }
+            remove { this._networkAdapter.OnDisconnection -= value; }
+        }
 
         /// <summary>
         /// The <see cref="ParcelSettings">Network Settings</see> used by this client.
@@ -88,10 +115,10 @@ namespace Parcel
             this._syncedObjectDict = new ConcurrentDictionary<SyncedObjectID, SyncedObjectSubscriptions>();
             this._syncedObjectsToUpdate = new ConcurrentHashSet<SyncedObjectID>();
             this._scheduledPackets = new ConcurrentQueue<PacketAndRemotes>();
-            this._serializerResolver = new SerializerResolver();
             this._syncedObjectSerializer = new SyncedObjectSerializer(this);
             this._connectedPeers = new ConcurrentHashSet<Peer>();
             this._loopTaskCancellationSource = new CancellationTokenSource();
+            this._serializerResolver = settings.SerializerResolver;
             this._networkAdapter = settings.CreateNewNetworkAdapter();
 
             //initialize properties 
@@ -99,8 +126,9 @@ namespace Parcel
             this.Self = settings.Peer;
 
             //setup events
-            this._networkAdapter.OnRecievedConnection += (Peer connected) => { this._connectedPeers.TryAdd(connected); };
-            this._networkAdapter.OnRecievedDisconnection += (Peer disconnected) => { this._connectedPeers.TryRemove(disconnected); };
+            this.OnRemoteConnected += (Peer connected) => { this._connectedPeers.TryAdd(connected); };
+
+            this.OnRemoteDisconnected += DisconnectionCleanup;
 
             //perform setup
             this._serializerResolver.RegisterSerializer(new SyncedObjectReferenceSerializer(this));
@@ -112,12 +140,17 @@ namespace Parcel
         /// <inheritdoc/>
         public void Dispose()
         {
-            this._loopTaskCancellationSource.Cancel();
-            this.NetworkSettings.Debugger?.Dispose();
-            //TODO: Perform a proper disconnect if not already disconnected
-            if (this._networkAdapter is IDisposable disposable)
+            if (!this._disposed)
             {
-                disposable.Dispose();
+                this._loopTaskCancellationSource.Cancel();
+
+                foreach (Peer peer in this._connectedPeers)
+                {
+                    ForceDisconnect(peer);
+                }
+
+                this.NetworkSettings.Debugger?.Dispose();
+                this._disposed = true;
             }
         }
 
@@ -130,8 +163,12 @@ namespace Parcel
         /// Perform a single loop iteration that that serializes, sends, deserializes, and receives <see cref="Packet">Packets</see>. 
         /// </summary>
         /// <returns>Returns the number of milliseconds the loop took to complete.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed.</exception>
         public int Loop()
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+
             long start = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             this.NetworkSettings.Debugger?.StartFrame($"Packet Loop {this._loopCounter++}");
             try
@@ -209,6 +246,8 @@ namespace Parcel
                 //Ensure a writer exists for each peer in SendTo
                 foreach (Peer peer in sendTo)
                 {
+                    if (!this._connectedPeers.Contains(peer))
+                        continue;
                     if (!peerUnreliableWriters.ContainsKey(peer))
                         peerUnreliableWriters.Add(peer, new WriterAndCount(new ByteWriter(this._serializerResolver)));
                     if (!peerReliableWriters.ContainsKey(peer))
@@ -256,26 +295,28 @@ namespace Parcel
 
                 foreach (Peer peer in sendTo)
                 {
-                    WriterAndCount wac = peersDict[peer];
-                    int restorePosition = wac.Writer.Position;
-
-                    try
+                    if (peersDict.TryGetValue(peer, out WriterAndCount wac))
                     {
-                        wac.Writer.Write((byte)1); //Hint
+                        int restorePosition = wac.Writer.Position;
 
-                        int skipPosition = wac.Writer.Position;
-                        wac.Writer.Write(0); //Skip Distance
+                        try
+                        {
+                            wac.Writer.Write((byte)1); //Hint
 
-                        wac.Writer.Write(localWriter);
+                            int skipPosition = wac.Writer.Position;
+                            wac.Writer.Write(0); //Skip Distance
 
-                        wac.Writer.Write(wac.Writer.Position - skipPosition, skipPosition);
-                        wac.Count++;
-                        this.NetworkSettings.Debugger?.AddSerializedPacketEvent();
-                    }
-                    catch (Exception ex)
-                    {
-                        wac.Writer.SetPosition(restorePosition);
-                        this.NetworkSettings.Debugger?.AddExceptionEvent(ex);
+                            wac.Writer.Write(localWriter);
+
+                            wac.Writer.Write(wac.Writer.Position - skipPosition, skipPosition);
+                            wac.Count++;
+                            this.NetworkSettings.Debugger?.AddSerializedPacketEvent();
+                        }
+                        catch (Exception ex)
+                        {
+                            wac.Writer.SetPosition(restorePosition);
+                            this.NetworkSettings.Debugger?.AddExceptionEvent(ex);
+                        }
                     }
                 }
             }
@@ -299,26 +340,28 @@ namespace Parcel
 
                     foreach (Peer peer in sendTo)
                     {
-                        WriterAndCount wac = peersDict[peer];
-                        int restorePosition = wac.Writer.Position;
-
-                        try
+                        if (peersDict.TryGetValue(peer, out WriterAndCount wac))
                         {
-                            wac.Writer.Write((byte)2); //Hint
+                            int restorePosition = wac.Writer.Position;
 
-                            int skipPosition = wac.Writer.Position;
-                            wac.Writer.Write(0); //Skip Distance
+                            try
+                            {
+                                wac.Writer.Write((byte)2); //Hint
 
-                            wac.Writer.Write(localWriter);
+                                int skipPosition = wac.Writer.Position;
+                                wac.Writer.Write(0); //Skip Distance
 
-                            wac.Writer.Write(wac.Writer.Position - skipPosition, skipPosition);
-                            wac.Count++;
-                            this.NetworkSettings.Debugger?.AddSerializedPacketEvent();
-                        }
-                        catch (Exception ex)
-                        {
-                            wac.Writer.SetPosition(restorePosition);
-                            this.NetworkSettings.Debugger?.AddExceptionEvent(ex);
+                                wac.Writer.Write(localWriter);
+
+                                wac.Writer.Write(wac.Writer.Position - skipPosition, skipPosition);
+                                wac.Count++;
+                                this.NetworkSettings.Debugger?.AddSerializedPacketEvent();
+                            }
+                            catch (Exception ex)
+                            {
+                                wac.Writer.SetPosition(restorePosition);
+                                this.NetworkSettings.Debugger?.AddExceptionEvent(ex);
+                            }
                         }
                     }
                 }
@@ -411,6 +454,81 @@ namespace Parcel
         #endregion
 
 
+        #region DISCONNECTION
+
+        /// <summary>
+        /// Forcibly disconnect a <see cref="Peer"/> from this server.
+        /// </summary>
+        /// <param name="peer">The <see cref="Peer"/> to disconnect.</param>
+        /// <param name="message">The message to include with the forced disconnection.</param>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed or if the <paramref name="peer"/> is not currently connected to the server.</exception>
+        public void ForceDisconnect(Peer peer, string message = null)
+        {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+            if (!this._connectedPeers.Contains(peer))
+                throw new InvalidOperationException(EXCP_PEER_NOT_CONNECTED);
+
+            this._networkAdapter.DisconnectFrom(peer, message);
+        }
+
+        /// <summary>
+        /// Performs cleanup logic when a client disconnects from the server.
+        /// </summary>
+        /// <param name="client">The <see cref="Peer"/> representing the server.</param>
+        /// <param name="reason">The reason for the disconnection.</param>
+        /// <param name="disconnectionObject">An object included with the disconnection.</param>
+        private void DisconnectionCleanup(Peer client, DisconnectionReason reason, object disconnectionObject)
+        {
+            if (this._connectedPeers.Contains(client))
+            {
+                //Cleanup
+                if (this.NetworkSettings.ServerDisconnectionBehavior == ServerDisconnectionBehavior.DestroySyncedObjects)
+                {
+                    List<SyncedObjectID> clientsSyncedObjects = new List<SyncedObjectID>();
+
+                    foreach (SyncedObjectID syncedObjectID in this._syncedObjectDict.Keys)
+                    {
+                        if (this._syncedObjectDict.TryGetValue(syncedObjectID, out SyncedObjectSubscriptions sos))
+                        {
+                            if (sos.SyncedObject.Owner == client)
+                                clientsSyncedObjects.Add(syncedObjectID);
+                            else if (sos.Subscriptions.Contains(client))
+                                sos.Subscriptions.TryRemove(client);
+                        }
+                    }
+                    foreach (SyncedObjectID syncedObjectID in clientsSyncedObjects)
+                        DestroySyncedObject(syncedObjectID);
+                }
+
+                this._connectedPeers.TryRemove(client);
+            }
+        }
+
+        #endregion
+
+
+        #region PING
+
+        /// <summary>
+        /// Get the ping of a <see cref="Peer"/> connected to the server.
+        /// </summary>
+        /// <param name="peer">The <see cref="Peer"/> to get the ping of.</param>
+        /// <returns>The ping to <see cref="Peer"/>.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed or if the <paramref name="peer"/> is not currently connected to the server.</exception>
+        public int GetPingOfPeer(Peer peer)
+        {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+            if (!this._connectedPeers.Contains(peer))
+                throw new InvalidOperationException(EXCP_PEER_NOT_CONNECTED);
+
+            return this._networkAdapter.GetPing(peer);
+        }
+
+        #endregion
+
+
         #region SYNCED OBJECTS
 
 
@@ -422,8 +540,13 @@ namespace Parcel
         /// <returns>The instance of the new <see cref="SyncedObject"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if either <paramref name="type"/> or <paramref name="owner"/> are <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="type"/> does not inherit from <see cref="SyncedObject"/>.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed or if the <paramref name="owner"/> is not currently connected to the server.</exception>
         public SyncedObject CreateSyncedObject(Type type, Peer owner)
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+            if (!this._connectedPeers.Contains(owner))
+                throw new InvalidOperationException(EXCP_PEER_NOT_CONNECTED);
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
             if (owner == null)
@@ -456,8 +579,13 @@ namespace Parcel
         /// <param name="owner">The <see cref="Peer"/> who will own the new <see cref="SyncedObject"/>.</param>
         /// <returns>The instance of the new <see cref="SyncedObject"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="owner"/> is <see langword="null"/>.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed or if the <paramref name="owner"/> is not currently connected to the server.</exception>
         public T CreateSyncedObject<T>(Peer owner) where T : SyncedObject, new()
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+            if (!this._connectedPeers.Contains(owner))
+                throw new InvalidOperationException(EXCP_PEER_NOT_CONNECTED);
             if (owner == null)
                 throw new ArgumentNullException(nameof(owner));
 
@@ -484,8 +612,11 @@ namespace Parcel
         /// </summary>
         /// <param name="syncedObjectID">The <see cref="SyncedObjectID">ID</see> of the <see cref="SyncedObject"/> to destroy.</param>
         /// <returns><see langword="false"/> if the <see cref="SyncedObject"/> has already been destroyed or is non-existant; otherwise, <see langword="true"/>.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed.</exception>
         public bool DestroySyncedObject(SyncedObjectID syncedObjectID)
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
             if (!this._syncedObjectDict.TryRemove(syncedObjectID, out SyncedObjectSubscriptions sos))
                 return false;
 
@@ -500,8 +631,11 @@ namespace Parcel
         /// <param name="syncedObjectID">The <see cref="SyncedObjectID">ID</see> of the <see cref="SyncedObject"/>.</param>
         /// <param name="syncedObject">The <see cref="SyncedObject"/> if one was found; otherwise, <see langword="null"/>.</param>
         /// <returns><see langword="true"/> if the <see cref="SyncedObject"/> was found; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed.</exception>
         public bool TryGetSyncedObject(SyncedObjectID syncedObjectID, out SyncedObject syncedObject)
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
             bool result = this._syncedObjectDict.TryGetValue(syncedObjectID, out SyncedObjectSubscriptions sos);
             syncedObject = sos?.SyncedObject;
             return result;
@@ -514,8 +648,11 @@ namespace Parcel
         /// <param name="syncedObjectID">The <see cref="SyncedObjectID">ID</see> of the <see cref="SyncedObject"/>.</param>
         /// <param name="syncedObject">The <see cref="SyncedObject"/> as type <typeparamref name="T"/> if one was found; otherwise, <see langword="null"/>.</param>
         /// <returns><see langword="true"/> if a <see cref="SyncedObject"/> of type <typeparamref name="T"/> was found; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed.</exception>
         public bool TryGetSyncedObject<T>(SyncedObjectID syncedObjectID, out T syncedObject) where T : SyncedObject, new()
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
             bool result = this._syncedObjectDict.TryGetValue(syncedObjectID, out SyncedObjectSubscriptions sos);
             syncedObject = (T)sos?.SyncedObject;
             return result;
@@ -527,8 +664,12 @@ namespace Parcel
         /// <param name="syncedObjectID">The <see cref="SyncedObjectID">ID</see> of the <see cref="SyncedObject"/>.</param>
         /// <param name="subscribers">An array of <see cref="Peer">Peers</see> who are subscribed to this <see cref="SyncedObject"/>; otherwise, an empty array.</param>
         /// <returns><see langword="true"/> if the <see cref="SyncedObject"/> was found; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed.</exception>
         public bool TryGetSyncedObjectSubscribers(SyncedObjectID syncedObjectID, out Peer[] subscribers)
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+
             if (!this._syncedObjectDict.TryGetValue(syncedObjectID, out SyncedObjectSubscriptions sos))
             {
                 subscribers = new Peer[0];
@@ -545,8 +686,13 @@ namespace Parcel
         /// <param name="newOwner">The <see cref="Peer"/> who will now own the <see cref="SyncedObject"/>.</param>
         /// <returns><see langword="true"/> if the <see cref="SyncedObject"/> was found and owner was changed; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="newOwner"/> is <see langword="null"/>.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed or if the <paramref name="newOwner"/> is not currently connected to the server.</exception>
         public bool TryTransferSyncedObjectOwnership(SyncedObjectID syncedObjectID, Peer newOwner)
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+            if (!this._connectedPeers.Contains(newOwner))
+                throw new InvalidOperationException(EXCP_PEER_NOT_CONNECTED);
             if (newOwner == null)
                 throw new ArgumentNullException(nameof(newOwner));
             if (!this._syncedObjectDict.TryGetValue(syncedObjectID, out SyncedObjectSubscriptions sos))
@@ -574,8 +720,11 @@ namespace Parcel
         /// <returns><see langword="true"/> if the <see cref="SyncedObject"/> was found; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="subscribers"/> is null.</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="subscribers"/> is empty.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed.</exception>
         public bool AddSyncedObjectSubscriptions(SyncedObjectID syncedObjectID, params Peer[] subscribers)
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
             if (subscribers == null)
                 throw new ArgumentNullException(nameof(subscribers));
             if (subscribers.Length == 0)
@@ -583,8 +732,8 @@ namespace Parcel
             if (!this._syncedObjectDict.TryGetValue(syncedObjectID, out SyncedObjectSubscriptions sos))
                 return false;
 
-            //Remove nulls and existing subscribers from subscribers
-            subscribers = subscribers.Where(x => x != null && !sos.Subscriptions.Contains(x)).ToArray();
+            //Remove nulls, not connected, and existing subscribers from subscribers
+            subscribers = subscribers.Where(x => x != null && this._connectedPeers.Contains(x) && !sos.Subscriptions.Contains(x)).ToArray();
 
             foreach (Peer peer in subscribers)
                 sos.Subscriptions.TryAdd(peer);
@@ -601,8 +750,11 @@ namespace Parcel
         /// <returns><see langword="true"/> if the <see cref="SyncedObject"/> was found; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="subscribers"/> is null.</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="subscribers"/> is empty.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed.</exception>
         public bool RemoveSyncedObjectSubscriptions(SyncedObjectID syncedObjectID, params Peer[] subscribers)
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
             if (subscribers == null)
                 throw new ArgumentNullException(nameof(subscribers));
             if (subscribers.Length == 0)
@@ -634,8 +786,12 @@ namespace Parcel
         /// In the event that <paramref name="packet"/> is an instance of <see cref="SyncedObject"/>, <paramref name="packet"/> will
         /// be sent only to those <see cref="Peer">Peers</see> that are subscribed to the <see cref="SyncedObject"/>.
         /// </remarks>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed.</exception>
         public void Send(Packet packet)
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+
             if (packet is SyncedObject so)
             {
                 if (this._syncedObjectDict.TryGetValue(so.ID, out SyncedObjectSubscriptions sos) && this._syncedObjectsToUpdate.TryAdd(so.ID))
@@ -664,20 +820,24 @@ namespace Parcel
         /// If <paramref name="packet"/> is an instance of a <see cref="SyncedObject"/>, an additional check will prevent <paramref name="packet"/> from
         /// being sent to <see cref="Peer">Peers</see> that are not subscribed to the <see cref="SyncedObject"/>.
         /// </remarks>
+        /// <exception cref="InvalidOperationException">Thrown if the server has been disposed.</exception>
         public void Send(Packet packet, params Peer[] sendTo)
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+
             if (packet is SyncedObject so)
             {
                 if (this._syncedObjectDict.TryGetValue(so.ID, out SyncedObjectSubscriptions sos) && this._syncedObjectsToUpdate.TryAdd(so.ID))
                 {
-                    Peer[] subscribers = sos.Subscriptions.Intersect(sendTo.Where(x => x != null)).ToArray();
+                    Peer[] subscribers = sos.Subscriptions.Intersect(sendTo.Where(x => x != null && this._connectedPeers.Contains(x))).ToArray();
                     PacketAndRemotes par = new PacketAndRemotes(packet, subscribers);
                     this._scheduledPackets.Enqueue(par);
                 }
             }
             else
             {
-                PacketAndRemotes par = new PacketAndRemotes(packet, this.RemotePeers.Intersect(sendTo.Where(x => x != null)).ToArray());
+                PacketAndRemotes par = new PacketAndRemotes(packet, this.RemotePeers.Intersect(sendTo.Where(x => x != null && this._connectedPeers.Contains(x))).ToArray());
                 this._scheduledPackets.Enqueue(par);
             }
         }

@@ -442,21 +442,50 @@ namespace Parcel.Serialization
         }
 
         /// <summary>
-        /// Read the next object in the ByteReader.
+        /// Read the next object in the ByteReader obtaining type information through the passed in type.
         /// </summary>
-        /// <param name="type">The Type of the object to read. If left as <see langword="null"/>, will parse the type from the ByteReader.</param>
+        /// <param name="type">The type of object to read.</param>
         /// <returns>The next object in the ByteReader.</returns>
-        public object ReadObject(Type type = null)
+        internal object ReadWithoutTypeInfo(Type type)
         {
             bool isNull = ReadBool();
             if (isNull)
                 return null;
 
-            if (type == null)
-            {
-                TypeHashCode typeHashCode = ReadTypeHashCode();
-                type = TypeHashCode.ParseType(typeHashCode);
-            }
+            Serializer serializer = this.SerializerResolver.GetSerializer(type);
+            return serializer.Deserialize(this);
+        }
+
+        /// <summary>
+        /// Read the next object in the ByteReader obtaining type information through the passed in type.
+        /// </summary>
+        /// <typeparam name="T">The type of object to read.</typeparam>
+        /// <returns>The next object in the ByteReader.</returns>
+        internal T ReadWithoutTypeInfo<T>()
+        {
+            bool isNull = ReadBool();
+            if (isNull)
+                return default(T);
+
+            Type type = typeof(T);
+
+            Serializer serializer = this.SerializerResolver.GetSerializer(type);
+            return (T)serializer.Deserialize(this);
+        }
+
+        /// <summary>
+        /// Read the next object in the ByteReader.
+        /// </summary>
+        /// <param name="type">The Type of the object to read. If left as <see langword="null"/>, will parse the type from the ByteReader.</param>
+        /// <returns>The next object in the ByteReader.</returns>
+        public object ReadObject()
+        {
+            bool isNull = ReadBool();
+            if (isNull)
+                return null;
+
+            TypeHashCode typeHashCode = ReadTypeHashCode();
+            Type type = TypeHashCode.ParseType(typeHashCode);
 
             Serializer serializer = this.SerializerResolver.GetSerializer(type);
             return serializer.Deserialize(this);

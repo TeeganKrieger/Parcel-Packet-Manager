@@ -39,7 +39,7 @@ namespace Parcel.Serialization
                 int flag = reader.ReadByte();
 
                 ObjectCache cache = flag == 1 ? ObjectCache.FromHash(reader.ReadTypeHashCode()) : entryCache;
-                setterArgs[0] = reader.ReadObject(cache.Type);
+                setterArgs[0] = reader.ReadWithoutTypeInfo(cache.Type);
                 AddDelegate(collection, setterArgs);
             }
 
@@ -74,7 +74,7 @@ namespace Parcel.Serialization
 
                 if (flag == 1)
                     writer.Write(entryType.GetTypeHashCode());
-                writer.Write(entry, false);
+                writer.WriteWithoutTypeInfo(entry);
             }
 
             writer.Write(count, countPosition);

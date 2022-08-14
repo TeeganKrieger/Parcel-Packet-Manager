@@ -1,7 +1,7 @@
 ﻿using Parcel.Serialization;
 using System.Threading.Tasks;
 
-namespace Parcel
+namespace Parcel.Networking
 {
 
     /// <summary>
@@ -18,15 +18,21 @@ namespace Parcel
     /// </remarks>
     public interface INetworkAdapter
     {
+
+        /// <summary>
+        /// Event triggered when a connection event is being processed.
+        /// </summary>
+        event InitialConnectionDelegate OnInitialConnection;
+
         /// <summary>
         /// Event triggered when a Peer connects to the current device.
         /// </summary>
-        event ConnectionEvent OnRecievedConnection;
+        event ConnectionDelegate OnConnection;
 
         /// <summary>
         /// Event triggered when a Peer disconnects from the current device.
         /// </summary>
-        event ConnectionEvent OnRecievedDisconnection;
+        event DisconnectionDelegate OnDisconnection;
 
         /// <summary>
         /// Initiate the Network Adapter.
@@ -39,14 +45,15 @@ namespace Parcel
         /// Open a connection with a remote user.
         /// </summary>
         /// <param name="connectionToken">The <see cref="ConnectionToken"/> used to open a connection to the remote user.</param>
-        /// <returns>A new <see cref="Peer"/> instance if the connection was successful; otherwise, <see langword="null"/>.</returns>
-        Task<Peer> ConnectTo(ConnectionToken connectionToken);
+        /// <returns>A <see cref="ConnectionResult"/> struct containing the results of the connection.</returns>
+        Task<ConnectionResult> ConnectTo(ConnectionToken connectionToken);
 
         /// <summary>
         /// Close a connection with a remote user.
         /// </summary>
         /// <param name="peer">The <see cref="Peer"/> to close the connection with.</param>
-        void DisconnectFrom(Peer peer);
+        /// <param name="disconnectionObject">The object to send to the disconnected <see cref="Peer"/>.</param>
+        Task DisconnectFrom(Peer peer, object disconnectionObject = null);
         
         /// <summary>
         /// Send a packet to a remote user.
@@ -63,6 +70,13 @@ namespace Parcel
         /// <param name="sender">The <see cref="Peer"/> the packet came from.</param>
         /// <returns><see langword="true"/> if a packet was found; otherwise, <see langword="false"/>.</returns>
         bool GetNextPacket(out ByteReader reader, out Peer sender);
+
+        /// <summary>
+        /// Get the ping of a remote user.
+        /// </summary>
+        /// <param name="peer">The <see cref="Peer"/> to get the ping of.</param>
+        /// <returns>The ping of the <see cref="Peer"/>.</returns>
+        int GetPing(Peer peer);
 
     }
 }

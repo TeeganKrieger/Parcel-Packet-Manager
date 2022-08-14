@@ -2,25 +2,32 @@
 using Parcel.Serialization;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Parcel
+namespace Parcel.Networking
 {
+
+    //TODO: Make Disconnection totally Synchronous. I.E. Remove the disconnecting state and perform the entire handshake before setting the disconnected state.
+    //Also make it happen in a single call just like connections.
+
     /// <summary>
     /// Network Adapter implementation using the UDP protocol.
     /// </summary>
     public sealed partial class UdpNetworkAdapter : INetworkAdapter, IDisposable
     {
+        private const string EXCP_ALREADY_CONNECTED = "Failed to perform connection operation as the adapter is already connected to the Peer.";
+
         private bool _isServer;
         private Peer _self;
         private ParcelSettings _settings;
 
         private ConcurrentDictionary<ConnectionToken, PeerChannel> _channels;
-        private ConcurrentQueue<RawPacket> _rawPackets;
+        private ConcurrentQueue<UnprocessedPacket> _unprocessedPackets;
 
         private UdpClient _client;
         private CancellationTokenSource _adapterTaskCancellationSource;
@@ -28,10 +35,13 @@ namespace Parcel
         private NetworkDebugger _debugger;
 
         /// <inheritdoc/>
-        public event ConnectionEvent OnRecievedConnection;
+        public event InitialConnectionDelegate OnInitialConnection;
 
         /// <inheritdoc/>
-        public event ConnectionEvent OnRecievedDisconnection;
+        public event ConnectionDelegate OnConnection;
+
+        /// <inheritdoc/>
+        public event DisconnectionDelegate OnDisconnection;
 
 
         #region CONSTRUCTOR AND DISPOSE
@@ -41,13 +51,13 @@ namespace Parcel
         /// </summary>
         public UdpNetworkAdapter()
         {
-            this._rawPackets = new ConcurrentQueue<RawPacket>();
+            this._unprocessedPackets = new ConcurrentQueue<UnprocessedPacket>();
             this._channels = new ConcurrentDictionary<ConnectionToken, PeerChannel>();
 
             this._adapterTaskCancellationSource = new CancellationTokenSource();
 
             Task.Run(ReceptionTask, this._adapterTaskCancellationSource.Token);
-            Task.Run(ResendTask, this._adapterTaskCancellationSource.Token);
+            Task.Run(ChannelLoopTask, this._adapterTaskCancellationSource.Token);
         }
 
         /// <inheritdoc/>
@@ -72,60 +82,36 @@ namespace Parcel
         }
 
         /// <inheritdoc/>
-        public async Task<Peer> ConnectTo(ConnectionToken connectionToken)
+        public async Task<ConnectionResult> ConnectTo(ConnectionToken connectionToken)
         {
+            if (this._channels.ContainsKey(connectionToken))
+                throw new InvalidOperationException(EXCP_ALREADY_CONNECTED);
+
             Peer remote = new PeerBuilder().SetAddress(connectionToken.Address)
                 .SetPort(connectionToken.Port);
 
-            PeerChannel remoteChannel = new PeerChannel(remote, this);
+            PeerChannel remoteChannel = new PeerChannel(this, remote);
 
-            this._channels.TryAdd(connectionToken, remoteChannel);
+            ConnectionResult results = await remoteChannel.Connect();
 
-            bool failed = false;
-
-            CancellationTokenSource globalCancellationSource = new CancellationTokenSource();
-            CancellationToken globalCancellationToken = globalCancellationSource.Token;
-
-            async Task Timeout()
-            {
-                await Task.Delay(this._settings.ConnectionTimeout);
-                failed = true;
-                globalCancellationSource.Cancel();
-            }
-
-            async Task Connected()
-            {
-                while (remoteChannel.ConnectionState != ConnectionState.Connected)
-                    await Task.Delay(1);
-                failed = false;
-                globalCancellationSource.Cancel();
-            }
-
-            remoteChannel.ConnectToRemote();
-
-            await Task.WhenAny(Task.Run(Timeout, globalCancellationToken), Task.Run(Connected, globalCancellationToken));
-
-            if (failed)
-            {
-                this._channels.TryRemove(connectionToken, out _);
-                return null;
-            }
-            else
-            {
-                return remoteChannel.Remote;
-            }
+            return results;
         }
 
         /// <inheritdoc/>
-        public void DisconnectFrom(Peer peer)
+        public async Task DisconnectFrom(Peer peer, object disconnectionObject = null)
         {
+            ConnectionToken key = peer.GetConnectionToken();
 
+            if (this._channels.TryGetValue(key, out PeerChannel remoteChannel))
+            {
+                await remoteChannel.Disconnect(disconnectionObject);
+            }
         }
 
         /// <inheritdoc/>
         public bool GetNextPacket(out ByteReader reader, out Peer sender)
         {
-            if (this._rawPackets.TryDequeue(out RawPacket next))
+            if (this._unprocessedPackets.TryDequeue(out UnprocessedPacket next))
             {
                 reader = next.ByteReader;
                 sender = next.Sender;
@@ -143,7 +129,20 @@ namespace Parcel
 
             if (this._channels.TryGetValue(key, out PeerChannel channel))
             {
-                channel.SendPacket(writer, reliability);
+                channel.Send(writer, reliability);
+            }
+            else
+                throw new InvalidOperationException(); //TODO: Create better exception
+        }
+
+        /// <inheritdoc/>
+        public int GetPing(Peer peer)
+        {
+            ConnectionToken key = peer.GetConnectionToken();
+
+            if (this._channels.TryGetValue(key, out PeerChannel channel))
+            {
+                return channel.Ping;
             }
             else
                 throw new InvalidOperationException(); //TODO: Create better exception
@@ -155,9 +154,9 @@ namespace Parcel
         #region TASKS
 
         /// <summary>
-        /// Asynchronous Task that will occasionally attempt to resend reliable packets that were lost.
+        /// Asynchronous Task that will occasionally attempt to resend reliable packets that were lost and destroy disconnected PeerChannels.
         /// </summary>
-        private async Task ResendTask()
+        private async Task ChannelLoopTask()
         {
             //Wait for client to start
             while (this._client == null)
@@ -171,9 +170,10 @@ namespace Parcel
                 {
                     if (this._channels.TryGetValue(ct, out PeerChannel channel))
                     {
-                        channel.TryResend();
+                        channel.Loop();
                     }
                 }
+
                 await Task.Delay(this._settings.MillisecondsPerUpdate);
             }
         }
@@ -187,55 +187,26 @@ namespace Parcel
             while (this._client == null)
                 continue;
 
-            IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
+            IPEndPoint remoteIP = new IPEndPoint(IPAddress.Any, 0);
             while (true)
             {
-                byte[] packet = this._client.Receive(ref remoteEP);
-                string address = remoteEP.Address.ToString();
-                int port = remoteEP.Port;
+                byte[] packet = this._client.Receive(ref remoteIP);
+                string address = remoteIP.Address.ToString();
+                int port = remoteIP.Port;
 
                 ConnectionToken remote = new ConnectionToken(address, port);
 
                 //Known Sender
                 if (_channels.TryGetValue(remote, out PeerChannel channel))
                 {
-                    channel.RecievePacket(packet);
+                    channel.HandleIncomingPacket(packet);
                 }
                 //Unknown Sender
                 else
                 {
-                    channel = new PeerChannel(new PeerBuilder().SetAddress(address).SetPort(port), this);
-                    this._channels.TryAdd(remote, channel);
-                    channel.RecievePacket(packet);
+                    channel = new PeerChannel(this, new PeerBuilder().SetAddress(address).SetPort(port));
+                    channel.HandleIncomingPacket(packet);
                 }
-            }
-        }
-
-        #endregion
-
-
-        #region NESTED CLASSES
-
-        /// <summary>
-        /// Represents a packet in its raw state and additional information about the packet.
-        /// </summary>
-        private sealed class RawPacket
-        {
-            public DateTimeOffset TimeRecievedAt { get; private set; }
-            public ByteReader ByteReader { get; private set; }
-            public Peer Sender { get; private set; }
-
-            /// <summary>
-            /// Construct a new instance of RawPacket.
-            /// </summary>
-            /// <param name="timeRecievedAt">The time the packet was received at.</param>
-            /// <param name="byteReader">A <see cref="Parcel.Serialization.ByteReader"/> with the packet payload.</param>
-            /// <param name="sender">The <see cref="Peer"/> that sent the packet.</param>
-            public RawPacket(DateTimeOffset timeRecievedAt, ByteReader byteReader, Peer sender)
-            {
-                TimeRecievedAt = timeRecievedAt;
-                ByteReader = byteReader;
-                Sender = sender;
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Parcel.DataStructures;
 using Parcel.Debug;
+using Parcel.Networking;
 using Parcel.Packets;
 using Parcel.Serialization;
 using Parcel.Serialization.Tests;
@@ -48,8 +49,8 @@ namespace Parcel.Tests
 
             FileLogger serverLogger = new FileLogger(Path.Combine(Path.GetTempPath(), $"/Parcel/Tests/E2E_server.log"));
 
-            ParcelSettings serverSettings = new ParcelSettingsBuilder().SetPeer(serverPeer).SetUpdatesPerSecond(60)
-                .SetUnreliablePacketGroupSize(4).SetReliablePacketGroupSize(10).SetDisconnectionTimeout(2500)
+            ParcelSettings serverSettings = new ParcelSettingsBuilder().SetPeer(serverPeer).SetUpdatesPerSecond(20)
+                .SetUnreliablePacketGroupSize(4).SetReliablePacketGroupSize(10).SetConnectionTimeout(2500).SetDisconnectionTimeout(250000)
                 .SetNetworkAdapter<UdpNetworkAdapter>().AddNetworkDebugger(new NetworkDebugger(serverLogger));
 
             server = new ParcelServer(serverSettings);
@@ -62,8 +63,8 @@ namespace Parcel.Tests
 
                 FileLogger clientLogger = new FileLogger(Path.Combine(Path.GetTempPath(), $"/Parcel/Tests/E2E_client{i}.log"));
 
-                ParcelSettings clientSettings = new ParcelSettingsBuilder().SetPeer(clientPeer).SetUpdatesPerSecond(60)
-                    .SetUnreliablePacketGroupSize(4).SetReliablePacketGroupSize(10).SetDisconnectionTimeout(2500)
+                ParcelSettings clientSettings = new ParcelSettingsBuilder().SetPeer(clientPeer).SetUpdatesPerSecond(20)
+                    .SetUnreliablePacketGroupSize(4).SetReliablePacketGroupSize(10).SetConnectionTimeout(2500).SetDisconnectionTimeout(250000)
                     .SetNetworkAdapter<UdpNetworkAdapter>().AddNetworkDebugger(new NetworkDebugger(clientLogger));
 
                 clients[i] = new ParcelClient(clientSettings);
@@ -76,8 +77,8 @@ namespace Parcel.Tests
         {
             foreach (ParcelClient client in clients)
             {
-                bool status = await client.ConnectTo(server.Self.GetConnectionToken());
-                Assert.IsTrue(status);
+                ConnectionResult result = await client.ConnectTo(server.Self.GetConnectionToken());
+                Assert.IsTrue(result.Status == ConnectionStatus.Success);
                 Assert.AreEqual(server.Self, client.Remote);
             }
         }

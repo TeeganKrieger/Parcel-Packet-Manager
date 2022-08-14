@@ -62,11 +62,11 @@ Manual and Automatic Disconnection, Kicking, Blacklist, and Connection Rejection
 
 | Status | Milestone | 
 | :---: | :--- |
-| ❌ | Proper Manual Disconnection |
-| ❌ | Automatic Disconnection |
-| ❌ | Server Kick Option | 
-| ❌ | Server Blacklist Option |
-| ❌ | Server Connection Rejection Option |
+| ✔ | Proper Manual Disconnection |
+| ✔ | Automatic Disconnection |
+| ✔ | Easy Ping System |
+| ✔ | Server Kick Option | 
+| ✔ | Server Connection Rejection Option |
 
 ### v0.3
 Support for Custom Synced Object Serializers.

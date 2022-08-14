@@ -1,4 +1,6 @@
 ﻿using Parcel.Debug;
+using Parcel.Networking;
+using Parcel.Serialization;
 using System;
 
 namespace Parcel
@@ -38,6 +40,8 @@ namespace Parcel
         private int _reliablePacketGroupSize = 8;
         private Type _networkAdapterType = null;
         private NetworkDebugger _debugger = null;
+        private SerializerResolver _serializerResolver = SerializerResolver.Global;
+        private ServerDisconnectionBehavior _serverDisconnectionBehavior;
 
 
         #region CONSTRUCTOR
@@ -160,6 +164,9 @@ namespace Parcel
         /// <returns>The current ParcelSettingsBuilder instance.</returns>
         public ParcelSettingsBuilder AddNetworkDebugger(NetworkDebugger debugger)
         {
+            if (debugger == null)
+                throw new ArgumentNullException(nameof(debugger));
+
             this._debugger = debugger;
             return this;
         }
@@ -172,6 +179,32 @@ namespace Parcel
         public ParcelSettingsBuilder PerformUpdatesAutomatically(bool should)
         {
             this._performUpdatesAutomatic = should;
+            return this;
+        }
+
+        /// <summary>
+        /// Set the <see cref="SerializerResolver"/> for the <see cref="ParcelClient"/> or <see cref="ParcelServer"/> to use.
+        /// </summary>
+        /// <param name="serializerResolver">The <see cref="SerializerResolver"/> to use.</param>
+        /// <returns>The current ParcelSettingsBuilder instance.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="serializerResolver"/> is null.</exception>
+        public ParcelSettingsBuilder SetSerializerResolver(SerializerResolver serializerResolver)
+        {
+            if (serializerResolver == null)
+                throw new ArgumentNullException(nameof(serializerResolver));
+
+            this._serializerResolver = serializerResolver;
+            return this;
+        }
+
+        /// <summary>
+        /// Set the behavior for handling <see cref="Packets.SyncedObject">SyncedObjects</see> a <see cref="ParcelServer"/> should perform when a user disconnects.
+        /// </summary>
+        /// <param name="serverDisconnectionBehavior">The behavior the <see cref="ParcelServer"/> should perform.</param>
+        /// <returns>The current ParcelSettingsBuilder instance.</returns>
+        public ParcelSettingsBuilder SetServerDisconnectionBehavior(ServerDisconnectionBehavior serverDisconnectionBehavior)
+        {
+            this._serverDisconnectionBehavior = serverDisconnectionBehavior;
             return this;
         }
 
@@ -193,7 +226,8 @@ namespace Parcel
                 throw new InvalidOperationException(EXCP_UNSP_NET_ADD);
 
             return new ParcelSettings(builder._peer, builder._connectionTimeout, builder._disconnectionTimeout, builder._networkAdapterType,
-                builder._updatesPerSecond, builder._performUpdatesAutomatic, builder._unreliablePacketGroupSize, builder._reliablePacketGroupSize, builder._debugger);
+                builder._updatesPerSecond, builder._performUpdatesAutomatic, builder._unreliablePacketGroupSize, builder._reliablePacketGroupSize,
+                builder._debugger, builder._serializerResolver, builder._serverDisconnectionBehavior);
         }
 
         #endregion

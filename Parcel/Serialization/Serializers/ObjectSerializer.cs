@@ -18,7 +18,7 @@ namespace Parcel.Serialization
             {
                 ObjectProperty property = ObjectCache[propertyHash];
                 bool readWithTypeHash = reader.ReadBool();
-                setterArgs[0] = readWithTypeHash ? reader.ReadObject() : reader.ReadObject(property.Type);
+                setterArgs[0] = readWithTypeHash ? reader.ReadObject() : reader.ReadWithoutTypeInfo(property.Type);
                 property.Setter.Invoke(obj, setterArgs);
                 propertyHash = reader.ReadUInt();
             }
@@ -39,7 +39,7 @@ namespace Parcel.Serialization
                 if (writeWithTypeHash)
                     writer.Write(value);
                 else
-                    writer.Write(value, false);
+                    writer.WriteWithoutTypeInfo(value);
             }
 
             writer.Write(0U);
