@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+    
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Synced Objects | Parcel </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Synced Objects | Parcel ">
+      <meta name="generator" content="docfx 2.59.3.0">
+      
+      <link rel="shortcut icon" href="../images/favicon.png">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/night-owl.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" integrity="sha384-EvBWSlnoFgZlXJvpzS+MAUEjvN7+gcCwH+qh7GRFOGgZO0PuwOFro7qPOJnLfe7l" crossorigin="anonymous">
+      <link rel="stylesheet" href="../styles/config.css">
+      <link rel="stylesheet" href="../styles/discord.css">
+      <link rel="stylesheet" href="../styles/singulink.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+      
+      <meta property="docfx:rel" content="../">
+      <meta property="docfx:newtab" content="true">
+    </head>
+    <body>
+        <div class="top-navbar">
+            <a class="burger-icon" onclick="toggleMenu()">
+                <svg name="Hamburger" style="vertical-align: middle;" width="34" height="34" viewbox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M20 6H4V9H20V6ZM4 10.999H20V13.999H4V10.999ZM4 15.999H20V18.999H4V15.999Z"></path></svg>
+            </a>
+
+            
+            <a class="brand" href="../index.html">
+              <img src="../images/logo.png" alt="Parcel Packet Manager" class="logomark">
+              <span class="brand-title">Parcel Packet Manager</span>
+            </a>        </div>
+
+        <div class="body-content">
+            <div id="blackout" class="blackout" onclick="toggleMenu()"></div>
+
+            <nav id="sidebar" role="navigation">
+                <div class="sidebar">
+                    
+                    <div>
+                      <div class="mobile-hide">
+                        
+                        <a class="brand" href="../index.html">
+                          <img src="../images/logo.png" alt="Parcel Packet Manager" class="logomark">
+                          <span class="brand-title">Parcel Packet Manager</span>
+                        </a>  </div>
+                    
+                      <div class="sidesearch">
+                        <form id="search" role="search" class="search">
+                            <i class="bi bi-search search-icon"></i>
+                            <input type="text" id="search-query" placeholder="Search" autocomplete="off">
+                        </form>
+                      </div>
+                    
+                      <div id="navbar">
+                      </div>
+                    </div>                    <div class="sidebar-item-separator"></div>
+                        
+                        <div id="sidetoggle">
+                          <div id="sidetoc"></div>
+                        </div>
+                </div>
+                <div class="footer">
+                  <strong>Parcel Packet Manager</strong>
+                  
+                </div>            </nav>
+
+            <main class="main-panel">
+                
+                <div id="search-results" style="display: none;">
+                  <h1 class="search-list">Search Results for <span></span></h1>
+                  <div class="sr-items">
+                    <p><i class="bi bi-hourglass-split index-loading"></i></p>
+                  </div>
+                  <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+                </div>
+                <div role="main" class="hide-when-search">
+                        
+                        <div class="subnav navbar navbar-default">
+                          <div class="container hide-when-search" id="breadcrumb">
+                            <ul class="breadcrumb">
+                              <li></li>
+                            </ul>
+                          </div>
+                        </div>
+
+                    <article class="content wrap" id="_content" data-uid="">
+
+<style>
+    h1.title {
+        text-align: center;
+        font-size: 3rem;
+    }
+    h3 {
+        font-size: 1.5rem;
+    }
+</style>
+<h1 class="title">Synced Objects</h1>
+<p>In Parcel, Synced Objects are standard c# object that inherit from the SyncedObject class. SyncedObjects are Packets that will automatically or manually (depending on preference) keep their Properties in sync between multiple clients and the server. Servers can additionally enforce verification rules on properties to further increase server-side safety.</p>
+<p>Synced Objects follow a subscription based model where only Peers that are subscribed to a Synced Object will have access to their data. Each SyncedObject will also have an Owner, who is automatically subscribed to the Synced Object and is the only individual (aside from the server itself) that can make changes to that Synced Object.</p>
+<h2>Defining a Synced Object</h2>
+<p>When defining a Synced Object in your project, you should create a new class that extends from the SyncedObject class. In the current version of Parcel, Synced Objects must have a default parameterless constructor. They also cannot be constructed using their constructor. This will change in a future version and the Synced Object creation workflow will change as well.</p>
+<pre><code class="lang-cs">public class MySyncedObject : SyncedObject
+{
+    public MySyncedObject() { }
+}
+</code></pre>
+<h2>Serialization</h2>
+<p>The data within a Synced Object that you wish to have synchronized must be in the form of a c# Property with a getter and a setter. Fields will not be serialized.</p>
+<p>example:</p>
+<pre><code class="lang-cs">public string MyProperty { get; set; }
+</code></pre>
+<p>By default, properties will only be serialized when their value changes. To keep track of these changes, Synced Objects have two options avaliable to them. The first is automated synchronization. This is accomplished by patching the setter method of any serializable property within a Synced Object. To enable automated synchronization, run the following code at the startup on your project.</p>
+<pre><code class="lang-cs">SyncedObjectPatcher.Patch();
+</code></pre>
+<p>If you choose not to use automated synchronization, you can also use manual synchronization. To do this, you need to add a call to the SyncProperty() method in the setters of any properties you want to synchronize.</p>
+<pre><code class="lang-cs">private string _myProperty;
+public string MyProperty
+{
+    get =&gt; this._myProperty;
+    set
+    {
+        this._myProperty = value;
+        SyncProperty();
+    }
+}
+</code></pre>
+<p>There is also an option to force a property to be serialized even if it didn't change any time the Synced Object would be serialized. This can be done by applying the AlwaysSerialize attribute to the property.</p>
+<pre><code class="lang-cs">[AlwaysSerialize]
+public string MyProperty { get; set; }
+</code></pre>
+<p>If you wish for a property to not be serialized under any condition, you can add the Ignore attribute to the property.</p>
+<pre><code class="lang-cs">[Ignore]
+public string MyProperty { get; set; }
+</code></pre>
+<p>You can also flip the default behavior of the serializer so that properties need to be explicitly marked for serialization using the OptIn attribute on the Synced Object itself and the Serialize attribute on the property.</p>
+<pre><code class="lang-cs">[OptIn]
+public class MySyncedObject : SyncedObject
+{
+    [Serialize]
+    public string MyProperty { get; set;}
+}
+</code></pre>
+<h2>Included Properties</h2>
+<p>Synced Objects contain seven included properties that are in place to support any logic that could be included in the Packet. These properties do not serialize with each Packet.</p>
+<ul>
+<li>SyncedObjectID ID - The ID of this Synced Object.</li>
+<li>Peer Owner - The Peer that owns this Synced Object.</li>
+<li>Peer Sender - The Peer that last sent changes for this Synced Object. (this will only ever be the server on clients and the owner on servers).</li>
+<li>IsServer - Whether this Synced Object is a server or client instance.</li>
+<li>IsClient - Whether this Synced Object is a client or server instance.</li>
+<li>Client - The ParcelClient that this Synced Object is associated to. Null if IsClient is false.</li>
+<li>Server - The ParcelServer that this Synced Object is associated to. Null if IsServer is false.</li>
+</ul>
+<h2>Virtual Methods</h2>
+<p>Synced Objects also provide virtual methods that you can override to add logic to your objects.</p>
+<ul>
+<li>bool CanSend() - Allows for logic to be performed before serialization to determine if the Synced Object should be synchronized. Return true to send perform synchronization.</li>
+<li>void OnSend() - Allows for logic to be performed shortly before serialization. This is only called if CanSend returned true.</li>
+<li>void OnReceive() - Allows for logic to be performed shortly after deserialization.</li>
+<li>void OnCreated() - Allows for logic to be performed shortly after the Synced Object is created on both the client and server.</li>
+<li>void OnDestroyed() - Allows for logic to be performed immediately after the Synced Object is destroyed on both the client and the server.</li>
+<li>void OnOwnerChange(Peer previousOwner, Peer newOwner) - Allows for logic to be performed when the owner of a Synced Object changes.</li>
+<li>void OnPropertiesChanged(Dictionary&lt;string, PropertyChanges&gt; changes) - Allows for logic to be performed when any property within the Synced Object is updated on the client or server.</li>
+</ul>
+<h2>Creating a Synced Object</h2>
+<p>As stated before, the creation workflow for a Synced Object will be changing in a future version. For now, the process is fairly simple but limited. Synced Objects can only be created on the server.</p>
+<pre><code class="lang-cs">//Non-Generic overload
+MySyncedObject mso = (MySyncedObject)myServer.CreateSyncedObject(typeof(MySyncedObject), owner);
+//Generic overload
+MySyncedObject mso = myServer.CreateSyncedObject&lt;MySyncedObject&gt;(owner);
+</code></pre>
+<h2>Server Methods</h2>
+<p>The ParcelServer class contains some methods designed to support Synced Objects.</p>
+<ul>
+<li>SyncedObject CreateSyncedObject(Type type, Peer owner) - Creates a new Synced Object using the type provided.</li>
+<li>T CreateSyncedObject<t>(Peer owner) - Creates a new Synced Object using the generic type provided.</t></li>
+<li>bool DestroySyncedObject(SyncedObjectID syncedObjectID) - Destroys a Synced Object with a matching ID. Returns true if successful or false if unsuccessful.</li>
+<li>bool TryGetSyncedObject(SyncedObjectID syncedObjectID, out SyncedObject syncedObject) - Attempts to get an instance of a Synced Object with a matching ID. Returns true if successful or false if unsuccessful.</li>
+<li>bool TryGetSyncedObject<t>(SyncedObjectID syncedObjectID, out T syncedObject) - Attempts to get an instance of a Synced Object with the provided type and a matching ID. Returns true if successful or false if unsuccessful.</t></li>
+<li>bool TryGetSyncedObjectSubscribers(SyncedObjectID syncedObjectID, out Peer[] subscribers) - Attempts to get an array of Peers subscribed to the Synced Object with a matching ID. Returns true if successful or false if unsuccessful.</li>
+<li>bool TryTransferSyncedObjectOwnership(SyncedObjectID syncedObjectID, Peer newOwner) - Attempts to transfer ownership of a Synced Object with a matching ID to a new Peer. Returns true if successful or false if unsuccessful.</li>
+<li>bool AddSyncedObjectSubscriptions(SyncedObjectID syncedObjectID, params Peer[] subscribers) - Adds Peers to the subscription list of a Synced Object with a matching ID. Returns true if successful or false if unsuccessful.</li>
+<li>bool RemoveSyncedObjectSubscriptions(SyncedObjectID syncedObjectID, params Peer[] subscribers) - Removes Peers from the subscriptions list of a Synced Object with a matching ID. Returns true if successful or false if unsuccessful.</li>
+</ul>
+<h2>Client Methods</h2>
+<p>The ParcelClient class also provides some methods supporting Synced Object.</p>
+<ul>
+<li>bool TryGetSyncedObject(SyncedObjectID syncedObjectID, out SyncedObject syncedObject) - Attempts to get an instance of a Synced Object with a matching ID. Returns true if successful or false if unsuccessful.</li>
+<li>bool TryGetSyncedObject<t>(SyncedObjectID syncedObjectID, out T syncedObject) - Attempts to get an instance of a Synced Object with the provided type and a matching ID. Returns true if successful or false if unsuccessful.</t></li>
+</ul>
+<h2>Shortcuts</h2>
+<p>Synced Objects also contain shortcuts for a few of the server methods listed above. These include the following.</p>
+<ul>
+<li>void UpdateOwner(Peer newOwner) - Transfers the ownership of the Synced Object to another Peer.</li>
+<li>void AddSubscriptions(params Peer[] subscribers) - Add subscribers to this Synced Object's subscribers list.</li>
+<li>Peer[] GetSubscriptions() - Get an array of Peers who are subscribed to this Synced Object.</li>
+<li>void RemoveSubscriptions(params Peer[] subscribers) - Remove subscribers from this Synced Objects's subscribers list.</li>
+</ul>
+<h2>Example</h2>
+<pre><code class="lang-cs">public class Player : SyncedObject
+{
+    public int Health { get; set; }
+
+    public Player() { }
+
+    private void Kill()
+    {
+        this.Server.DestroySyncedObject(this.ID);
+    }
+
+    protected override void OnCreated() 
+    {
+        if (this.IsClient)
+        {
+            World.RegisterPlayer(this);
+        }
+    }
+
+    protected override void OnDestroyed()
+    {
+        if (this.IsClient)
+        {
+            World.UnregisterPlayer(this);
+        }
+    }
+
+    protected override void OnRecieved()
+    {
+        if (this.IsServer &amp;&amp; this.Health &lt;= 0)
+        {
+            Kill();
+        }
+    }
+}
+</code></pre>
+</article>
+                </div>
+
+                <div class="copyright-footer">
+                    <span>&#65533; Teegan Krieger. All rights reserved.</span>
+                </div>
+            </main>
+        </div>
+
+        
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+        <script type="text/javascript" src="../styles/jquery.twbsPagination.js"></script>
+        <script type="text/javascript" src="../styles/url.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+        <script type="text/javascript" src="../styles/docfx.js"></script>
+        <script type="text/javascript" src="../styles/singulink.js"></script>
+        <script type="text/javascript" src="../styles/main.js"></script>    </body>
+</html>

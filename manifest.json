@@ -1,0 +1,3881 @@
+{
+  "homepages": [],
+  "source_base_path": "D:/a/Parcel-Packet-Manager/Parcel-Packet-Manager/Docs_Project",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      },
+      "is_incremental": false
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ConnectionToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ConnectionToken.Address.html",
+          "hash": "SAdj5xTJzbMXfUlcVjKRSh5a8xKRXuDm/driA2asGh0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ConnectionToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ConnectionToken.Port.html",
+          "hash": "xsMSI7/3TFH84pv5KYay9B4twuaA5vQCJU3NWEozOJE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ConnectionToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ConnectionToken.-ctor.html",
+          "hash": "exPWdC24L1M3Z5RDlhue7//ixCs9UCjHWTzf0t82A8k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ConnectionToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ConnectionToken.Equals.html",
+          "hash": "3kfqR/DHRFN1CInssN2NbKNaYy7b9YWF2tW/bYBUz3c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ConnectionToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ConnectionToken.op_Equality.html",
+          "hash": "CjjI8HWuqdB1QEKnWFmwIx2QgUwOM6M1FbP1B4/IB7c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ConnectionToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ConnectionToken.op_Inequality.html",
+          "hash": "RPCDwldhjsuD/C2hLrZogMJyEBAEeSMX1RYoP3KcB2w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ConnectionToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ConnectionToken.GetHashCode.html",
+          "hash": "8AHXMUxLPOpXheTWKCcx3MaQSQrehBYoJu+73r4RNbE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ConnectionToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ConnectionToken.ToString.html",
+          "hash": "zn60EaaayNjHRVlrE0/Lhcc67ggb/8O58VFXw9YqJzA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ConnectionToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ConnectionToken.html",
+          "hash": "cLbtDjh2K7tRXoyTDnD3wVpE8SWSPt1Lsp1wCo/mIVA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.FileLogger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.FileLogger.-ctor.html",
+          "hash": "mzxasl/feRwEWSyC38Z0SJruFyQ7YrNLGExodPQtHE4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.FileLogger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.FileLogger.Dispose.html",
+          "hash": "a3U1zosL11lWyHmecBgkBfd+ObmAnY8uVqj5hkjEeSU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.FileLogger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.FileLogger.Write.html",
+          "hash": "tNa1cGmR9Svaz/JK9earoBbpLeUvJ+jHAHFDFaKVlUQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.FileLogger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.FileLogger.WriteLine.html",
+          "hash": "q7KgNDdkYE29rwgCOSk003QPiQWaFmHCGNBohcP0Chg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.FileLogger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.FileLogger.html",
+          "hash": "6D8/EcM9NXDwZqXP/eudo0glX31dKm8+80IT0sW/AIk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.Logger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.Logger.WriteMessages.html",
+          "hash": "RKwgFUTvpRunxSSMGUy6B7RA2zlsjdUoHg5klULf2N8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.Logger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.Logger.WriteWarnings.html",
+          "hash": "rryeYXt2/5CQ/tBNfpv9WEsMtQ9KnGCMapbD+y0CkpU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.Logger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.Logger.WriteErrors.html",
+          "hash": "6AooIbE/JfVAMn/gyfh4YwChEi6dT3YYoMxVsYoizDc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.Logger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.Logger.Write.html",
+          "hash": "2NQmu5AFz3NFgzmvw0vqWBurQ/uYeff17zxVk9br1fg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.Logger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.Logger.WriteLine.html",
+          "hash": "cN5Wz2aJQfH5sqCfNlRsmRLtupTi2o/WdWrp+KTTKYw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.Logger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.Logger.html",
+          "hash": "jxtH3DTn4zd7wf9Ju4X/0M1or+2+eDchb8LlDfe/1Fg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.-ctor.html",
+          "hash": "o5Vhl4kbpFIgxdH22uoHHvFoTyWvXK2UHoDR9eSnjgE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.Dispose.html",
+          "hash": "ChgZBK/8wB6tjsrUBDnHqKDB/L9AhB+mo+gp0sxSnYs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.StartFrame.html",
+          "hash": "CrElNy4EbGg54b3n+xUx6bkMptnNK25SYQ3XxTs+cMo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.EndFrame.html",
+          "hash": "Vc05g7kWB+QYGVkGM6LlPXbz3a4ZdW4GmRc6v385Gfc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.AddSerializedPacketEvent.html",
+          "hash": "ErttCGLFg7yqsuQjwm8I3453opUlL3WXSltr5hN7kN0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.AddSendPacketEvent.html",
+          "hash": "jeATQkO9qi4iEqTbZjuqOU3zi9f8zn6XxPQAslgOcEY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.AddDeserializedPacketEvent.html",
+          "hash": "r8BJOAr9ue9QsX4K1nQGcilzurHolE9A6gEd3Xkd0cE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.AddReceivePacketEvent.html",
+          "hash": "o/7AhQJ1dBWo0DTRetMZnUrWpB3k3+pD0oRgEtzZy+g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.AddPacketResentEvent.html",
+          "hash": "pZk8zmaqLFtyhX58/Do34l+skPuMfSUc0JmhY5AEiDs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.AddPacketLostEvent.html",
+          "hash": "sxQGoCJ6mLV8Hxq27zC5Spn2bjLsgUCETOOo++aYgNs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.AddConnectionEvent.html",
+          "hash": "R1J41suWrHUKVFBMxoaThZK3ugdv7EkPBeZBQT/VHOM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.AddDisconnectionEvent.html",
+          "hash": "IJzkYgKMAuRkpEq+02Kuit+zpY4sTLFejfZwkw5Mik0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.AddExceptionEvent.html",
+          "hash": "CB6y3PVJUjrObBruE8934GyZ7boCuklIgjIfxLGAz+0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.WriteMessage.html",
+          "hash": "YxJjnvc51IcA5WXnmR7EoruCvYQpHka3F5gwGxdkYA8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.NetworkDebugger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.NetworkDebugger.html",
+          "hash": "7u8zghzmcD2t1GntuDbrYZhB6Uo5PEPlTHaBVu35Hl0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.Severity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.Severity.html",
+          "hash": "Lq6rl1Uubbih40Z42rfDV/FKUJ/ITMu3xMUjEqmO9S4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Debug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Debug.html",
+          "hash": "/EzxcXlnpWGbIWPDKIA0tzuk4qkJgTMkc5f8D56gsZ4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.ConnectionDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.ConnectionDelegate.html",
+          "hash": "zSJk7T13001q45sFUyv2HMkgw/3KUkrovQEyRvpbXh4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.ConnectionResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.ConnectionResult.Status.html",
+          "hash": "+KeneSIBuM66dpRZTNsxMnFdCK6S9I/w3sJ2hEG03lQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.ConnectionResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.ConnectionResult.RemotePeer.html",
+          "hash": "atWYQNTwbu+uA0MnngzEFvlSuxeALsQOYDUcwg41yHo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.ConnectionResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.ConnectionResult.RejectionObject.html",
+          "hash": "9jIjR/c2XsGaiqmgJNcMzI4xr5Dt4jdwPraS+KD15to="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.ConnectionResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.ConnectionResult.-ctor.html",
+          "hash": "+1d67jdU7UKTOKZmKi85crrvlepufzkJHWuzKL2U4Lo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.ConnectionResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.ConnectionResult.html",
+          "hash": "L3EJHTOrxwNbPVwC7DLnGRTSYvmu2hqsr9XZKKpkdto="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.ConnectionStatus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.ConnectionStatus.html",
+          "hash": "V4LERnmxM4MXRN1BEfAqk5xrBPwARwJPJP1XtQZnsnc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.DisconnectionDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.DisconnectionDelegate.html",
+          "hash": "/YkDd1lIPe5t7OolosOgFz1cRAV0wPRB8tTcg4yy40k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.DisconnectionReason.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.DisconnectionReason.html",
+          "hash": "hNBZqVAp2xtqeO0Tcd6SoDFRTpXf0bcVgTGeouBbDqU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.INetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.INetworkAdapter.OnInitialConnection.html",
+          "hash": "6IozyZg2MpPzH9pzYaH6xoTeXx0gJwMBvR/JxDsfD1c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.INetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.INetworkAdapter.OnConnection.html",
+          "hash": "KZRyItYic/rMX9Dq5kjEEpWSQH2YP1NVG+wjDr2n0u0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.INetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.INetworkAdapter.OnDisconnection.html",
+          "hash": "xpG43W3tYlS1MhXvPqjd68qbKr/99XyK47WEI8BdIF4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.INetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.INetworkAdapter.Start.html",
+          "hash": "oq0ugwBZMPhDJgruhHDL/HBbt+xcgO5VPKsYD32r7PY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.INetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.INetworkAdapter.ConnectTo.html",
+          "hash": "V8WktiytlU1B3aClydpbkcLKYCvipTs/MF+yPs9PgpY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.INetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.INetworkAdapter.DisconnectFrom.html",
+          "hash": "n+96FkhKjWOb3mCuEiDi5tpz6Lci2QPgXpv+qNEyOL8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.INetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.INetworkAdapter.SendPacketTo.html",
+          "hash": "Ivkbm5xhs+v1dV/IJJf8u2iyrP5kFWiIoacaFLQ+8tk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.INetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.INetworkAdapter.GetNextPacket.html",
+          "hash": "BHAVmGp/EGkA8rYGAvDZAmw53I8uQOOqtH4sPadqdhY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.INetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.INetworkAdapter.GetPing.html",
+          "hash": "BENG1dZDlpy/RDtsToiwztPkxPYDB4L/O+ST5hpUluU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.INetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.INetworkAdapter.html",
+          "hash": "TlqGL6rAVLoJzO1cTiHmo59uDsrW9XGs/2e5bVoJCII="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.InitialConnectionDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.InitialConnectionDelegate.html",
+          "hash": "4iAfGG+siUQnpvBnLtK0AN0cyKVopodw9m16ozsLR1Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.InitialConnectionResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.InitialConnectionResult.AllowConnection.html",
+          "hash": "8iKacXlKTcDRLlw9gdkizBymCeOjOrV28g6PtnqeNOc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.InitialConnectionResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.InitialConnectionResult.RejectionObject.html",
+          "hash": "os/oDyCEvW2/Z8e6+QMPS3lxvlTtwuppQQftPyIvPAI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.InitialConnectionResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.InitialConnectionResult.-ctor.html",
+          "hash": "S4QhclQd4zh2I0ZnXuSlhafSOPDnagUyPTdsEeOzE34="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.InitialConnectionResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.InitialConnectionResult.html",
+          "hash": "lAF3c/6mpreWjmTRxeboqB9VoS2pdmaVNi6SFYPAPTs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.Reliability.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.Reliability.html",
+          "hash": "f5DKDeRMo7yKzjIaKMUvMcmiOTJ5HL+4nMXXzflA2p0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.UdpNetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.UdpNetworkAdapter.OnInitialConnection.html",
+          "hash": "OPmOpVq7herRnjygQWeDWoC9IEh1C3GtQf/b8Mtm2gs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.UdpNetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.UdpNetworkAdapter.OnConnection.html",
+          "hash": "GWk1IAwQ85SRVDaO2VCfe2OGULy4iHrecs4BWWu9HtQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.UdpNetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.UdpNetworkAdapter.OnDisconnection.html",
+          "hash": "Zzr6I2HGgAMyMX/RyB0Ht1+4LuR/AAgns3vlvJegUX0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.UdpNetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.UdpNetworkAdapter.-ctor.html",
+          "hash": "iQLhrNsfHwypD6asJSw6A68BIzUD6rtbsJwEDQm6NFg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.UdpNetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.UdpNetworkAdapter.Dispose.html",
+          "hash": "nV8djdC/cj1b2QIOkvogC4BjyybJ0ydqS3bb5PpbWnA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.UdpNetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.UdpNetworkAdapter.Start.html",
+          "hash": "Z35qxbNmjmYgJd9L/SkAdSDvn0KHSCbmoV8xPHvAYwA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.UdpNetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.UdpNetworkAdapter.ConnectTo.html",
+          "hash": "5/UJCjzaX5A02oRGgnrEfQFPNukpqDxAf//0LV3Kq5Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.UdpNetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.UdpNetworkAdapter.DisconnectFrom.html",
+          "hash": "0urhXMu23VezL/JRoLK51fX94rqE3UvMDhApq42DI8Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.UdpNetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.UdpNetworkAdapter.GetNextPacket.html",
+          "hash": "tzzjMAR/GD7/3CGq1WPqXTs7rV/SCZVL4y7dDfvyCug="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.UdpNetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.UdpNetworkAdapter.SendPacketTo.html",
+          "hash": "keXPcGDMtAg8jT4S1ZpaW30FRi5IYuNq8ug6eI3QPA8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.UdpNetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.UdpNetworkAdapter.GetPing.html",
+          "hash": "jAirN6vRijZyHKUazBYMKEbdUGnw5Y5z7L9sl0eh70o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.UdpNetworkAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.UdpNetworkAdapter.html",
+          "hash": "sg/uxUQMJ6kvxj5z4/sDoCrDwjpBjxh95JlT0aCM3Fc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Networking.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Networking.html",
+          "hash": "LMR1MZlgRP+7zbCwZkVmjSHWmiutYc4+FlmgdRmRV1c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.AlwaysSerializeAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.AlwaysSerializeAttribute.html",
+          "hash": "Ysq/CK5EmKPixwP1cg+FGdd3QlsqF3EBjZJyppAqR+s="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.ClientToServerPacket.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.ClientToServerPacket.CanSend.html",
+          "hash": "VzYP3/a7vG/t/3Ldtv4/o0XlBmJEABUV2phv5eNsYSI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.ClientToServerPacket.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.ClientToServerPacket.html",
+          "hash": "zcN03TD/Vv+yGVv4zDd0qMy8BRwz5OtLZpKIiRl6rVw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.DontPatchAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.DontPatchAttribute.html",
+          "hash": "c908g1M13cGpbUfbSpV6awWEZfctos76nJqpV9aTAnQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.ObjectCacheExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.ObjectCacheExtensions.GetReliability.html",
+          "hash": "HHg+yffD1JFadzRzLGBnOkkbUZzt20KmaR9hLffR3oY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.ObjectCacheExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.ObjectCacheExtensions.html",
+          "hash": "3oBeactx7ugHGPs4T8PEa5k3z4G7IROLx94XtQzDF/0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.ObjectPropertiesExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.ObjectPropertiesExtensions.GetReliability.html",
+          "hash": "DYYLUKdQIc1ROXWFZ/Z8+OzgtT/5qo1WDXX9aaZ5RmU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.ObjectPropertiesExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.ObjectPropertiesExtensions.WillAlwaysSerialize.html",
+          "hash": "92olOtk/jPjxOSUMcW72uBq6Q0e5kt2KCNZ5Aw0not4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.ObjectPropertiesExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.ObjectPropertiesExtensions.html",
+          "hash": "UxR+F/2ZfMglEsIgGkX0G3D+ZT1LNvOwJEQVnox3nhg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.Packet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.Packet.Sender.html",
+          "hash": "ak41PtL9q7cCTaZcaU9XosGi4H/9Q1uu1au3ZP+kSv0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.Packet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.Packet.IsServer.html",
+          "hash": "vTqvRKO38k+57e90ExSLLoETWJpPM0dZ+SxH4OjWe74="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.Packet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.Packet.IsClient.html",
+          "hash": "DbGM/I2pfqajwf0wYVU6Ti/QSgtJFeIHSmsnJ8b9F6Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.Packet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.Packet.Client.html",
+          "hash": "iRBF/HpnCU9svS5E1HJ1OmjAong3LBOrpMTLu/RZsTs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.Packet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.Packet.Server.html",
+          "hash": "4KLkxVAImUhT6eCNUMNR0zXf/Uq8xrVlTy7qOCyV5FI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.Packet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.Packet.CanSend.html",
+          "hash": "dF1WmJP7j7retGGkHtrL8a2x2x9kyb3UVaXtvUhrQmM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.Packet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.Packet.OnSend.html",
+          "hash": "DNiCmLkCEgVBYn4324j7/YMvP0oHthcqn6YObHIxpvw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.Packet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.Packet.OnReceive.html",
+          "hash": "+Djl84H0zFrfghSivtPBVHAzwhY63+vwUuzJhBg3sUE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.Packet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.Packet.html",
+          "hash": "e9hA9VQ5fMoGz+a9qkNjyV/uriEFPM0nIafRwpwFAYA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.ServerToClientPacket.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.ServerToClientPacket.CanSend.html",
+          "hash": "7R86y/5FqRLSM/0DV8N4fhoHMuHP/FY8Ojd8aopczTE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.ServerToClientPacket.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.ServerToClientPacket.html",
+          "hash": "6PjxvXf2vjFWqwQdiBYK65ia4OIIQSPaP+1XIrhGgnQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.PropertyChanges.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.PropertyChanges.Previous.html",
+          "hash": "Yqnv5oBstZoDH67k7w6dd7EntmlstiCdsZh/lZYMosU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.PropertyChanges.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.PropertyChanges.Current.html",
+          "hash": "B1uq9r6xXDZlkK838x5EBBqqv2nVcszOafKzYONMaHs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.PropertyChanges.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.PropertyChanges.-ctor.html",
+          "hash": "iACYwb0epGAXnXxiN1xDOkaE8e1XglX5mMgWoIaHHlc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.PropertyChanges.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.PropertyChanges.html",
+          "hash": "bVdVVi7HMq01Ibl2PoUJiUZRRtA8g3xbJM2h3wGsNuM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.ID.html",
+          "hash": "/SRkaZ41Rt4bfo6vOiu1Q3d0ISvroKZeNmsZHaogBd8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.Owner.html",
+          "hash": "Iq7F9tC0le0TqfnbakTxmu4Vo+gLqcb5KGsagNGfrJc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.TransferOwnership.html",
+          "hash": "8euGpttUu1N4v88Q/wETjcuO/wo3e/EP7Acc7//V40M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.AddSubscriptions.html",
+          "hash": "d3zoLVEVrxM59zW+Z0cJF6v6vu6ETCQRMJmRyGvNKZU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.GetSubscriptions.html",
+          "hash": "hY7EGXxOhMNdWcprp7sELKUJMHqQ0mvB0SlNrpcCnmk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.RemoveSubscriptions.html",
+          "hash": "mJTn44+eNSjK5k+N+y00B49W54I01cAr+kzrqoVJFUg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.SyncProperty.html",
+          "hash": "LLYPmpMpVOShalYnUkL8/Kqu9lSomtUT/h9/V+fb/qg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.OnCreated.html",
+          "hash": "GgBEhfxi2SAtGLR+mxDnQ+p7lv2PRZ41LZoVn8i4orM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.OnDestroyed.html",
+          "hash": "rA9/OWCwEHaxngHTFU4Fq1MmgwrXJPxPbQc1uoxkFi4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.OnOwnerChange.html",
+          "hash": "XX44kKQXJ6bbLmNQdfWX7hL0sqFbOk84Zst2xbNl42Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.OnPropertiesChanged.html",
+          "hash": "cTUDd9+xknRPG9HX7k6/gU5muWtc9BCJzxQlvkmlMm4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.Equals.html",
+          "hash": "yDSWoeI7EMSop2NuKKi3P+44B3/H9JGwrfLnK1g7198="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.GetHashCode.html",
+          "hash": "3nLMQn+e/G+JC5sPWbIDIZcXOS0pPiOOwl2Fs1DYFHM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObject.html",
+          "hash": "G5g0f5MHl7yK+vqQ9geX16cYwvpmdgAt9rYl1hLrFU4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObjectID.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObjectID.-ctor.html",
+          "hash": "rGAXttAH64hzE21a8rrap5goh2XvdFYGPh64RnHbb30="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObjectID.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObjectID.Equals.html",
+          "hash": "ElniVE+d66tWJ1cjcH7yWBlcCRQ7eGmOwYDn185qNL4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObjectID.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObjectID.GetHashCode.html",
+          "hash": "S0KBgZDm0WTNGqncSzxsLxGH7qtVrSvjxPCf4xyjBco="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObjectID.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObjectID.ToString.html",
+          "hash": "rOiedJDhi1HuLPfZaHFRMJ860mPJNmJZMykWHEJfufc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObjectID.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObjectID.op_Explicit.html",
+          "hash": "PcHECmWvv32Gw35Nmj1hT3c7yJ9jf5RU+chECa9Q+u0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObjectID.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObjectID.op_Implicit.html",
+          "hash": "l/lx9Mu5Jydg1LZtm/XLh2N1ZhzRnhlv9ihMhY9u/Yc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObjectID.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObjectID.op_Equality.html",
+          "hash": "6PpmrFwGFzP26KpqVdtNsRxwdFDZgIWlSYw/HvvJhmo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObjectID.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObjectID.op_Inequality.html",
+          "hash": "kJuQeFpYEy3nOzXK2/V8pGWuqbrvmymjiqhS0qJ2gnc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.SyncedObjectID.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.SyncedObjectID.html",
+          "hash": "sTk2df9/Fw/D+GhDOPJ0RbQKoj4qUcMAPWYucizoA8A="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Packets.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Packets.html",
+          "hash": "BKf6x6Z4JHS/K+xf1lcd3wJ9pdIcxYkFoqwxPRfgYVw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.OnConnected.html",
+          "hash": "7n+RjOcWgeXYkZpGnhRo0njQBKgpEakij9QslUfDuYY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.OnDisconnected.html",
+          "hash": "6elfukIhUQFL1Wb+dJYcm6tdUTmoa5bg+UzCrJ9BFaw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.NetworkSettings.html",
+          "hash": "FvgNijdIfLd5ZxCMsuCQ3Z5mqkWD1rcUzDE3y6ZslHw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.Self.html",
+          "hash": "CGX4u9/L4TC90EmnFweSo2haekY4owZCARYHvmmfIzk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.Remote.html",
+          "hash": "XnDcQ69vpug5ApOraDsHFyB3tlFUeEZy9hF/QGZrQx4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.Connected.html",
+          "hash": "PAuXdTd0mTQIl2APGcQj2WmzGC5+uMIeRmpvB2HXZtk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.-ctor.html",
+          "hash": "oMZzQha2odcbDItlRz/PVMSmwN5Kgf2K7IwIzJfNn+E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.Dispose.html",
+          "hash": "VHBvvf8kZXVZEWgFmuSssGwKpwpouNGddgVHgwYXUDc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.ConnectTo.html",
+          "hash": "UyqI6Dxka8LsW7iMv+um87wfuGF965NRNGYfYhP7fgs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.Disconnect.html",
+          "hash": "ltu7KrJLbMSbrm5zzjlSVTcIbebD81e8Us6sXJw2XAI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.GetPing.html",
+          "hash": "jvrnajmdg31FTZnOWQ7aK4dp/S9lwKJoXcEX6IEewMo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.Loop.html",
+          "hash": "0ZGJW5rtLQHgRgCvYs66mOw2Apa4hIctDKLP2+YZOQk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.CreateSyncedObject.html",
+          "hash": "8FPXRRAg3Z7SCsQf0hN/ipWQuZgH15bfvo2OqmLP9pY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.CreateSyncedObjectAsync.html",
+          "hash": "oH/3f3InUfAw9dp+AzoMJy0JeqlQbSncGYuTZsgWD74="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.DestroySyncedObject.html",
+          "hash": "i909AC9Tevhs8YIX9WFnLhwNYJ6Au4L4dFiFvoZ88zc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.DestroySyncedObjectAsync.html",
+          "hash": "Eerz4Ubfe2Pko0XH6S0gg2uqr2RKB28QyPZPe9flFn0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.TryGetSyncedObject.html",
+          "hash": "4/SKxbh+wlW1x5fUmDS9xziFd6BLL6EfaR7/C25Zgsg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.TransferSyncedObjectOwnership.html",
+          "hash": "DUPZymhPtDNVSBFwrFPTBhyJDAzn1E3t6w21pdWc594="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.TransferSyncedObjectOwnershipAsync.html",
+          "hash": "CAc6r73BY0D5rRmKOtX+lbvLRWMjLBoc8tFdVe26HBM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.Send.html",
+          "hash": "h5frwBi/rTqoWwerjB/45QrywFZ9zTG1cSO3Wk+1vvw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelClient.html",
+          "hash": "51iJA6lkMJANxmQPQhbUUmFJ099j8CfrNVO2CMF6ROA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.OnInitialConnection.html",
+          "hash": "yF5uHhTQKe36jHu2JY9wOevAYODWXuK1Qsq/baFwYZE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.OnRemoteConnected.html",
+          "hash": "2/d5X0Eq+VMCCHAaG2cNHBR+tZnXluwO9/kPUEtezdE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.OnRemoteDisconnected.html",
+          "hash": "A+vZS9Bk1ao0xlW9RvjWGT5hqMh1NG2zxjbv5TJMTyw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.NetworkSettings.html",
+          "hash": "8+qIw/jUeeB/o0M7UtKcYxKowWDohvONNHQYEx8VPxM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.Self.html",
+          "hash": "sWuLpSONMvW8N9v1YAU6OmwJf2OzXmvLOtsGYxJq+ds="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.RemotePeers.html",
+          "hash": "UZ1y5p0nZEC7Hu/Ju+p84beePP8e27xsZcQRxSNnNYo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.-ctor.html",
+          "hash": "u6BOA7I5hHBKcBLip7rQDWFls8jsaJpgdX3cJcGD76k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.Dispose.html",
+          "hash": "S1K9ZWJpvKhHnkz644BGjC9VmGaW0uQgBBvF90hmQRM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.Loop.html",
+          "hash": "rUFRVueUrJGPAHRTJmClBOyUqAnolu+z0YZX9fX91wo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.ForceDisconnect.html",
+          "hash": "tcvDlNepHDaiVJ43BdFGrGhEsyJOErLue4mwrgxvw3w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.GetPingOfPeer.html",
+          "hash": "KqEklK3zRjyRFM2FFE8zMXky9R1Ud6X5xJfGHpB+xU4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.CreateSyncedObject.html",
+          "hash": "v34KqPb+3mxv+wZQQI8UpVrS0Fl7/kX/yB3BkdcTrKc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.DestroySyncedObject.html",
+          "hash": "UYTVIVo6Mek79fxHUfbYmvFGig4/POV6QmffKoseUYk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.TryGetSyncedObject.html",
+          "hash": "Wvrx3+zEkZtxA5OUQquCc6PDfJBFGg9UBp581D9Wazk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.TryGetSyncedObjectSubscribers.html",
+          "hash": "MUFeBvQIlJGhehC3RedOBhJG7R+5LjNl14cBc8n0A/8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.TryTransferSyncedObjectOwnership.html",
+          "hash": "X5iUWXm0ZNkA/tKvCiXoGJecygEptb55fqWyFDkXUDo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.AddSyncedObjectSubscriptions.html",
+          "hash": "A6uOyKE+how0JJkNza8sGiRySt/CyQfYlFrUmiOGopY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.RemoveSyncedObjectSubscriptions.html",
+          "hash": "zx0LxkDJMtxMVhBsJoheFLCd++N1ebCoW+VfaPDerRg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.Send.html",
+          "hash": "sl/N190mopmapDwiiwr3bs3SFJWYNhjsUPG6pved1Ws="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelServer.html",
+          "hash": "dUapDbwKJiR3kH0AponxbjaZWOuHZoaSbk5/LynObBA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettings.Peer.html",
+          "hash": "TAZRQOmvZcy1cVRYCwor3aJ+GZg2lmP8lyFof1qIrBs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettings.ConnectionTimeout.html",
+          "hash": "vW+naCA8iqWNpdPq7dQ+Gcxj6sJQ71jw8IkVa9ifG6E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettings.DisconnectionTimeout.html",
+          "hash": "BSobiCjLLl1RAMUlF9hh2J+kSowKuOiyCSqME51uHSc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettings.NetworkAdapterType.html",
+          "hash": "FeUw7dS7AP/0ZKuc/OXnVrOVPOtqO4UVCAMpKUjYq4U="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettings.PerformUpdatesAutomatically.html",
+          "hash": "qiwvKgvWzNC6Qbono3ox09PxY8l5e1/0O2Y9dQ6l8MM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettings.UpdatesPerSecond.html",
+          "hash": "gfGjMCIvP9dQ/dJQZ958biYqzAlznMK+gB5bUaNjCew="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettings.MillisecondsPerUpdate.html",
+          "hash": "g8krLeBjOL+np4sTzCU7RXSlWxHXkMSoGC+ZF55pmPU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettings.UnreliablePacketGroupSize.html",
+          "hash": "uwYfSucsR19dhm+UYNB/rFuIEtjrN5i2NYQi11MqxTo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettings.ReliablePacketGroupSize.html",
+          "hash": "qFzBTgocwjTDlmuzQF5SQaeLzDiqFvnb8bhOfLsYpho="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettings.Debugger.html",
+          "hash": "L+VVVwQ8B49cFVIEJiBLD1BGmxvBiJiR7ekIhPlf740="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettings.SerializerResolver.html",
+          "hash": "UCm2xo3x9rJeyBnw5u9IlvavlnIqEvMejmKSghgDWPc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettings.ServerDisconnectionBehavior.html",
+          "hash": "t/Wcf9YBVBs1+R5S1ZHdtUKumwEPtflfhySzcumvZMo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettings.html",
+          "hash": "fSEAWSqeHjmF1lOUcGbG7mZnHybISoT6Nqj8oXKnlv0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.-ctor.html",
+          "hash": "iZYrVKEONVybeKSNC3PKFE27OjaOKM8+Aj9nTEVAccA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.SetPeer.html",
+          "hash": "vnnSq4OyuapLs77qDz3TYZncuLczg9zLQlTxA5RNWrw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.SetNetworkAdapter.html",
+          "hash": "Bs2G6eZNG6GmPU4t1Pe01UZZ33MIK9GzVSZZmSGC64w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.SetConnectionTimeout.html",
+          "hash": "Ykqd5kGkizGtXf6xRhAJgNkspMdVmGPgJii4Y3oy/24="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.SetDisconnectionTimeout.html",
+          "hash": "HLAwI4WcMW2iWx5J68Sc5jgdU7CPAdBiibnNWR6X61E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.SetUpdatesPerSecond.html",
+          "hash": "Y4sb+tPG4PKPFlwqxqCpvoMLlp9c64624pbMuGjDZTU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.SetUnreliablePacketGroupSize.html",
+          "hash": "yqHQJhgSnhaNaFfDWAcrPGR1vFMWQnGGfRyRlY+tbEU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.SetReliablePacketGroupSize.html",
+          "hash": "cPRWNHoFSCBNdTjCa2Qhpowll5DQmX4Eivz2glmpfcQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.AddNetworkDebugger.html",
+          "hash": "PTnAQaTZCJ0A0YAHuav4679pP/vVWOwoTGlVN6vpF7Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.PerformUpdatesAutomatically.html",
+          "hash": "vYlVDLEVhT2g05CezjcAgPCW+vmQheZd1g+OSDVuszk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.SetSerializerResolver.html",
+          "hash": "1q+puTtDq+9RhxKYiQb8jNX6HG24Ge0dcEaGtHHZ8xE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.SetServerDisconnectionBehavior.html",
+          "hash": "LJxbivC/eMI46JWyH6l7mOqjXUC5pPci4l955dog4VM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.op_Implicit.html",
+          "hash": "mgEURgZNMXlgdpMUA/Ku6zNNpP4XLQx2mhOphAl3reM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ParcelSettingsBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ParcelSettingsBuilder.html",
+          "hash": "HmM3zvxCvIpkexHRroBK6YeyUqep9wRSJ/lr/mdZNHU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.html",
+          "hash": "yCM12OPmh7o8TNK/STWV61BtYeLXMFcxqt4dCJ//97E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.GUID.html",
+          "hash": "RW1dO6q3t3XOfP792x4vvPwfiVAokkjqriLveOm0TiY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.Address.html",
+          "hash": "0bNHPeCUhwa14lPUt+uiAII4LZz1dTblb3Nwn5AmEgM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.Port.html",
+          "hash": "8qTYnRh2aO6i70fE8Hb/Yu6ZjjyNnPdxwcca6ZTbiVg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.UpdateGUID.html",
+          "hash": "+cx/srKxVtOqTNmWHrgULplcOS7MhoZzfmRuSTn3jyM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.GetConnectionToken.html",
+          "hash": "3ynJwZWWZ15HYyjtVdTwUbaRV8qZ7vhtDMeyDC/1A9c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.GetPropertyKeys.html",
+          "hash": "UBh01mzEmnB++cLZKsymvhbVCSRLaaDRHPxFWnS//Yo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.GetPropertyValues.html",
+          "hash": "SNRYfKaEaoXBNp+oq71DVqIG2jaPdwfMvg7bMLVHJRk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.Item.html",
+          "hash": "CuKgM+5YzaM8ICgM2U3+bH5rwq+BOb7XFEPM0C75lHs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.GetEnumerator.html",
+          "hash": "Dt0BaTaqlhsVh0nod+Dd4SGVk2pfE/EN5vRWsggvYeI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.Equals.html",
+          "hash": "Bvw1FLl+0qaP9Dcarp8HaCUIyLAi1d8+uRbHesDROJU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.GetHashCode.html",
+          "hash": "3yrUyc0F1Tenf9TxKpp0bH1k4kXzaclBS82NPcjKDLg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.op_Equality.html",
+          "hash": "8gCDb8NSUcautD/cCGwenFfEV/6Y79E0wn3X7qwOUfU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.op_Inequality.html",
+          "hash": "clfG8cZ6dcA/YamApi/OEhSDi7AgnahNcZ26GzGJlMk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Peer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Peer.ToString.html",
+          "hash": "gPPx0UhVmXttcvy8PI6xd2wr+QKyFqLoeRxbIghyZKs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.PeerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.PeerBuilder.-ctor.html",
+          "hash": "iPt8pvcPD3kbO69m9uEM46V9DC2guw6eXJQzlJ1W0/o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.PeerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.PeerBuilder.SetGUID.html",
+          "hash": "VPRBvnVIBL63AvFJKP1SXyzFWnIUuMPA+zxhYdesN/Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.PeerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.PeerBuilder.UsePublicAddress.html",
+          "hash": "JSXYkJtJHwKgLs+00vgnbQ6z+43LnNYfVLTo+JBlJAc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.PeerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.PeerBuilder.SetAddress.html",
+          "hash": "RHAHCNlaQoJQ7k4C03yyppfU8cU4iSrrNynBlFiuAk4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.PeerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.PeerBuilder.SetPort.html",
+          "hash": "/hXYjqvRA6jMBAby488EreWmRqOmZocIb6+rb/LiLGc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.PeerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.PeerBuilder.AddProperty.html",
+          "hash": "19AczjA6+eZsD7G767dErN4ew8WaFUGRdKcjkO/vNBk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.PeerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.PeerBuilder.SetProperties.html",
+          "hash": "ZhJ7V0twNsPHuDNqU+2PUk7ObdDFSD2Gt8lZQPZ8sIk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.PeerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.PeerBuilder.op_Implicit.html",
+          "hash": "NmYKquwIssBzs+jXImTQQhpJezAPIuVPNLZP13/BxK8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.PeerBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.PeerBuilder.html",
+          "hash": "Gj4a6Xp1ubBTxlO6u2lOLHtSLXRS3gVMKEGZkt3qUvk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ReliableAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ReliableAttribute.html",
+          "hash": "d6e2yGJedgfieLO4XTKF5LTW0c/Vq+KpLSm/kTMjr0Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.Length.html",
+          "hash": "W6/dhcmbraMz0bmZD2N1LKac/vm+g61JS7lrWzrtIJs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.Position.html",
+          "hash": "WmNGXpRZlMtBAR00aZcVlbx5Y9L6hvR7VimwHGsOFQY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.SerializerResolver.html",
+          "hash": "HpjN93rC10vH4pchLAmdYTR+iPP2hWyiKqD8fhFtUMs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.-ctor.html",
+          "hash": "2sAD0Ipo6gVu8naL7tNCYRAt1RyO9byUBS0joyJcJ2k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadByte.html",
+          "hash": "m/sQrm2m0wTf7zUVR+sjxTR/2e8QUbopfH4JemFF+qg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadSByte.html",
+          "hash": "3B7rIqOgC0x6LFMR3XDOyvuDiYcK5Xu2XP9/+Rj42lg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadShort.html",
+          "hash": "XuidZE5LitX9YTi3YP1q/5h0LSUhD9zQyVsM8/KrnCw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadUShort.html",
+          "hash": "FCzmfCrddj7WqOKtFi1VYD8f1bRNl4dtH1v+Eyx3JaY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadInt.html",
+          "hash": "TejrDEKwgJcezwVhnTlq7k6/tbignRiJHGkZF/eM3uc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadUInt.html",
+          "hash": "NDKj9RbVa00zYpbWZwMCvW5UESkG5ylAM7LBjTs65R4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadLong.html",
+          "hash": "E8z8p96RoSsAmGH/2B80Gzhu1QhcTqUCQqjZQT0L01A="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadULong.html",
+          "hash": "zgh11tzw23zmfjTC9AcZPwpN3AwwlJKBighBEyBYv4g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadFloat.html",
+          "hash": "+L3OLl7F8bPiHU58v0/rIIrwq6uG2zDkWGnBPFO72Nc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadDouble.html",
+          "hash": "9jcxpm4kZt6idCt+K8oLhhtIjOEtmI3v22c42qt3TwA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadDecimal.html",
+          "hash": "14FiPx8hW4yfuHuEZASxKUe+aPz+RXtsxC96fkxFEaE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadBool.html",
+          "hash": "Q4YgJUcFffbkTbtDgJG2uh6+Cf4tf4SodKfKnXcHjCU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadChar.html",
+          "hash": "CLcEf65N/9gniOEkWO5gjSeJCQmoHpuEU68XcD8zKnE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadByteArray.html",
+          "hash": "6KQVRKeNRag5ZtN0vCM3KcDzrXyuRhXmtboD/np9b0U="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadSByteArray.html",
+          "hash": "iMvEHdAtKZBlzw+ldqYrngRRqBBnVTxWa6RMULLWblc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadShortArray.html",
+          "hash": "5aPf3+RbLJhhSOryp6xAT8yszrZF2gM2mFqgMLDAF0g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadUShortArray.html",
+          "hash": "TKvWTWQ7WsMPJzu2YITiM2KPVXQrUWiWvyQf+T0VXY0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadIntArray.html",
+          "hash": "QZRhTR8p+W150ctRzx25uVlEF/4FOs2TiVHbcaXWxQk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadUIntArray.html",
+          "hash": "ZpVmsSxSBvfwAodz+DiIoEg5qi4NNy4j8oQmmrFjo4I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadLongArray.html",
+          "hash": "NmeiQr12pTsH8Hiqfu2gy4sIDoXZEPre/oi+k7ADLxs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadULongArray.html",
+          "hash": "HGwgLrmNtQ3diQG0efk0LT7Prq9mCQrCNBvmJEICOsg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadFloatArray.html",
+          "hash": "HGPs05VHeK9xZOapb7bNT4CnDOIsbgs8qXZZD1tdbI8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadDoubleArray.html",
+          "hash": "ldwoyC6DA2YTjSeTmjtMYdR8giNhXN33OtcjlMMEaoI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadDecimalArray.html",
+          "hash": "xGUe4vtIPfC5fIVq0RfYmIXujLkEfbBwoi82S7FOKF4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadBoolArray.html",
+          "hash": "YYRGNI2gjQEVnyQMhhAkH+R9qaErmSH/kYi429sZsAU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadCharArray.html",
+          "hash": "0/6cNQ9oqSx5e8bDj5PKDN6dYh2dVLV9ObsZqwIvpBQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadString.html",
+          "hash": "w4LOnT7iUsTbfAy9Ek3+GEb1OYjGQiCTASVdfjSskOw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadEnum.html",
+          "hash": "qP3EchtfjNha13SOCqCaimRvyHP0h/UDyXhSfmwa1QA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.ReadObject.html",
+          "hash": "Ixv9gFjplnl7eEMYOZ7gBjJsZkZbZbIZ9gVmLFXAI0g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteReader.html",
+          "hash": "2//mcaMySkPyn1baQTylM6CqP+siJFoGoVvEjLi1nSs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteWriter.Data.html",
+          "hash": "TPryic0xIeMVpG+cZ3+lyJQ/TcgxZrsZnhIU+ghu3N8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteWriter.Length.html",
+          "hash": "YU3GKCE564EO4Fh6i7tglamgPf4ScrbANgAowFMx7m4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteWriter.Position.html",
+          "hash": "IRZsolHZGtKI+nDLpdskCaBC2cYbAkfC1BidYFi90do="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteWriter.SerializerResolver.html",
+          "hash": "l8hHHWypZz3sLk73/3x8PEn1HUwIVGTNzxCJU2wq6Ls="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteWriter.-ctor.html",
+          "hash": "YwlWi9DmsNaOAm2olkOGaPnNpP8Ihg1pKfCh7UbK8h8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteWriter.Write.html",
+          "hash": "EKczxZq6A6GasHjDt50GWkS+zDt53Xlsqtvyh47p7hk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ByteWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ByteWriter.html",
+          "hash": "WzzP0VN9E8de+mX6EXLssfppaDaUVobWTHiDPt6O818="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.IgnoreAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.IgnoreAttribute.html",
+          "hash": "9Li8O8IDe6w0HZ3J20rDtn6SGGQ9AeNmoLgiheeOWU8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectCache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectCache.Type.html",
+          "hash": "51Ptqi5+ujCq+x6KZsZHBvAgOHG1W2VsRR3zdzoOBao="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectCache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectCache.Name.html",
+          "hash": "P0DvipXRapMqWm3892Enijj95RYJMblvUOrF/PQrcpw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectCache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectCache.HashCode.html",
+          "hash": "IAuVDrOGADT5vrYBxMOXKY9T5wKkDu8HU29AuarNQZw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectCache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectCache.Item.html",
+          "hash": "SHWtz3N44A1FWJCj+OfG2mWfPuJAQuINFxyh8Sl5Bxk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectCache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectCache.GetEnumerator.html",
+          "hash": "cBnh6M258qkTf9g9DgUuLUmAZ1Y4Lnvk1ETJLTgWx3c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectCache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectCache.GetCustomAttribute.html",
+          "hash": "2/y8R5L+nhUCaJIfTh/LQefgAldfVMfsyCTsHPzKtaM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectCache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectCache.GetCustomAttributes.html",
+          "hash": "4JmG47QJMEyOs4SwAK2ai0RgCsODbYdi/MQwPBJSbRU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectCache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectCache.FromType.html",
+          "hash": "u0dBaDPc2srv2ZqPAutRaUjEFfr1bnmQNNcSRtjGRO4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectCache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectCache.FromHash.html",
+          "hash": "/1oR2Mlb9d6w9H7Fv82yyf18/XIGciRgIHkJiBw+LXQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectCache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectCache.html",
+          "hash": "p4s8VVbllzQK0MQX9eu+XxNnIpJNbGhf9wdq3Yp24G4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectProperty.PropertyInfo.html",
+          "hash": "St3bK/rWaSlfcNWBipRPCxda2qrGyrqDxCmhwpmjtHk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectProperty.Type.html",
+          "hash": "YKI/Ptk9Xpw9TDL5HQ/Fajj4/8swRYSTAhk5ibxQzvY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectProperty.NameHash.html",
+          "hash": "Sm9LbimIYLWVhUR9lS64/qh6VRUsV/RR1xbN83dY9aA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectProperty.Name.html",
+          "hash": "J/MiylmuPpB7plINGHXWcI3moY1I0v3QR4Tj3J7JOdc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectProperty.TryCreate.html",
+          "hash": "wmhqhgi8s9sO2iYHBzMET2ekRIhHHRDEU7oU4ndvMKA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectProperty.GetValue.html",
+          "hash": "eMdpIU7Cs1u7OhDc2eW7IMHIiHDnOa9fG/JrqZH0lLs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectProperty.SetValue.html",
+          "hash": "RIcLj+Tp5KBjTf2j6ThjbjBbyPlmEJwsZnzgX9QgzlY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectProperty.GetCustomAttribute.html",
+          "hash": "EoZgLg958RJz7YkvaCTcFIFEs9HpNH/N4ODznJlRyjI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectProperty.GetCustomAttributes.html",
+          "hash": "EJ9TGfxhl5nj+sdsi2yhHoXqTx72NPf7BiTqxEzlo3o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.ObjectProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.ObjectProperty.html",
+          "hash": "zvC3KepNMjWnftEbuBO/RvIqff6tKXsbcoUub2uf/rk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.OptInAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.OptInAttribute.html",
+          "hash": "wGFo+99SuJY2s/RHUt5CO17g4lg4PLDwrI3cIYagWeI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.OptOutAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.OptOutAttribute.html",
+          "hash": "xp2xmDN04gmk6Yf8Ta0UkedrmZi5nlU9XJ5QQlZCizM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.SerializeAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.SerializeAttribute.html",
+          "hash": "e5x50EocUnf/nCZn9LzA413UTlvWA3Q4rKK8G4JdJDA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.Serializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.Serializer.ObjectCache.html",
+          "hash": "OpDXC6jvN0X8vlHSnXVF01E0Cq5I9hEBaPC5SRVO9UM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.Serializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.Serializer.Serialize.html",
+          "hash": "AOKkBPO4yvHRcETbqSuICyzPctGmRTxr//EG6fjbfzs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.Serializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.Serializer.Deserialize.html",
+          "hash": "Uma9Zm3NNityLDZEoeYJgDuVXFXzJKvJXQREZoyWFR4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.Serializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.Serializer.CanSerialize.html",
+          "hash": "TJ35ZbFvWh1c6qYCGFY70VEk+G01ww/sZ+CLtyvc0Hw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.Serializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.Serializer.Clone.html",
+          "hash": "lmE4uaH2laWHfyPRW2hOheZt52pvM9df7qV43IQL7z8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.Serializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.Serializer.html",
+          "hash": "Jq70Q6bBO2scdp2Z7uevP6Cv8Ys2WPUnoCtaZqnoghw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.SerializerResolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.SerializerResolver.Global.html",
+          "hash": "vrgCJAoetMCeusFm5GHH6StTBEN9V8OlTJ0qmqmPEJk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.SerializerResolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.SerializerResolver.-ctor.html",
+          "hash": "Juida4XjMM0gOg27Sq/WvwAZfAYVKUTLM60fVfAqU04="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.SerializerResolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.SerializerResolver.RegisterSerializer.html",
+          "hash": "aIWowMY4iK4nQymDRKfBCbo2ReSXocO9D51UX/TdUl4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.SerializerResolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.SerializerResolver.UnRegisterSerializer.html",
+          "hash": "k2g+dEryPhxenPoZLDbcs6CBllqO+49oYfOS/cyOTnw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.SerializerResolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.SerializerResolver.GetSerializer.html",
+          "hash": "3VgeurzwPh2O2Gkf9bnLxh+/bHjKNO5+7sUxuX0+jUk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.SerializerResolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.SerializerResolver.html",
+          "hash": "PAJfzZcfqU+F0t60gql4GhqmCfUA36rGj7bbVwaNOh0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.TypeHashCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.TypeHashCode.IsGenericType.html",
+          "hash": "TtuGrxKtXe4HpU2i8YOFxUdzUAS2o4adwjetKvbuM5A="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.TypeHashCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.TypeHashCode.IsArrayType.html",
+          "hash": "WuC0j/MD9La4NBlasOQWqRWWoTFF6ABXoFHNCqaNWxs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.TypeHashCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.TypeHashCode.GenericArgumentCount.html",
+          "hash": "tmZ0X6tNqC1IdjtqudU/fnG0wMXynTSi+Eb9DtY2F1Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.TypeHashCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.TypeHashCode.ArrayRank.html",
+          "hash": "sMgftLmKqqfQheAejsSczG4TOcsO39WkISQobySUI5w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.TypeHashCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.TypeHashCode.op_Explicit.html",
+          "hash": "RI97FZ+y4rgSd1rTz+EycbaOBxAZLCfV3iHeGTgMnZA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.TypeHashCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.TypeHashCode.ParseType.html",
+          "hash": "TOJguIwDOKwf7OEtRHZ/twZ0mBUfpaCmieHs+wj47gA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.TypeHashCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.TypeHashCode.Equals.html",
+          "hash": "rSHpISKQq72X5Qa1VQIrkXwm/8XFCvON04nxHjp9LZY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.TypeHashCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.TypeHashCode.GetHashCode.html",
+          "hash": "8rdTcLBqTYsqdVdOQ4yh/d+FoSD5/UmLEF4ha5BDNJI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.TypeHashCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.TypeHashCode.GetEnumerator.html",
+          "hash": "oKaPmvEGNbQT8+SQXGsetNe78z7obK6De4Bgtf8Ex/M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.TypeHashCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.TypeHashCode.Item.html",
+          "hash": "/3T01CseHiSjMkHaeJMFm8T0EqpNtRRuvr9aInvvorE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.TypeHashCode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.TypeHashCode.html",
+          "hash": "9pBlciwU8qK8RHsMqoBPGQNsCgLalW2uVCmUb8y8S+Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.Serialization.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.Serialization.html",
+          "hash": "dqEQSKwbv9OR2TwBNrapW4zhtSYn3r6H0tdB5B6zyf0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.ServerDisconnectionBehavior.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.ServerDisconnectionBehavior.html",
+          "hash": "ia50/lRESagCkdDjq8nZbRpQEg6Fzx2NnzRidj9SQy8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.UnreliableAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.UnreliableAttribute.html",
+          "hash": "sXoyir9q6OF7Ytq0YTV2MC9NHVkdsZu/dppqWYJ1ZAQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Parcel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Parcel.html",
+          "hash": "e+3pHLb8ljxy8FQyQht1W3KH0No4HO/fmHDdluYbUgQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "jEhXNRMgRBFBagKm8Gmspc0KthD+YUm8Li9l7hV2DaE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "k+PjPOS3ExuVf3YpwTIK0TzyUw2zwdbDG+woi36eKlI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "iFwDFr+sMJRQKGY3JRLBjvWiDkagS75wpYkXT3Agu24="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/packets.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/packets.html",
+          "hash": "ZLBq9k48tlhoz6eSWOrzxU2L1h2cBQAToAEPLZKGEbY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/quickstart.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/quickstart.html",
+          "hash": "45OlZYUH32rwL97sp+IGvro20s0m+JLf/gTHR1WPt9M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/serializers.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/serializers.html",
+          "hash": "QK1XRrY4UOyLO6tHUOOeaU38uu1oO7wBaIIlg6DXHGc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/syncedobjects.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/syncedobjects.html",
+          "hash": "UScrJ4XDcJ/IDxeXous1JyVpClU3+pdWQaa/ThnDSxk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "Cont8EolxvwGDPyXHaBoPlOatTZ7qQFwlC685xs0aK4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "2hodlYr40LHCP0VP7JWaPM8E1i08v1Omr872KnYTskc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "BGiWts25RJVQgRmKKyvUG0VSDXC3dyZZK4e/QHsg1BI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 7,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 50,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: should not trace intermediate info.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

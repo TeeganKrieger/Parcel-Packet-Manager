@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+    
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Getting Started | Parcel </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Getting Started | Parcel ">
+      <meta name="generator" content="docfx 2.59.3.0">
+      
+      <link rel="shortcut icon" href="../images/favicon.png">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/night-owl.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" integrity="sha384-EvBWSlnoFgZlXJvpzS+MAUEjvN7+gcCwH+qh7GRFOGgZO0PuwOFro7qPOJnLfe7l" crossorigin="anonymous">
+      <link rel="stylesheet" href="../styles/config.css">
+      <link rel="stylesheet" href="../styles/discord.css">
+      <link rel="stylesheet" href="../styles/singulink.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+      
+      <meta property="docfx:rel" content="../">
+      <meta property="docfx:newtab" content="true">
+    </head>
+    <body>
+        <div class="top-navbar">
+            <a class="burger-icon" onclick="toggleMenu()">
+                <svg name="Hamburger" style="vertical-align: middle;" width="34" height="34" viewbox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M20 6H4V9H20V6ZM4 10.999H20V13.999H4V10.999ZM4 15.999H20V18.999H4V15.999Z"></path></svg>
+            </a>
+
+            
+            <a class="brand" href="../index.html">
+              <img src="../images/logo.png" alt="Parcel Packet Manager" class="logomark">
+              <span class="brand-title">Parcel Packet Manager</span>
+            </a>        </div>
+
+        <div class="body-content">
+            <div id="blackout" class="blackout" onclick="toggleMenu()"></div>
+
+            <nav id="sidebar" role="navigation">
+                <div class="sidebar">
+                    
+                    <div>
+                      <div class="mobile-hide">
+                        
+                        <a class="brand" href="../index.html">
+                          <img src="../images/logo.png" alt="Parcel Packet Manager" class="logomark">
+                          <span class="brand-title">Parcel Packet Manager</span>
+                        </a>  </div>
+                    
+                      <div class="sidesearch">
+                        <form id="search" role="search" class="search">
+                            <i class="bi bi-search search-icon"></i>
+                            <input type="text" id="search-query" placeholder="Search" autocomplete="off">
+                        </form>
+                      </div>
+                    
+                      <div id="navbar">
+                      </div>
+                    </div>                    <div class="sidebar-item-separator"></div>
+                        
+                        <div id="sidetoggle">
+                          <div id="sidetoc"></div>
+                        </div>
+                </div>
+                <div class="footer">
+                  <strong>Parcel Packet Manager</strong>
+                  
+                </div>            </nav>
+
+            <main class="main-panel">
+                
+                <div id="search-results" style="display: none;">
+                  <h1 class="search-list">Search Results for <span></span></h1>
+                  <div class="sr-items">
+                    <p><i class="bi bi-hourglass-split index-loading"></i></p>
+                  </div>
+                  <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+                </div>
+                <div role="main" class="hide-when-search">
+                        
+                        <div class="subnav navbar navbar-default">
+                          <div class="container hide-when-search" id="breadcrumb">
+                            <ul class="breadcrumb">
+                              <li></li>
+                            </ul>
+                          </div>
+                        </div>
+
+                    <article class="content wrap" id="_content" data-uid="">
+
+<style>
+    h1.title {
+        text-align: center;
+        font-size: 3rem;
+    }
+    h3 {
+        font-size: 1.5rem;
+    }
+</style>
+<h1 class="title">Getting Started</h1>
+<h2>Installation</h2>
+<p>Coming soon...</p>
+<h2>Creating a Peer</h2>
+<p>Before initializing a client or server, a Peer object must be created. Peers contain a GUID, which is typically assigned by the server and used to uniquely identify Peers, even if they originate from the same network. Peers also hold onto the IP address and the Port of a user, as well as any read-only information (called properties) you decide to include with the peer. Examples of this might be a person's username.</p>
+<p>If you desire to have non-read-only properties for a Peer, consider creating a SyncedObject owned by that Peer that is specific to your use-case.</p>
+<p>Peers are constructed using the PeerBuilder class. The PeerBuilder class has the following options:</p>
+<ul>
+<li>UsePublicAddress() - Set the address of the Peer being built to your network's public IP address.</li>
+<li>SetAddress(string address) - Set the address of the Peer being built.</li>
+<li>SetPort(int port) - Set the port of the Peer being built.</li>
+<li>AddProperty(string key, object value) - Add a property to the Peer being built.</li>
+<li>SetProperties(Dictionary&lt;string, object&gt; properties) - Set all the properties of the Peer being built.</li>
+</ul>
+<p>NOTE: If you are hosting both a client and server within the same application, you will need to create two Peers and ensure their ports are not the same.</p>
+<pre><code class="lang-cs">Peer clientPeer = new PeerBuilder()
+.UsePublicAddress()
+.SetPort(7777)
+.AddProperty(&quot;username&quot;, &quot;MyUsername&quot;); 
+
+Peer serverPeer = new PeerBuilder()
+.UsePublicAddress()
+.SetPort(7778);
+</code></pre>
+<h2>Settings</h2>
+<p>After creating a Peer, the final step before creating a client or server is to create a ParcelSettings object. The ParcelSettings object holds settings to be utilized by a client or server. ParcelSettings objects can only be used by a single client or server, and will be bound to that instance, so if you are hosting a server and a client on the same application, you will need to create two ParcelSettings objects.</p>
+<p>ParcelSettings are constructed using the ParcelSettingsBuilder class. The ParcelSettingsBuilder class has the following options:</p>
+<ul>
+<li>SetPeer(Peer peer) - Set the Peer for the client or server to use.</li>
+<li>SetNetworkAdapter<networkadaptertype>() - Set the network adapter for the client or server to use.</networkadaptertype></li>
+<li>SetConnectionTimeout(int milliseconds) - Set the amount of time allowed for connection events to occur within. If time is exceeded, a connection event fails.</li>
+<li>SetDisconnectionTimeout(int milliseconds) - Set the amount of time allowed since last receiving a packet from a user before they are considered disconnected.</li>
+<li>SetUpdatesPerSecond(int updates) - Set the number of iterations of a client or server's main loop that will be performed per second.</li>
+<li>PerformUpdatesAutomatically(bool should) - Set whether a client or server should automatically or manually perform updates.</li>
+<li>SetUnreliablePacketGroupSize(int groupSize) - Set the number unreliable packets that will be grouped together during serialization.</li>
+<li>SetReliablePacketGroupSize(int groupSize) - Set the number of reliable packets that will be grouped together during serialization.</li>
+<li>AddNetworkDebugger(NetworkDebugger debugger) - Attached a NetworkDebugger to the client or server.</li>
+</ul>
+<pre><code class="lang-cs">ParcelSettings clientSettings = new ParcelSettingsBuilder()
+.SetPeer(clientPeer)
+.SetNetworkAdapter&lt;UdpNetworkAdapter&gt;()
+.SetConnectionTimeout(5000)
+.SetDisconnectionTimeout(7500)
+.SetUpdatesPerSecond(20)
+.SetUnreliablePacketGroupSize(5)
+.SetReliablePacketGroupSize(10);
+
+ParcelSettings serverSettings = new ParcelSettingsBuilder()
+.SetPeer(serverPeer)
+.SetNetworkAdapter&lt;UdpNetworkAdapter&gt;()
+.SetConnectionTimeout(5000)
+.SetDisconnectionTimeout(7500)
+.SetUpdatesPerSecond(60)
+.SetUnreliablePacketGroupSize(3)
+.SetReliablePacketGroupSize(10);
+</code></pre>
+<h2>(Optional) Attaching a NetworkDebugger</h2>
+<p>It may be beneficial while working on your project to attach a NetworkDebugger to your client and server. By design, all exceptions that occur during serialization or within any virtual methods of a Packet or SyncedObject will be caught and handled, to prevent your client or server for quitting upon an exception. This safety feature can make it hard to diagnose issues. Attaching a debugger will allow you to log any exceptions encountered.</p>
+<pre><code class="lang-cs">NetworkDebugger debugger = new NetworkDebugger(new ConsoleLogger());
+
+//Then, when creating your ParcelSettings call:
+.AddNetworkDebugger(debugger)
+</code></pre>
+<h2>Creating a Client</h2>
+<p>Finally, with a ParcelSettings object created, a new ParcelClient can be initialized. The ParcelClient class is responsible for establishing connections, send and receiving Packets, and managing SyncedObjects.</p>
+<p>It is recommended that you store you client(s) in some singleton object within your project. Alternatively, you can pass your ParcelClient object to places that need it if you want to avoid the singleton pattern.</p>
+<pre><code class="lang-cs">ParcelClient client = new ParcelClient(clientSettings);
+</code></pre>
+<h3>Connecting to a server</h3>
+<p>To establish a connection with a server, a ConnectionToken is required. A ConnectionToken contains the Address and Port of the server to connect to.</p>
+<p>Connections are performed asynchronously and should be awaited. They will return a ConnectionResult struct that will contain a status, the server's Peer object, or any rejection reasons should the connection be rejected by the server.</p>
+<pre><code class="lang-cs">//Create the connection token
+ConnectionToken serverToken = new ConnectionToken(&quot;IP of Server&quot;, 7778);
+
+//Await the connection
+ConnectionResult results = await client.ConnectTo(serverToken);
+
+//Read the results
+ConnectionStatus status = results.Status;
+Peer serverPeer = results.RemotePeer;
+string[] rejectionReasons = results.RejectionReasons;
+</code></pre>
+<p>There is also an event that is invoked upon a successful connection.</p>
+<pre><code class="lang-cs">client.OnConnected += (Peer server) =&gt; { your logic here };
+</code></pre>
+<h3>Disconnecting from a server</h3>
+<p>Disconnecting from a server is incredibly simple. Call Disconnect will perform a final disconnection handshake. This can take a few iterations of the network loop, so it is recommended that you prevent your application from closing at least until the disconnection has been completed.</p>
+<pre><code class="lang-cs">//To disconnect from the server
+client.Disconnect();
+</code></pre>
+<p>A good way to ensure the disconnection handshake has been completed is to listen for a disconnection event, which will be invoked when the connection is fully closed. It will also invoke in the event of a forced disconnection or timeout.</p>
+<pre><code class="lang-cs">//To listen for a disconnection event
+client.OnDisconnected += (Peer server, DisconnectionReason reason, string message) =&gt; { your logic here };
+</code></pre>
+<h3>Sending Packets</h3>
+<p>Sending Packets to the server is also incredibly simple. There is also an overload that allows for you to send a Packet to another Peer connected to the server.</p>
+<pre><code class="lang-cs">//Sending to the server
+client.Send(myPacket);
+
+//Sending to another Peer
+client.Send(myPacket, otherPeer);
+</code></pre>
+<h3>Synced Objects</h3>
+<p>SyncedObjects are a topic complex enough to warrant their own article. Please check out that article for more information.</p>
+<h3>Remote Procedure Calls</h3>
+<p>Remote procedure calls have not been implemented yet. This article will be updated when they are implemented to reflect how they work.</p>
+<h2>Creating a Server</h2>
+<p>Creating a server is the same as creating a client, instead using the ParcelServer class.</p>
+<pre><code class="lang-cs">ParcelServer server = new ParcelServer(serverSettings);
+</code></pre>
+<h3>Handling Connections</h3>
+<p>Servers cannot make connections, instead a connection must be made to them. Servers can listen for connections and perform logic when a connection event occurs.</p>
+<pre><code class="lang-cs">server.OnRemoteConnected += (Peer client) =&gt; { your logic here };
+</code></pre>
+<p>Servers can also intercept connections before they are fully connected and optionally reject the connection. Each subscription to this event should return an InitialConnectionResult struct with either a true or false value and a message. The results of all subscriptions will be merged and if any result is false, the connection will be rejected. All false messages will be sent to the client being rejected.</p>
+<pre><code class="lang-cs">server.OnInitialConnection += (Peer connecting) =&gt; { return new InitialConnectionResult(false, &quot;You are not allowed to join this server!&quot;); };
+</code></pre>
+<h3>Handling Disconnections</h3>
+<p>Servers can force disconnect users that are connected to them.</p>
+<pre><code class="lang-cs">server.ForceDisconnect(peer);
+</code></pre>
+<p>Servers can also listen for disconnection events and act accordingly.</p>
+<pre><code class="lang-cs">server.OnRemoteDisconnection += (Peer client, DisconnectionReason reason, string message) =&gt; { your logic here };
+</code></pre>
+<h3>Sending Packets</h3>
+<p>Sending Packets to clients is simple. The base Send method will send a Packet to all connected Peers. There is an overload that allows for a Packet to be sent to a group of specified Peers.</p>
+<pre><code class="lang-cs">//Sending to all Peers
+server.Send(myPacket);
+
+//Sending to specific Peers
+server.Send(myPacket, peer1, peer2, peer3, etc...);
+</code></pre>
+<h3>Synced Objects</h3>
+<p>SyncedObjects are a topic complex enough to warrant their own article. Please check out that article for more information.</p>
+<h3>Remote Procedure Calls</h3>
+<p>Remote procedure calls have not been implemented yet. This article will be updated when they are implemented to reflect how they work.</p>
+<h2>Complete Code</h2>
+<h3>Client</h3>
+<pre><code class="lang-cs">Peer clientPeer = new PeerBuilder()
+.UsePublicAddress()
+.SetPort(7777)
+.AddProperty(&quot;username&quot;, &quot;MyUsername&quot;); 
+
+ParcelSettings clientSettings = new ParcelSettingsBuilder()
+.SetPeer(clientPeer)
+.SetNetworkAdapter&lt;UdpNetworkAdapter&gt;()
+.SetConnectionTimeout(5000)
+.SetDisconnectionTimeout(7500)
+.SetUpdatesPerSecond(20)
+.SetUnreliablePacketGroupSize(5)
+.SetReliablePacketGroupSize(10);
+
+ParcelClient client = new ParcelClient(clientSettings);
+
+ConnectionToken serverToken = new ConnectionToken(&quot;IP of Server&quot;, 7778);
+
+bool success = await client.ConnectTo(serverToken);
+</code></pre>
+<h3>Server</h3>
+<pre><code class="lang-cs">Peer serverPeer = new PeerBuilder()
+.UsePublicAddress()
+.SetPort(7778);
+
+ParcelSettings serverSettings = new ParcelSettingsBuilder()
+.SetPeer(serverPeer)
+.SetNetworkAdapter&lt;UdpNetworkAdapter&gt;()
+.SetConnectionTimeout(5000)
+.SetDisconnectionTimeout(7500)
+.SetUpdatesPerSecond(60)
+.SetUnreliablePacketGroupSize(3)
+.SetReliablePacketGroupSize(10);
+
+ParcelServer server = new ParcelServer(clientSettings);
+</code></pre>
+</article>
+                </div>
+
+                <div class="copyright-footer">
+                    <span>&#65533; Teegan Krieger. All rights reserved.</span>
+                </div>
+            </main>
+        </div>
+
+        
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+        <script type="text/javascript" src="../styles/jquery.twbsPagination.js"></script>
+        <script type="text/javascript" src="../styles/url.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+        <script type="text/javascript" src="../styles/docfx.js"></script>
+        <script type="text/javascript" src="../styles/singulink.js"></script>
+        <script type="text/javascript" src="../styles/main.js"></script>    </body>
+</html>

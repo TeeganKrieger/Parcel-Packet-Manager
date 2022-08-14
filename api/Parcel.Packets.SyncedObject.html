@@ -1,0 +1,277 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+    
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class SyncedObject
+     | Parcel </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class SyncedObject
+     | Parcel ">
+      <meta name="generator" content="docfx 2.59.3.0">
+      
+      <link rel="shortcut icon" href="../images/favicon.png">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/night-owl.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" integrity="sha384-EvBWSlnoFgZlXJvpzS+MAUEjvN7+gcCwH+qh7GRFOGgZO0PuwOFro7qPOJnLfe7l" crossorigin="anonymous">
+      <link rel="stylesheet" href="../styles/config.css">
+      <link rel="stylesheet" href="../styles/discord.css">
+      <link rel="stylesheet" href="../styles/singulink.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+      
+      <meta property="docfx:rel" content="../">
+      <meta property="docfx:newtab" content="true">
+    </head>
+    <body>
+        <div class="top-navbar">
+            <a class="burger-icon" onclick="toggleMenu()">
+                <svg name="Hamburger" style="vertical-align: middle;" width="34" height="34" viewbox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M20 6H4V9H20V6ZM4 10.999H20V13.999H4V10.999ZM4 15.999H20V18.999H4V15.999Z"></path></svg>
+            </a>
+
+            
+            <a class="brand" href="../index.html">
+              <img src="../images/logo.png" alt="Parcel Packet Manager" class="logomark">
+              <span class="brand-title">Parcel Packet Manager</span>
+            </a>        </div>
+
+        <div class="body-content">
+            <div id="blackout" class="blackout" onclick="toggleMenu()"></div>
+
+            <nav id="sidebar" role="navigation">
+                <div class="sidebar">
+                    
+                    <div>
+                      <div class="mobile-hide">
+                        
+                        <a class="brand" href="../index.html">
+                          <img src="../images/logo.png" alt="Parcel Packet Manager" class="logomark">
+                          <span class="brand-title">Parcel Packet Manager</span>
+                        </a>  </div>
+                    
+                      <div class="sidesearch">
+                        <form id="search" role="search" class="search">
+                            <i class="bi bi-search search-icon"></i>
+                            <input type="text" id="search-query" placeholder="Search" autocomplete="off">
+                        </form>
+                      </div>
+                    
+                      <div id="navbar">
+                      </div>
+                    </div>                    <div class="sidebar-item-separator"></div>
+                        
+                        <div id="sidetoggle">
+                          <div id="sidetoc"></div>
+                        </div>
+                </div>
+                <div class="footer">
+                  <strong>Parcel Packet Manager</strong>
+                  
+                </div>            </nav>
+
+            <main class="main-panel">
+                
+                <div id="search-results" style="display: none;">
+                  <h1 class="search-list">Search Results for <span></span></h1>
+                  <div class="sr-items">
+                    <p><i class="bi bi-hourglass-split index-loading"></i></p>
+                  </div>
+                  <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+                </div>
+                <div role="main" class="hide-when-search">
+                        
+                        <div class="subnav navbar navbar-default">
+                          <div class="container hide-when-search" id="breadcrumb">
+                            <ul class="breadcrumb">
+                              <li></li>
+                            </ul>
+                          </div>
+                        </div>
+
+                    <article class="content wrap" id="_content" data-uid="Parcel.Packets.SyncedObject">
+  
+  
+  <h1 id="Parcel_Packets_SyncedObject" data-uid="Parcel.Packets.SyncedObject" class="text-break">Class SyncedObject
+  </h1>
+  <div class="markdown level0 summary"><p>Base class for SyncedObjects.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="Parcel.Packets.Packet.html">Packet</a></div>
+    <div class="level2"><span class="xref">SyncedObject</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Parcel.Packets.Packet.Sender.html#Parcel_Packets_Packet_Sender">Packet.Sender</a>
+    </div>
+    <div>
+      <a class="xref" href="Parcel.Packets.Packet.IsServer.html#Parcel_Packets_Packet_IsServer">Packet.IsServer</a>
+    </div>
+    <div>
+      <a class="xref" href="Parcel.Packets.Packet.IsClient.html#Parcel_Packets_Packet_IsClient">Packet.IsClient</a>
+    </div>
+    <div>
+      <a class="xref" href="Parcel.Packets.Packet.Client.html#Parcel_Packets_Packet_Client">Packet.Client</a>
+    </div>
+    <div>
+      <a class="xref" href="Parcel.Packets.Packet.Server.html#Parcel_Packets_Packet_Server">Packet.Server</a>
+    </div>
+    <div>
+      <a class="xref" href="Parcel.Packets.Packet.CanSend.html#Parcel_Packets_Packet_CanSend">Packet.CanSend()</a>
+    </div>
+    <div>
+      <a class="xref" href="Parcel.Packets.Packet.OnSend.html#Parcel_Packets_Packet_OnSend">Packet.OnSend()</a>
+    </div>
+    <div>
+      <a class="xref" href="Parcel.Packets.Packet.OnReceive.html#Parcel_Packets_Packet_OnReceive">Packet.OnReceive()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Parcel.Packets.html">Parcel.Packets</a></h6>
+  <h6><strong>Assembly</strong>: ParcelPacketManager.dll</h6>
+  <h5 id="Parcel_Packets_SyncedObject_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class SyncedObject : Packet</code></pre>
+  </div>
+  <h5 id="Parcel_Packets_SyncedObject_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>SyncedObjects allow for synchronization of the object's properties across multiple clients.</p>
+</div>
+  <h3 id="properties">Properties
+  </h3>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="Parcel_Packets_SyncedObject_ID" data-uid="Parcel.Packets.SyncedObject.ID">
+          <a class="xref" href="Parcel.Packets.SyncedObject.ID.html#Parcel_Packets_SyncedObject_ID">ID</a>
+        </td>
+        <td class="markdown level1 summary"><p>The <a class="xref" href="Parcel.Packets.SyncedObjectID.html">ID</a> of this SyncedObject.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Parcel_Packets_SyncedObject_Owner" data-uid="Parcel.Packets.SyncedObject.Owner">
+          <a class="xref" href="Parcel.Packets.SyncedObject.Owner.html#Parcel_Packets_SyncedObject_Owner">Owner</a>
+        </td>
+        <td class="markdown level1 summary"><p>The <a class="xref" href="Parcel.Peer.html">Peer</a> who owns this <a class="xref" href="Parcel.Packets.SyncedObject.html">SyncedObject</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="Parcel_Packets_SyncedObject_AddSubscriptions_Parcel_Peer___" data-uid="Parcel.Packets.SyncedObject.AddSubscriptions(Parcel.Peer[])">
+          <a class="xref" href="Parcel.Packets.SyncedObject.AddSubscriptions.html#Parcel_Packets_SyncedObject_AddSubscriptions_Parcel_Peer___">AddSubscriptions(Peer[])</a>
+        </td>
+        <td class="markdown level1 summary"><p>Add <a class="xref" href="Parcel.Peer.html">Subscribers</a> to this SyncedObject.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Parcel_Packets_SyncedObject_Equals_System_Object_" data-uid="Parcel.Packets.SyncedObject.Equals(System.Object)">
+          <a class="xref" href="Parcel.Packets.SyncedObject.Equals.html#Parcel_Packets_SyncedObject_Equals_System_Object_">Equals(Object)</a>
+        </td>
+        <td class="markdown level1 summary"></td>
+      </tr>
+      <tr>
+        <td id="Parcel_Packets_SyncedObject_GetHashCode" data-uid="Parcel.Packets.SyncedObject.GetHashCode">
+          <a class="xref" href="Parcel.Packets.SyncedObject.GetHashCode.html#Parcel_Packets_SyncedObject_GetHashCode">GetHashCode()</a>
+        </td>
+        <td class="markdown level1 summary"></td>
+      </tr>
+      <tr>
+        <td id="Parcel_Packets_SyncedObject_GetSubscriptions" data-uid="Parcel.Packets.SyncedObject.GetSubscriptions">
+          <a class="xref" href="Parcel.Packets.SyncedObject.GetSubscriptions.html#Parcel_Packets_SyncedObject_GetSubscriptions">GetSubscriptions()</a>
+        </td>
+        <td class="markdown level1 summary"><p>Get an array of <a class="xref" href="Parcel.Peer.html">Subscribers</a> to this SyncedObject.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Parcel_Packets_SyncedObject_OnCreated" data-uid="Parcel.Packets.SyncedObject.OnCreated">
+          <a class="xref" href="Parcel.Packets.SyncedObject.OnCreated.html#Parcel_Packets_SyncedObject_OnCreated">OnCreated()</a>
+        </td>
+        <td class="markdown level1 summary"><p>Override this method to perform logic for when this SyncedObject is first created on a client or server.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Parcel_Packets_SyncedObject_OnDestroyed" data-uid="Parcel.Packets.SyncedObject.OnDestroyed">
+          <a class="xref" href="Parcel.Packets.SyncedObject.OnDestroyed.html#Parcel_Packets_SyncedObject_OnDestroyed">OnDestroyed()</a>
+        </td>
+        <td class="markdown level1 summary"><p>Override this method to perform logic for when this SyncedObject is destroyed on a client or server.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Parcel_Packets_SyncedObject_OnOwnerChange_Parcel_Peer_Parcel_Peer_" data-uid="Parcel.Packets.SyncedObject.OnOwnerChange(Parcel.Peer,Parcel.Peer)">
+          <a class="xref" href="Parcel.Packets.SyncedObject.OnOwnerChange.html#Parcel_Packets_SyncedObject_OnOwnerChange_Parcel_Peer_Parcel_Peer_">OnOwnerChange(Peer, Peer)</a>
+        </td>
+        <td class="markdown level1 summary"><p>Override this method to perform logic when this SyncedObject's owner changes.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Parcel_Packets_SyncedObject_OnPropertiesChanged_Dictionary_System_String_Parcel_Packets_SyncedObject_PropertyChanges__" data-uid="Parcel.Packets.SyncedObject.OnPropertiesChanged(Dictionary{System.String,Parcel.Packets.SyncedObject.PropertyChanges})">
+          <a class="xref" href="Parcel.Packets.SyncedObject.OnPropertiesChanged.html#Parcel_Packets_SyncedObject_OnPropertiesChanged_Dictionary_System_String_Parcel_Packets_SyncedObject_PropertyChanges__">OnPropertiesChanged(Dictionary&lt;String, SyncedObject.PropertyChanges&gt;)</a>
+        </td>
+        <td class="markdown level1 summary"><p>Override this method to perform logic when any properties change.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Parcel_Packets_SyncedObject_RemoveSubscriptions_Parcel_Peer___" data-uid="Parcel.Packets.SyncedObject.RemoveSubscriptions(Parcel.Peer[])">
+          <a class="xref" href="Parcel.Packets.SyncedObject.RemoveSubscriptions.html#Parcel_Packets_SyncedObject_RemoveSubscriptions_Parcel_Peer___">RemoveSubscriptions(Peer[])</a>
+        </td>
+        <td class="markdown level1 summary"><p>Remove <a class="xref" href="Parcel.Peer.html">Subscribers</a> from this SyncedObject.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Parcel_Packets_SyncedObject_SyncProperty_System_String_" data-uid="Parcel.Packets.SyncedObject.SyncProperty(System.String)">
+          <a class="xref" href="Parcel.Packets.SyncedObject.SyncProperty.html#Parcel_Packets_SyncedObject_SyncProperty_System_String_">SyncProperty(String)</a>
+        </td>
+        <td class="markdown level1 summary"><p>Call this method when a properties value changes to mark it for synchronization when this SyncedObject is next sent.</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Parcel_Packets_SyncedObject_TransferOwnership_Parcel_Peer_" data-uid="Parcel.Packets.SyncedObject.TransferOwnership(Parcel.Peer)">
+          <a class="xref" href="Parcel.Packets.SyncedObject.TransferOwnership.html#Parcel_Packets_SyncedObject_TransferOwnership_Parcel_Peer_">TransferOwnership(Peer)</a>
+        </td>
+        <td class="markdown level1 summary"><p>Transfer the ownership of this SyncedObject to <code data-dev-comment-type="paramref" class="paramref">newOwner</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+                </div>
+
+                <div class="copyright-footer">
+                    <span>&#65533; Teegan Krieger. All rights reserved.</span>
+                </div>
+            </main>
+        </div>
+
+        
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+        <script type="text/javascript" src="../styles/jquery.twbsPagination.js"></script>
+        <script type="text/javascript" src="../styles/url.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+        <script type="text/javascript" src="../styles/docfx.js"></script>
+        <script type="text/javascript" src="../styles/singulink.js"></script>
+        <script type="text/javascript" src="../styles/main.js"></script>    </body>
+</html>
