@@ -30,7 +30,6 @@ Peers are constructed using the PeerBuilder class. The PeerBuilder class has the
 
 NOTE: If you are hosting both a client and server within the same application, you will need to create two Peers and ensure their ports are not the same.
 
-Syntax:
 ```cs
 Peer clientPeer = new PeerBuilder()
 .UsePublicAddress()
@@ -57,7 +56,6 @@ ParcelSettings are constructed using the ParcelSettingsBuilder class. The Parcel
 * SetReliablePacketGroupSize(int groupSize) - Set the number of reliable packets that will be grouped together during serialization.
 * AddNetworkDebugger(NetworkDebugger debugger) - Attached a NetworkDebugger to the client or server.
 
-Syntax:
 ```cs
 ParcelSettings clientSettings = new ParcelSettingsBuilder()
 .SetPeer(clientPeer)
@@ -82,7 +80,6 @@ ParcelSettings serverSettings = new ParcelSettingsBuilder()
 
 It may be beneficial while working on your project to attach a NetworkDebugger to your client and server. By design, all exceptions that occur during serialization or within any virtual methods of a Packet or SyncedObject will be caught and handled, to prevent your client or server for quitting upon an exception. This safety feature can make it hard to diagnose issues. Attaching a debugger will allow you to log any exceptions encountered.
 
-Syntax:
 ```cs
 NetworkDebugger debugger = new NetworkDebugger(new ConsoleLogger());
 
@@ -96,7 +93,6 @@ Finally, with a ParcelSettings object created, a new ParcelClient can be initial
 
 It is recommended that you store you client(s) in some singleton object within your project. Alternatively, you can pass your ParcelClient object to places that need it if you want to avoid the singleton pattern.
 
-Syntax:
 ```cs
 ParcelClient client = new ParcelClient(clientSettings);
 ```
@@ -105,33 +101,46 @@ ParcelClient client = new ParcelClient(clientSettings);
 
 To establish a connection with a server, a ConnectionToken is required. A ConnectionToken contains the Address and Port of the server to connect to.
 
-Connections are performed asynchronously and should be awaited. They will return a boolean that will be true if the connection was successful.
+Connections are performed asynchronously and should be awaited. They will return a ConnectionResult struct that will contain a status, the server's Peer object, or any rejection reasons should the connection be rejected by the server.
 
-Syntax:
 ```cs
+//Create the connection token
 ConnectionToken serverToken = new ConnectionToken("IP of Server", 7778);
 
-bool success = await client.ConnectTo(serverToken);
+//Await the connection
+ConnectionResult results = await client.ConnectTo(serverToken);
+
+//Read the results
+ConnectionStatus status = results.Status;
+Peer serverPeer = results.RemotePeer;
+string[] rejectionReasons = results.RejectionReasons;
+```
+
+There is also an event that is invoked upon a successful connection.
+
+```cs
+client.OnConnected += (Peer server) => { your logic here };
 ```
 
 <h3>Disconnecting from a server</h3>
 
-Disconnecting from a server is incredibly simple. It is also possible to listen for a disconnection event, which will be invoked in the event the connection to the server is lost.
+Disconnecting from a server is incredibly simple. Call Disconnect will perform a final disconnection handshake. This can take a few iterations of the network loop, so it is recommended that you prevent your application from closing at least until the disconnection has been completed.
 
-Syntax:
 ```cs
 //To disconnect from the server
 client.Disconnect();
+```
+A good way to ensure the disconnection handshake has been completed is to listen for a disconnection event, which will be invoked when the connection is fully closed. It will also invoke in the event of a forced disconnection or timeout.
 
+```cs
 //To listen for a disconnection event
-client.DisconnectionEvent += (Peer server) => { your logic here };
+client.OnDisconnected += (Peer server, DisconnectionReason reason, string message) => { your logic here };
 ```
 
 <h3>Sending Packets</h3>
 
 Sending Packets to the server is also incredibly simple. There is also an overload that allows for you to send a Packet to another Peer connected to the server.
 
-Syntax:
 ```cs
 //Sending to the server
 client.Send(myPacket);
@@ -152,34 +161,42 @@ Remote procedure calls have not been implemented yet. This article will be updat
 
 Creating a server is the same as creating a client, instead using the ParcelServer class.
 
-Syntax:
 ```cs
 ParcelServer server = new ParcelServer(serverSettings);
 ```
 
 <h3>Handling Connections</h3>
 
-Servers cannot make connections, instead a connection must be made to them. Servers can listen for connections and perform logic when a connection event occurs. In the future, it will be possible to intercept a connection event and reject a connection.
+Servers cannot make connections, instead a connection must be made to them. Servers can listen for connections and perform logic when a connection event occurs.
 
-Syntax:
 ```cs
-server.ConnectionEvent += (Peer client) => { your logic here };
+server.OnRemoteConnected += (Peer client) => { your logic here };
+```
+
+Servers can also intercept connections before they are fully connected and optionally reject the connection. Each subscription to this event should return an InitialConnectionResult struct with either a true or false value and a message. The results of all subscriptions will be merged and if any result is false, the connection will be rejected. All false messages will be sent to the client being rejected.
+
+```cs
+server.OnInitialConnection += (Peer connecting) => { return new InitialConnectionResult(false, "You are not allowed to join this server!"); };
 ```
 
 <h3>Handling Disconnections</h3>
 
-Servers currently cannot disconnect Peers from the server. This functionality is planned for a future release. However, Servers can listen for disconnection events and perform logic when invoked.
+Servers can force disconnect users that are connected to them.
 
-Syntax:
 ```cs
-server.DisconnectionEvent += (Peer client) => { your logic here };
+server.ForceDisconnect(peer);
+```
+
+Servers can also listen for disconnection events and act accordingly.
+
+```cs
+server.OnRemoteDisconnection += (Peer client, DisconnectionReason reason, string message) => { your logic here };
 ```
 
 <h3>Sending Packets</h3>
 
 Sending Packets to clients is simple. The base Send method will send a Packet to all connected Peers. There is an overload that allows for a Packet to be sent to a group of specified Peers.
 
-Syntax:
 ```cs
 //Sending to all Peers
 server.Send(myPacket);

@@ -1,5 +1,5 @@
 ﻿
-namespace Parcel
+namespace Parcel.Networking
 {
     /// <summary>
     /// Represents the reliability of a <see cref="Parcel.Packets.Packet">Packet</see> or <see cref="Parcel.Packets.SyncedObject">SyncedObject</see> property. 

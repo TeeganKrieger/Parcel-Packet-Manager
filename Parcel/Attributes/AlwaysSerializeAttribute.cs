@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Parcel
+namespace Parcel.Packets
 {
     /// <summary>
     /// Specifies that a property within a <see cref="Parcel.Packets.SyncedObject">SyncedObject</see> should always be 

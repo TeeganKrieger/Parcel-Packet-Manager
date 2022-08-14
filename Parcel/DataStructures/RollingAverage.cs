@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Parcel.DataStructures
 {
@@ -16,7 +17,7 @@ namespace Parcel.DataStructures
         /// </summary>
         public double Average
         {
-            get => _total / (double)_queue.Count;
+            get => this._total / (double)Math.Max(1, this._queue.Count);
         }
 
         /// <summary>
@@ -36,12 +37,12 @@ namespace Parcel.DataStructures
         /// <param name="value">The value to add.</param>
         public void Add(int value)
         {
-            if (_queue.Count == _capacity)
+            if (this._queue.Count == this._capacity)
             {
-                _total -= _queue.Dequeue();
+                this._total -= this._queue.Dequeue();
             }
-            _queue.Enqueue(value);
-            _total += value;
+            this._queue.Enqueue(value);
+            this._total += value;
         }
     }
 }

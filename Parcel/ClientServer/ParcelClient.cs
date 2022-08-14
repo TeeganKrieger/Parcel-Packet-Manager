@@ -1,9 +1,11 @@
 ﻿using Parcel.DataStructures;
+using Parcel.Networking;
 using Parcel.Packets;
 using Parcel.Serialization;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,6 +27,9 @@ namespace Parcel
     {
         private const string EXCP_SEND_DIR_SO = "Cannot send SyncedObject packet directly to peer. Use the SendPacket(Packet packet) overload instead.";
         private const string EXCP_SETTINGS = "Failed to create ParcelClient. ParcelSettings instance is already bound to another ParcelClient or ParcelServer.";
+        private const string EXCP_DISPOSED = "Failed to perform operation because the client has already been disposed.";
+        private const string EXCP_NOT_CONNECTED = "Failed to perform operation because the client is not connected to any server.";
+        private const string EXCP_ALREADY_CONNECTED = "Failed to perform operation because the client is already connected to a server.";
 
         private INetworkAdapter _networkAdapter;
 
@@ -40,10 +45,25 @@ namespace Parcel
 
         private int _loopCounter = 0;
 
+        private bool _disposed;
+
+        /// <summary>
+        /// Invoked when connected to the server.
+        /// </summary>
+        public event ConnectionDelegate OnConnected
+        {
+            add { this._networkAdapter.OnConnection += value; }
+            remove { this._networkAdapter.OnConnection -= value; }
+        }
+
         /// <summary>
         /// Invoked when disconnected from the server.
         /// </summary>
-        public event ConnectionEvent DisconnectionEvent;
+        public event DisconnectionDelegate OnDisconnected
+        {
+            add { this._networkAdapter.OnDisconnection += value; }
+            remove { this._networkAdapter.OnDisconnection -= value; }
+        }
 
         /// <summary>
         /// The <see cref="ParcelSettings">Network Settings</see> used by this client.
@@ -59,6 +79,11 @@ namespace Parcel
         /// The <see cref="Peer"/> that represents the server.
         /// </summary>
         public Peer Remote { get; private set; }
+
+        /// <summary>
+        /// Whether the client is currently connected to a server or not.
+        /// </summary>
+        public bool Connected => this.Remote != null;
 
 
         #region CONSTRUCTOR
@@ -79,9 +104,9 @@ namespace Parcel
             this._syncedObjectDict = new ConcurrentDictionary<SyncedObjectID, SyncedObject>();
             this._syncedObjectsToUpdate = new ConcurrentHashSet<SyncedObjectID>();
             this._scheduledPackets = new ConcurrentQueue<Packet>();
-            this._serializerResolver = new SerializerResolver();
             this._syncedObjectSerializer = new SyncedObjectSerializer(this);
             this._loopTaskCancellationSource = new CancellationTokenSource();
+            this._serializerResolver = settings.SerializerResolver;
             this._networkAdapter = settings.CreateNewNetworkAdapter();
 
             //initialize properties
@@ -89,7 +114,7 @@ namespace Parcel
             this.Self = settings.Peer;
 
             //perform setup
-            this._networkAdapter.OnRecievedDisconnection += (Peer disconnected) => this.DisconnectionEvent(disconnected);
+            this.OnDisconnected += DisconnectionCleanup;
             this._serializerResolver.RegisterSerializer(new SyncedObjectReferenceSerializer(this));
             this._networkAdapter.Start(false, settings);
             if (settings.PerformUpdatesAutomatically)
@@ -99,12 +124,15 @@ namespace Parcel
         /// <inheritdoc/>
         public void Dispose()
         {
-            this._loopTaskCancellationSource.Cancel();
-            this.NetworkSettings.Debugger?.Dispose();
-            //TODO: Perform a proper disconnect if not already disconnected
-            if (this._networkAdapter is IDisposable disposable)
+            if (!this._disposed)
             {
-                disposable.Dispose();
+                if (this.Connected)
+                {
+                    Disconnect();
+                }
+
+                this.NetworkSettings.Debugger?.Dispose();
+                this._disposed = true;
             }
         }
 
@@ -118,28 +146,96 @@ namespace Parcel
         /// </summary>
         /// <param name="connectionToken">The <see cref="ConnectionToken"/> of the remote user.</param>
         /// <returns><see langword="true"/> if the connection is successful; otherwise, <see langword="false"/></returns>
-        public async Task<bool> ConnectTo(ConnectionToken connectionToken)
+        /// <exception cref="InvalidOperationException">Thrown if the client has either been disposed or is already connected to a server.</exception>
+        public async Task<ConnectionResult> ConnectTo(ConnectionToken connectionToken)
         {
-            Peer remote = await this._networkAdapter.ConnectTo(connectionToken);
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+            if (this.Connected)
+                throw new InvalidOperationException(EXCP_ALREADY_CONNECTED);
 
-            if (remote != null)
+            ConnectionResult result = await this._networkAdapter.ConnectTo(connectionToken);
+
+            if (result.Status == ConnectionStatus.Success)
             {
-                this.Remote = remote;
-                return true;
+                this.Remote = result.RemotePeer;
+                return result;
             }
             else
             {
-                return false;
+                this.Remote = null;
+                return result;
             }
         }
 
         /// <summary>
         /// Disconnect from the remote user.
-        /// NOTE: Unimplemented
         /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown if the client has either been disposed or is not currently connected to a server.</exception>
         public void Disconnect()
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+            if (!this.Connected)
+                throw new InvalidOperationException(EXCP_NOT_CONNECTED);
 
+            this._networkAdapter.DisconnectFrom(Remote);
+        }
+
+        /// <summary>
+        /// Performs cleanup logic when the client disconnects from a server.
+        /// </summary>
+        /// <param name="server">The <see cref="Peer"/> representing the server.</param>
+        /// <param name="reason">The reason for the disconnection.</param>
+        /// <param name="disconnectionObject">An object included with the disconnection.</param>
+        private void DisconnectionCleanup(Peer server, DisconnectionReason reason, object disconnectionObject)
+        {
+            if (this.Connected)
+            {
+                //Cleanup
+                this._loopTaskCancellationSource.Cancel();
+                this._loopTaskCancellationSource = new CancellationTokenSource();
+
+                SyncedObjectID[] localSyncedObjects = this._syncedObjectDict.Keys.ToArray();
+                foreach (SyncedObjectID syncedObjectID in localSyncedObjects)
+                    RemoveSyncedObject(syncedObjectID);
+
+                this._syncedObjectsToUpdate.Clear();
+                this._scheduledPackets.Clear();
+
+                if (this._networkAdapter is IDisposable disposable)
+                    disposable.Dispose();
+                this._networkAdapter = this.NetworkSettings.CreateNewNetworkAdapter();
+
+                this._loopCounter = 0;
+
+                this.Remote = null;
+
+                //Restart
+                this._networkAdapter.Start(false, this.NetworkSettings);
+                if (this.NetworkSettings.PerformUpdatesAutomatically)
+                    Task.Run(AutoLoop, this._loopTaskCancellationSource.Token);
+            }
+        }
+
+        #endregion
+
+
+        #region PING
+
+        /// <summary>
+        /// Get the ping to the server.
+        /// </summary>
+        /// <returns>The ping to the remote server.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the client has either been disposed or is not currently connected to a server.</exception>
+        public int GetPing()
+        {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+            if (!this.Connected)
+                throw new InvalidOperationException(EXCP_NOT_CONNECTED);
+
+            return this._networkAdapter.GetPing(Remote);
         }
 
         #endregion
@@ -151,8 +247,14 @@ namespace Parcel
         /// Perform a single loop iteration that that serializes, sends, deserializes, and receives <see cref="Packet">Packets</see>. 
         /// </summary>
         /// <returns>Returns the number of milliseconds the loop took to complete.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the client has either been disposed or is not currently connected to a server.</exception>
         public int Loop()
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+            if (!this.Connected)
+                throw new InvalidOperationException(EXCP_NOT_CONNECTED);
+
             long start = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             this.NetworkSettings.Debugger?.StartFrame($"Packet Loop {this._loopCounter++}");
             try
@@ -175,6 +277,10 @@ namespace Parcel
         /// </summary>
         private async Task AutoLoop()
         {
+            //Wait until a connection is established
+            while (!this.Connected)
+                continue;
+
             while (true)
             {
                 int timeTook = Loop();
@@ -182,7 +288,6 @@ namespace Parcel
                 int delay = Math.Max(0, this.NetworkSettings.MillisecondsPerUpdate - timeTook);
                 await Task.Delay(delay);
             }
-
         }
 
         /// <summary>
@@ -479,8 +584,14 @@ namespace Parcel
         /// <param name="syncedObjectID">The <see cref="SyncedObjectID">ID</see> of the <see cref="SyncedObject"/>.</param>
         /// <param name="syncedObject">The <see cref="SyncedObject"/> if one was found; otherwise, <see langword="null"/>.</param>
         /// <returns><see langword="true"/> if the <see cref="SyncedObject"/> was found; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the client has either been disposed or is not currently connected to a server.</exception>
         public bool TryGetSyncedObject(SyncedObjectID syncedObjectID, out SyncedObject syncedObject)
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+            if (!this.Connected)
+                throw new InvalidOperationException(EXCP_NOT_CONNECTED);
+
             return _syncedObjectDict.TryGetValue(syncedObjectID, out syncedObject);
         }
 
@@ -491,8 +602,14 @@ namespace Parcel
         /// <param name="syncedObjectID">The <see cref="SyncedObjectID">ID</see> of the <see cref="SyncedObject"/>.</param>
         /// <param name="syncedObject">The <see cref="SyncedObject"/> as type <typeparamref name="T"/> if one was found; otherwise, <see langword="null"/>.</param>
         /// <returns><see langword="true"/> if a <see cref="SyncedObject"/> of type <typeparamref name="T"/> was found; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the client has either been disposed or is not currently connected to a server.</exception>
         public bool TryGetSyncedObject<T>(SyncedObjectID syncedObjectID, out T syncedObject) where T : SyncedObject, new()
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+            if (!this.Connected)
+                throw new InvalidOperationException(EXCP_NOT_CONNECTED);
+
             if (_syncedObjectDict.TryGetValue(syncedObjectID, out SyncedObject so) && so is T t)
             {
                 syncedObject = t;
@@ -585,11 +702,17 @@ namespace Parcel
         /// Send a <see cref="Packet"/> to the remote server.
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="packet"/> is <see langword="null"/>.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the client has either been disposed or is not currently connected to a server.</exception>
         /// <param name="packet">The <see cref="Packet"/> to send.</param>
         public void Send(Packet packet)
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+            if (!this.Connected)
+                throw new InvalidOperationException(EXCP_NOT_CONNECTED);
             if (packet == null)
                 throw new ArgumentNullException(nameof(packet));
+
             if (packet is SyncedObject so)
             {
                 if (so.Owner != this.Self)
@@ -611,11 +734,16 @@ namespace Parcel
         /// <param name="sendTo">The <see cref="Peer"/> to send the <see cref="Packet"/> to.</param>
         /// <exception cref="ArgumentNullException">Thrown if either <paramref name="packet"/> or <paramref name="sendTo"/> are <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="packet"/> is an instance of a <see cref="SyncedObject"/>.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the client has either been disposed or is not currently connected to a server.</exception>
         /// <remarks>
         /// Packets sent in this manner will first be sent to the server, at which point they will be relayed to the appropriate client.
         /// </remarks>
         public void Send(Packet packet, Peer sendTo)
         {
+            if (this._disposed)
+                throw new InvalidOperationException(EXCP_DISPOSED);
+            if (!this.Connected)
+                throw new InvalidOperationException(EXCP_NOT_CONNECTED);
             if (sendTo == null)
                 throw new ArgumentNullException(nameof(sendTo));
             if (packet is SyncedObject)

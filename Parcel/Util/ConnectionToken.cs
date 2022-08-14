@@ -9,7 +9,7 @@ namespace Parcel
     /// The value set for the <see cref="Address"/> parameter will be dependent upon which <see cref="INetworkAdapter"> Network Adapter</see>
     /// you have chosen to use.
     /// </remarks>
-    public sealed class ConnectionToken
+    public sealed class ConnectionToken : IEquatable<ConnectionToken>
     {
         private const string EXCP_PORT_RANGE = "The provided port {0} is not within the valid range of ports 1-65535!";
 
@@ -65,14 +65,39 @@ namespace Parcel
         #endregion
 
 
+        #region IEQUATABLE IMPLEMENTATION
+
+        public bool Equals(ConnectionToken other)
+        {
+            return other != null && Address == other.Address && Port == other.Port;
+        }
+
+        #endregion
+
+
         #region OVERRIDES
 
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            return obj is ConnectionToken token &&
-                   Address == token.Address &&
-                   Port == token.Port;
+            return obj != null && obj is ConnectionToken other && Address == other.Address && Port == other.Port;
+        }
+
+        ///<inheritdoc/>
+        public static bool operator ==(ConnectionToken left, ConnectionToken right)
+        {
+            if ((object)left != null)
+                return left.Equals(right);
+            else if ((object)right != null)
+                return false;
+            else
+                return true;
+        }
+
+        ///<inheritdoc/>
+        public static bool operator !=(ConnectionToken left, ConnectionToken right)
+        {
+            return !(left == right);
         }
 
         /// <inheritdoc/>

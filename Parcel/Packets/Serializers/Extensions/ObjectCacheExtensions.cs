@@ -1,4 +1,5 @@
-﻿using Parcel.Serialization;
+﻿using Parcel.Networking;
+using Parcel.Serialization;
 
 namespace Parcel.Packets
 {

@@ -839,11 +839,10 @@ namespace Parcel.Serialization
         }
 
         /// <summary>
-        /// Write an object to the ByteWriter.
+        /// Write an object to the ByteWriter excluding type information.
         /// </summary>
         /// <param name="obj">The object to write.</param>
-        /// <param name="includeTypeInfo">Whether the ByteWriter should write the Type information of <paramref name="obj"/> or not.</param>
-        public void Write(object obj, bool includeTypeInfo = true)
+        internal void WriteWithoutTypeInfo(object obj)
         {
             Write(obj == null);
             if (obj == null)
@@ -851,12 +850,25 @@ namespace Parcel.Serialization
 
             Type type = obj.GetType();
 
-            if (includeTypeInfo)
-            {
-                TypeHashCode typeHashCode = type.GetTypeHashCode();
-                Write(typeHashCode);
-            }
-            
+            Serializer serializer = this.SerializerResolver.GetSerializer(type);
+            serializer.Serialize(this, obj);
+        }
+
+        /// <summary>
+        /// Write an object to the ByteWriter.
+        /// </summary>
+        /// <param name="obj">The object to write.</param>
+        public void Write(object obj)
+        {
+            Write(obj == null);
+            if (obj == null)
+                return;
+
+            Type type = obj.GetType();
+
+            TypeHashCode typeHashCode = type.GetTypeHashCode();
+            Write(typeHashCode);
+
             Serializer serializer = this.SerializerResolver.GetSerializer(type);
             serializer.Serialize(this, obj);
         }
