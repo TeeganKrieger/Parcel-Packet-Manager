@@ -6,24 +6,38 @@ using System.Text;
 namespace Parcel.Serialization.Tests
 {
     [TestClass]
-    public class StringSerializerTests
+    public class StringSerializerTests : BaseSerializerTest
     {
         [TestMethod]
-        public void StringTest()
+        public override void CanSerializeTest()
         {
-            string testString = "Hello World!";
-
-            ByteWriter writer = new ByteWriter();
             StringSerializer serializer = new StringSerializer();
 
-            serializer.Serialize(writer, testString);
+            Assert.IsTrue(serializer.CanSerialize(typeof(string)));
+            Assert.IsFalse(serializer.CanSerialize(typeof(bool)));
+            Assert.IsFalse(serializer.CanSerialize(typeof(string[])));
+        }
+
+        [TestMethod]
+        public override void SerializeAndDeserializeTest()
+        {
+            SADString(null);
+            SADString(string.Empty);
+            SADString("Hello World!");
+        }
+
+        private void SADString(string value)
+        {
+            StringSerializer serializer = new StringSerializer();
+            serializer.ObjectCache = ObjectCache.FromType(typeof(string));
+
+            ByteWriter writer = new ByteWriter();
+            serializer.Serialize(writer, value);
 
             ByteReader reader = new ByteReader(writer.Data);
-            string compareString = reader.ReadString();
+            string compareVal = reader.ReadString();
 
-            Console.WriteLine($"TestString: {testString}");
-            Console.WriteLine($"CompareString: {compareString}");
-            Assert.AreEqual(testString, compareString);
+            Assert.AreEqual(value, compareVal);
         }
     }
 }

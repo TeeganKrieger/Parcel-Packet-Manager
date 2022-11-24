@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static Parcel.Lib.CorrectedSizeOf;
@@ -338,21 +339,47 @@ namespace Parcel.Serialization
         /// <returns>The next string in the ByteReader.</returns>
         public string ReadString()
         {
+            bool isNull = ReadBool();
+            if (isNull)
+                return null;
+
             unsafe
             {
                 GCHandle handle = GCHandle.Alloc(_data, GCHandleType.Pinned);
+
                 int len = Marshal.PtrToStructure<int>(handle.AddrOfPinnedObject() + _position);
                 handle.Free();
-
-                if (len == -1)
-                {
-                    _position += sizeof(int);
-                    return null;
-                }
 
                 string s = System.Text.Encoding.Unicode.GetString(_data, _position + sizeof(int), len);
                 _position += sizeof(int) + len;
                 return s;
+            }
+        }
+
+        /// <summary>
+        /// Read the next array of strings in the ByteReader.
+        /// </summary>
+        /// <returns>The next array of strings in the ByteReader.</returns>
+        public string[] ReadStringArray()
+        {
+            bool isNull = ReadBool();
+            if (isNull)
+                return null;
+
+            unsafe
+            {
+                GCHandle handle = GCHandle.Alloc(_data, GCHandleType.Pinned);
+
+                int len = Marshal.PtrToStructure<int>(handle.AddrOfPinnedObject() + _position);
+                handle.Free();
+
+                _position += sizeof(int);
+
+                string[] strings = new string[len];
+
+                for (int i = 0; i < strings.Length; i++)
+                    strings[i] = ReadString();
+                return strings;
             }
         }
 
@@ -508,6 +535,28 @@ namespace Parcel.Serialization
             Serializer serializer = this.SerializerResolver.GetSerializer(type);
             return (T)serializer.Deserialize(this);
         }
+
+        /// <summary>
+        /// Read the next array of objects in the ByteReader.
+        /// </summary>
+        /// <returns>The next array of objects in the ByteReader.</returns>
+        public object[] ReadObjectArray()
+        {
+            bool isNull = ReadBool();
+            if (isNull)
+                return null;
+
+            int length = ReadInt();
+            object[] oArr = new object[length];
+            
+            for (int i = 0; i < length; i++)
+            {
+                oArr[i] = ReadObject();
+            }
+
+            return oArr;
+        }
+
 
         #endregion
 

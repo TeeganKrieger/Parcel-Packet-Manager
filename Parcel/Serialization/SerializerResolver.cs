@@ -70,7 +70,9 @@ namespace Parcel.Serialization
             this._resolvedSerializers.TryAdd(typeof(bool[]), new PrimitiveArraySerializer<bool>());
 
             this._resolvedSerializers.TryAdd(typeof(string), new StringSerializer());
+            this._resolvedSerializers.TryAdd(typeof(string[]), new StringArraySerializer());
             this._resolvedSerializers.TryAdd(typeof(object), new ObjectSerializer() { ObjectCache = ObjectCache.FromType(typeof(object)) });
+            this._resolvedSerializers.TryAdd(typeof(object[]), new ObjectArraySerializer() { ObjectCache = ObjectCache.FromType(typeof(object[])) });
             this._resolvedSerializers.TryAdd(typeof(TypeHashCode), new TypeHashCodeSerializer());
         }
 
@@ -126,7 +128,16 @@ namespace Parcel.Serialization
             }
             if (!_resolvedSerializers.ContainsKey(type))
             {
-                Serializer newSerializer = (Serializer)_resolvedSerializers[typeof(object)].Clone();
+                Serializer newSerializer;
+                if (type.IsArray)
+                {
+                    newSerializer = (Serializer)_resolvedSerializers[typeof(object[])].Clone();
+                }
+                else
+                {
+                    newSerializer = (Serializer)_resolvedSerializers[typeof(object)].Clone();
+                }
+
                 ObjectCache cache = ObjectCache.FromType(type);
                 newSerializer.ObjectCache = cache;
 
