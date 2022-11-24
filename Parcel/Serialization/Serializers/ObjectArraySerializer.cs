@@ -2,21 +2,21 @@
 
 namespace Parcel.Serialization
 {
-    internal class StringArraySerializer : Serializer
+    internal class ObjectArraySerializer : Serializer
     {
         public override object Deserialize(ByteReader reader)
         {
-            return reader.ReadStringArray();
+            return reader.ReadObjectArray();
         }
 
         public override void Serialize(ByteWriter writer, object obj)
         {
-            writer.Write((string[])obj);
+            writer.Write((object[])obj);
         }
 
         public override bool CanSerialize(Type type)
         {
-            return type == typeof(string[]);
+            return type.IsArray;
         }
     }
 }

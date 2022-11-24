@@ -689,18 +689,9 @@ namespace Parcel.Serialization
         /// <param name="s">The string to write.</param>
         public void Write(string s)
         {
+            Write(s == null);
             if (s == null)
-            {
-                unsafe
-                {
-                    //Write length of string
-                    GCHandle handle = GCHandle.Alloc(-1, GCHandleType.Pinned);
-                    Marshal.Copy(handle.AddrOfPinnedObject(), _data, _position, sizeof(int));
-                    handle.Free();
-                }
-                _position += sizeof(int);
                 return;
-            }
 
             int len = sizeof(char) * s.Length;
 
@@ -730,40 +721,69 @@ namespace Parcel.Serialization
         /// <param name="position">The position within the ByteWriter to write to.</param>
         public void Write(string s, int position)
         {
+            Write(s == null, position);
             if (s == null)
-            {
-                unsafe
-                {
-                    //Write length of string
-                    GCHandle handle = GCHandle.Alloc(-1, GCHandleType.Pinned);
-                    Marshal.Copy(handle.AddrOfPinnedObject(), _data, position, sizeof(int));
-                    handle.Free();
-                }
-                _position += sizeof(int);
                 return;
-            }
 
             int len = sizeof(char) * s.Length;
 
-            if (_position + sizeof(int) + len > _data.Length)
+            if (position + sizeof(bool) + sizeof(int) + len > _data.Length)
                 throw new ArgumentException(string.Format(EXCP_INVALID_POS, position), nameof(position));
 
             unsafe
             {
                 //Write length of string
                 GCHandle handle = GCHandle.Alloc(len, GCHandleType.Pinned);
-                Marshal.Copy(handle.AddrOfPinnedObject(), _data, position, sizeof(int));
+                Marshal.Copy(handle.AddrOfPinnedObject(), _data, position + sizeof(bool), sizeof(int));
                 handle.Free();
 
                 //Write string
                 handle = GCHandle.Alloc(s, GCHandleType.Pinned);
-                Marshal.Copy(handle.AddrOfPinnedObject(), _data, position + sizeof(int), len);
+                Marshal.Copy(handle.AddrOfPinnedObject(), _data, position + sizeof(bool) + sizeof(int), len);
                 handle.Free();
             }
         }
 
-        //TODO: Write(string[] s)
-        //TODO: Write(string[] s, int position)
+        /// <summary>
+        /// Write an array of strings to the ByteWriter.
+        /// </summary>
+        /// <param name="s">The array of strings to write.</param>
+        public void Write(string[] s)
+        {
+            Write(s == null);
+            if (s == null)
+                return;
+
+            while (_position + sizeof(int) > _data.Length)
+                Array.Resize(ref _data, _data.Length * 2);
+
+            Write(s.Length);
+
+            for (int i = 0; i < s.Length; i++)
+                Write(s[i]);
+        }
+
+        /// <summary>
+        /// Write an array of strings to the ByteWriter.
+        /// </summary>
+        /// <param name="s">The array of strings to write.</param>
+        /// <param name="position">The position within the ByteWriter to write to.</param>
+        public void Write(string[] s, int position)
+        {
+            Write(s == null, position);
+            if (s == null)
+                return;
+
+            while (position + sizeof(bool) + sizeof(int) > _data.Length)
+                Array.Resize(ref _data, _data.Length * 2);
+
+            Write(s.Length, position + sizeof(bool));
+
+            for (int i = 0, tempPosition = 0; i < s.Length; tempPosition += sizeof(char) * s[i].Length + sizeof(bool), i++)
+            {
+                Write(s[i], position + sizeof(bool) + tempPosition);
+            }
+        }
 
         #endregion
 
@@ -872,6 +892,25 @@ namespace Parcel.Serialization
             Serializer serializer = this.SerializerResolver.GetSerializer(type);
             serializer.Serialize(this, obj);
         }
+
+        /// <summary>
+        /// Write an array of objects to the ByteWriter.
+        /// </summary>
+        /// <param name="obj">The array of objects to write.</param>
+        public void Write(object[] obj)
+        {
+            Write(obj == null);
+            if (obj == null)
+                return;
+
+            Write(obj.Length);
+
+            for (int i = 0; i < obj.Length; i++)
+            {
+                Write(obj[i]);
+            }
+        }
+
 
         /// <summary>
         /// Write the contents of another ByteWriter to the ByteWriter.
