@@ -38,10 +38,10 @@ Once you feel your contribution is production ready and you've ensured your code
 
 <!-- v0.1 - Initial Commit - Packet Transmission and Synced Objects work. -->
 <!-- v0.2 - Disconnection - Manual and Automatic disconnection, kicking, blacklist/reject before join. -->
-<!-- v0.3 - Improved Serializers - Find a way to support SyncedObject serializers. -->
-<!-- v0.4 - More Serializers - Add most missing serializers such as object[] -->
-<!-- v0.5 - Remote Procedure Calls - Introduce RPCs -->
-<!-- v0.6 - Remote Events - Introduce Remote Events -->
+<!-- v0.3 - More Serializers - Add most missing serializers such as object[] -->
+<!-- v0.4 - Remote Procedure Calls - Introduce RPCs -->
+<!-- v0.5 - Remote Events - Introduce Remote Events -->
+<!-- v0.6 - Documentation Improvements - Rename some things and improve documentation -->
 <!-- v0.7 - v0.9 - Left open for bug fixes and additional features>
 
 <!-- v1.0 - Full Release - Minimal Bugs, Synced Objects, RPCs, Remote Events,  -->
@@ -69,24 +69,15 @@ Manual and Automatic Disconnection, Kicking, Blacklist, and Connection Rejection
 | ✔ | Server Connection Rejection Option |
 
 ### v0.3
-Support for Custom Synced Object Serializers.
-
-| Status | Milestone |
-| :---: | :--- |
-| ❌ | Make Synced Object Property Trackers Avaliable |
-| ❌ | Add Support for Synced Object Serializers. |
-
-### v0.4
 Add Missing Serializers.
 
 | Status | Milestone |
 | :---: | :--- |
-| ❌ | Object Array Serializer |
-| ❌ | String Array Serializer |
-| ❌ | Enum Array Serializer |
+| ✔ | Object Array Serializer |
+| ✔ | String Array Serializer |
 
 
-### v0.5
+### v0.4
 Synchronous and Asynchronous Remote Procedure Calls.
 
 | Status | Milestone |
@@ -94,12 +85,20 @@ Synchronous and Asynchronous Remote Procedure Calls.
 | ❌ | Client to Server RPC |
 | ❌ | Server to Client RPC |
 
-### v0.6
+### v0.5
 Remote Events.
 
 | Status | Milestone |
 | :---: | :--- |
 | ❌ | Synced Object Remote Events |
+
+### v0.6
+Naming Convention improvements and further documentation.
+| Status | Milestone |
+| :---: | :--- |
+| ❌ | Rename NetworkAdapter to NetworkTransportLayer |
+| ❌ | Improve inline comments in unclear areas |
+| ❌ | Add documentation to tests |
 
 ### v1.0
 
