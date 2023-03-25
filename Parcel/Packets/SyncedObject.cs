@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace Parcel.Packets
 {
-    
+
     /// <summary>
     /// Base class for SyncedObjects.
     /// </summary>
@@ -142,16 +142,16 @@ namespace Parcel.Packets
                 return;
 
             string propertyName = __originalMethod.Name.Substring(4); //Remove get_ or set_ from method name to get property name
-            uint nameHash = PropertyInfoHashCode.FromString(propertyName);
+            uint nameHash = PropertyHashCode.FromString(propertyName);
 
             ObjectCache cache = ObjectCache.FromType(__instance.GetType());
-            ObjectProperty property = cache[nameHash];
+            ObjectProperty property = cache.GetProperty(nameHash);
 
             if (property != null)
             {
-                if (!property.WillAlwaysSerialize())
+                if (!PacketCacheHelper.WillAlwaysSerialize(property))
                 {
-                    if (property.GetReliability() == Reliability.Reliable)
+                    if (PacketCacheHelper.GetReliability(property) == Reliability.Reliable)
                         __instance.ReliablePropertiesToSync.TryAdd(nameHash);
                     else
                         __instance.UnreliablePropertiesToSync.TryAdd(nameHash);
@@ -207,16 +207,16 @@ namespace Parcel.Packets
             if ((IsServer && Server == null) || (!IsServer && Client == null))
                 return;
 
-            uint nameHash = PropertyInfoHashCode.FromString(propertyName);
+            uint nameHash = PropertyHashCode.FromString(propertyName);
 
             ObjectCache cache = ObjectCache.FromType(this.GetType());
-            ObjectProperty property = cache[nameHash];
+            ObjectProperty property = cache.GetProperty(nameHash);
 
             if (property != null)
             {
-                if (!property.WillAlwaysSerialize())
+                if (!PacketCacheHelper.WillAlwaysSerialize(property))
                 {
-                    if (property.GetReliability() == Reliability.Reliable)
+                    if (PacketCacheHelper.GetReliability(property) == Reliability.Reliable)
                         this.ReliablePropertiesToSync.TryAdd(nameHash);
                     else
                         this.UnreliablePropertiesToSync.TryAdd(nameHash);

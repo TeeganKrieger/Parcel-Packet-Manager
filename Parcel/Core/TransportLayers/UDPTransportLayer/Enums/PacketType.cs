@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Parcel.Networking
 {
-    public sealed partial class UdpNetworkAdapter
+    public sealed partial class UDPTransportLayer
     {
         /// <summary>
         /// Represents the kind of Packet the header is for.

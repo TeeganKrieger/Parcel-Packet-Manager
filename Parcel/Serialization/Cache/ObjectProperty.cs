@@ -57,13 +57,13 @@ namespace Parcel.Serialization
         /// <param name="setter">A QuickDelegate bound to the setter of this Property.</param>
         private ObjectProperty(PropertyInfo propertyInfo, string name, uint hash, Dictionary<Type, List<Attribute>> attributes, QuickDelegate getter, QuickDelegate setter)
         {
-            this.PropertyInfo = propertyInfo;
-            this.Type = propertyInfo.PropertyType;
-            this.Name = name;
-            this.NameHash = hash;
-            this.Getter = getter;
-            this.Setter = setter;
-            this._attributes = attributes;
+            PropertyInfo = propertyInfo;
+            Type = propertyInfo.PropertyType;
+            Name = name;
+            NameHash = hash;
+            Getter = getter;
+            Setter = setter;
+            _attributes = attributes;
         }
 
         #endregion
@@ -98,7 +98,7 @@ namespace Parcel.Serialization
             if (property.DeclaringType.IsValueType)
             {
                 MethodInfo getter = property.GetGetMethod(true);
-                QuickDelegate setter = new QuickDelegate((object target, object[] args) => { property.SetValue(target, args[0]); return null; });
+                QuickDelegate setter = new QuickDelegate((target, args) => { property.SetValue(target, args[0]); return null; });
 
                 if (getter != null)
                 {
@@ -165,9 +165,9 @@ namespace Parcel.Serialization
         /// <returns>The Attribute instance if it exists; otherwise, <see langword="null"/>.</returns>
         public T GetCustomAttribute<T>() where T : Attribute
         {
-            if (!this._attributes.ContainsKey(typeof(T)))
+            if (!_attributes.ContainsKey(typeof(T)))
                 return null;
-            return (T)this._attributes[typeof(T)].FirstOrDefault();
+            return (T)_attributes[typeof(T)].FirstOrDefault();
         }
 
         /// <summary>
@@ -177,9 +177,9 @@ namespace Parcel.Serialization
         /// <returns>An array of Attribute instances if they exist; otherwise, <see langword="null"/>.</returns>
         public T[] GetCustomAttributes<T>() where T : Attribute
         {
-            if (!this._attributes.ContainsKey(typeof(T)))
+            if (!_attributes.ContainsKey(typeof(T)))
                 return null;
-            return (T[])this._attributes[typeof(T)].ToArray();
+            return (T[])_attributes[typeof(T)].ToArray();
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using Parcel.DataStructures;
+using Parcel.Lib;
 using Parcel.Networking;
 using Parcel.Packets;
 using Parcel.Serialization;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,7 +33,7 @@ namespace Parcel
         private const string EXCP_NOT_CONNECTED = "Failed to perform operation because the client is not connected to any server.";
         private const string EXCP_ALREADY_CONNECTED = "Failed to perform operation because the client is already connected to a server.";
 
-        private INetworkAdapter _networkAdapter;
+        private ITransportLayer _networkAdapter;
 
         private ConcurrentDictionary<SyncedObjectID, SyncedObject> _syncedObjectDict;
         private ConcurrentHashSet<SyncedObjectID> _syncedObjectsToUpdate;
@@ -44,6 +46,9 @@ namespace Parcel
         private CancellationTokenSource _loopTaskCancellationSource;
 
         private int _loopCounter = 0;
+
+        private ConcurrentDictionary<int, TargetedDynamicDelegate> _rpcCallbacks;
+        private int _rpcCounter = 0;
 
         private bool _disposed;
 
@@ -108,6 +113,7 @@ namespace Parcel
             this._loopTaskCancellationSource = new CancellationTokenSource();
             this._serializerResolver = settings.SerializerResolver;
             this._networkAdapter = settings.CreateNewNetworkAdapter();
+            this._rpcCallbacks = new ConcurrentDictionary<int, TargetedDynamicDelegate>();
 
             //initialize properties
             this.NetworkSettings = settings;
@@ -281,7 +287,7 @@ namespace Parcel
             while (!this.Connected)
                 continue;
 
-            while (true)
+            while (!this._disposed)
             {
                 int timeTook = Loop();
                 //Delay start of next iteration until an appropriate timeframe has ellapsed
@@ -341,7 +347,7 @@ namespace Parcel
                 {
                     ObjectCache cache = ObjectCache.FromType(outgoingPacket.GetType());
 
-                    SerializePacket(outgoingPacket, cache.GetReliability() == Reliability.Reliable ? reliableWaC : unreliableWaC);
+                    SerializePacket(outgoingPacket, PacketCacheHelper.GetReliability(cache) == Reliability.Reliable ? reliableWaC : unreliableWaC);
                 }
 
                 //When either the reliable or unreliable grouping threshold is reached, send the appropriate packet.
@@ -755,6 +761,98 @@ namespace Parcel
 
 
         #region RPC
+
+        private bool Call(SyncedObject caller, MethodInfo procedure, TargetedDynamicDelegate callback, params object[] parameters)
+        {
+            if (procedure == null)
+                return false;
+
+            Type declaringType = procedure.DeclaringType;
+            ProcedureHashCode procedureHash = procedure.GetProcedureHash();
+
+            ObjectCache objectCache = ObjectCache.FromType(declaringType);
+            ObjectProcedure objectProcedure = objectCache.GetProcedure((ulong)procedureHash);
+
+            //Validate direction this procedure would be traveling.
+            RPCDirection rpcDirection = PacketCacheHelper.GetRPCDirection(objectProcedure);
+
+            if (rpcDirection == RPCDirection.ServerToClient)
+                return false;
+
+            //Get RPC handle
+            int rpcHandle = Interlocked.Increment(ref this._rpcCounter);
+
+            //Store the callback.
+            if (!this._rpcCallbacks.TryAdd(rpcHandle, callback))
+                return false;
+
+            //Create an RPCCall Packet
+            RPCCallPacket rpcPacket = new RPCCallPacket(objectProcedure.HashCode, caller != null ? caller.ID : default(SyncedObjectID), rpcHandle, parameters);
+
+            //Send RPCCall Packet
+            this.Send(rpcPacket);
+
+            return true;
+        }
+
+
+        #region PARAMETERLESS PROCEDURES
+
+        public bool Call(Action procedure, Action callback = null)
+        {
+            return this.Call(null, procedure?.Method, callback?.Bind());
+        }
+
+        public bool Call(SyncedObject caller, Action procedure, Action callback = null)
+        {
+            return this.Call(caller, procedure?.Method, callback?.Bind());
+        }
+
+        public bool Call<TResult>(Func<TResult> procedure, Action<TResult> callback = null)
+        {
+            return this.Call(null, procedure?.Method, callback?.Bind());
+        }
+
+        public bool Call<TResult>(SyncedObject caller, Func<TResult> procedure, Action<TResult> callback = null)
+        {
+            return this.Call(caller, procedure?.Method, callback?.Bind());
+        }
+
+        #endregion
+
+
+        #region SINGLE PARAMETER PROCEDURES
+
+        public bool Call<T1>(Action<T1> procedure, T1 param1, Action callback = null)
+        {
+            return this.Call(null, procedure?.Method, callback?.Bind(), param1);
+        }
+
+        public bool Call<T1>(SyncedObject caller, Action<T1> procedure, T1 param1, Action callback = null)
+        {
+            return this.Call(caller, procedure?.Method, callback?.Bind(), param1);
+        }
+
+        public bool Call<T1, TResult>(Func<T1, TResult> procedure, T1 param1, Action<TResult> callback = null)
+        {
+            return this.Call(null, procedure?.Method, callback?.Bind(), param1);
+        }
+
+        public bool Call<T1, TResult>(SyncedObject caller, Func<T1, TResult> procedure, T1 param1, Action<TResult> callback = null)
+        {
+            return this.Call(caller, procedure?.Method, callback?.Bind(), param1);
+        }
+
+        #endregion
+
+
+        internal void TryExecuteCallback(int rpcHandle, bool wasRPCSuccessful, object returnValue = null)
+        {
+            if (this._rpcCallbacks.Remove(rpcHandle, out TargetedDynamicDelegate callback) && wasRPCSuccessful)
+            {
+                callback?.Invoke((returnValue != null) ? new object[] { returnValue } : new object[0]);
+            }
+        }
 
 
         #endregion

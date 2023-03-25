@@ -1,4 +1,7 @@
-﻿using Parcel.Lib;
+﻿using Parcel.DataStructures;
+using Parcel.Lib;
+using Parcel.Networking;
+using Parcel.Packets;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -20,6 +23,8 @@ namespace Parcel.Serialization
 
         private Dictionary<string, ObjectProperty> _propertiesByName;
         private Dictionary<uint, ObjectProperty> _propertiesByHash;
+        private Dictionary<string, ObjectProcedure> _proceduresByName;
+        private Dictionary<ulong, ObjectProcedure> _proceduresByHash;
         private Dictionary<Type, List<Attribute>> _attributes;
 
         /// <summary>
@@ -48,51 +53,22 @@ namespace Parcel.Serialization
         /// <param name="propertiesByName">A dictionary of <see cref="ObjectProperty"/> instances stored by their names.</param>
         /// <param name="attributes">A dictionary of Attributes that this Type has, stored by the Attribute Type.</param>
         private ObjectCache(Type type, Dictionary<uint, ObjectProperty> propertiesByHash,
-            Dictionary<string, ObjectProperty> propertiesByName, Dictionary<Type, List<Attribute>> attributes)
+            Dictionary<string, ObjectProperty> propertiesByName, Dictionary<ulong, ObjectProcedure> proceduresByHash,
+            Dictionary<string, ObjectProcedure> proceduresByName, Dictionary<Type, List<Attribute>> attributes)
         {
-            this.Type = type;
-            this.HashCode = type.GetTypeHashCode();
-            this._propertiesByHash = propertiesByHash;
-            this._propertiesByName = propertiesByName;
-            this._attributes = attributes;
+            Type = type;
+            HashCode = type.GetTypeHashCode();
+            _propertiesByHash = propertiesByHash;
+            _propertiesByName = propertiesByName;
+            _proceduresByHash = proceduresByHash;
+            _proceduresByName = proceduresByName;
+            _attributes = attributes;
         }
 
         #endregion
 
 
         #region INSTANCE ACCESS
-
-        /// <summary>
-        /// Get a <see cref="ObjectProperty"/> instance using its name hash code.
-        /// </summary>
-        /// <param name="propertyHash">The name hash code to use.</param>
-        /// <returns>An <see cref="ObjectProperty"/> instance.</returns>
-        /// <exception cref="KeyNotFoundException">Thrown if no value with the key <paramref name="propertyHash"/> was found.</exception>
-        public ObjectProperty this[uint propertyHash]
-        {
-            get
-            {
-                if (!this._propertiesByHash.ContainsKey(propertyHash))
-                    throw new KeyNotFoundException();
-                return this._propertiesByHash[propertyHash];
-            }
-        }
-
-        /// <summary>
-        /// Get a <see cref="ObjectProperty"/> instance using its name.
-        /// </summary>
-        /// <param name="propertyName">The name to use.</param>
-        /// <returns>An <see cref="ObjectProperty"/> instance.</returns>
-        /// <exception cref="KeyNotFoundException">Thrown if no value with the key <paramref name="propertyHash"/> was found.</exception>
-        public ObjectProperty this[string propertyName]
-        {
-            get
-            {
-                if (!this._propertiesByName.ContainsKey(propertyName))
-                    throw new KeyNotFoundException();
-                return this._propertiesByName[propertyName];
-            }
-        }
 
         /// <inheritdoc/>
         public IEnumerator<ObjectProperty> GetEnumerator()
@@ -107,15 +83,85 @@ namespace Parcel.Serialization
         }
 
         /// <summary>
+        /// Get a <see cref="ObjectProperty"/> instance using its name hash code.
+        /// </summary>
+        /// <param name="propertyHash">The name hash code to use.</param>
+        /// <returns>An <see cref="ObjectProperty"/> instance.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown if no value with the key <paramref name="propertyHash"/> was found.</exception>
+        public ObjectProperty GetProperty(uint propertyHash)
+        {
+            if (!_propertiesByHash.ContainsKey(propertyHash))
+                throw new KeyNotFoundException();
+            return _propertiesByHash[propertyHash];
+        }
+
+        /// <summary>
+        /// Get a <see cref="ObjectProperty"/> instance using its name.
+        /// </summary>
+        /// <param name="propertyName">The name to use.</param>
+        /// <returns>An <see cref="ObjectProperty"/> instance.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown if no value with the key <paramref name="propertyName"/> was found.</exception>
+        public ObjectProperty GetProperty(string propertyName)
+        {
+            if (!_propertiesByName.ContainsKey(propertyName))
+                throw new KeyNotFoundException();
+            return _propertiesByName[propertyName];
+        }
+
+        /// <summary>
+        /// Get an Enumerator that iterates over all properties in this <see cref="ObjectCache"/>.
+        /// </summary>
+        /// <returns>An Enumerator that iterates over all properties in this <see cref="ObjectCache"/>.</returns>
+        public IEnumerator<ObjectProperty> GetProperties()
+        {
+            return _propertiesByHash.Values.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Get a <see cref="ObjectProcedure"/> instance using its hash code.
+        /// </summary>
+        /// <param name="procedureHash">The hash code to use.</param>
+        /// <returns>An <see cref="ObjectProcedure"/> instance.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown if no value with the key <paramref name="procedureHash"/> was found.</exception>
+        public ObjectProcedure GetProcedure(ulong procedureHash)
+        {
+            if (!_proceduresByHash.ContainsKey(procedureHash))
+                throw new KeyNotFoundException();
+            return _proceduresByHash[procedureHash];
+        }
+
+        /// <summary>
+        /// Get a <see cref="ObjectProcedure"/> instance using its name.
+        /// </summary>
+        /// <param name="procedureName">The name to use.</param>
+        /// <returns>An <see cref="ObjectProcedure"/> instance.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown if no value with the key <paramref name="procedureName"/> was found.</exception>
+        public ObjectProcedure GetProcedure(string procedureName)
+        {
+            if (!_proceduresByName.ContainsKey(procedureName))
+                throw new KeyNotFoundException();
+            return _proceduresByName[procedureName];
+        }
+
+        /// <summary>
+        /// Get an Enumerator that iterates over all procedures in this <see cref="ObjectCache"/>.
+        /// </summary>
+        /// <returns>An Enumerator that iterates over all procedures in this <see cref="ObjectCache"/>.</returns>
+        public IEnumerator<ObjectProcedure> GetProcedures()
+        {
+            return _proceduresByHash.Values.GetEnumerator();
+        }
+
+        /// <summary>
         /// Get an Attribute of this Type, if it exists.
         /// </summary>
         /// <typeparam name="T">The Type of Attribute to get.</typeparam>
         /// <returns>The Attribute instance if it exists; otherwise, <see langword="null"/>.</returns>
         public T GetCustomAttribute<T>() where T : Attribute
         {
-            if (!this._attributes.ContainsKey(typeof(T)))
+            if (!_attributes.ContainsKey(typeof(T)))
                 return null;
-            return (T)this._attributes[typeof(T)].FirstOrDefault();
+            return (T)_attributes[typeof(T)].FirstOrDefault();
         }
 
         /// <summary>
@@ -125,9 +171,9 @@ namespace Parcel.Serialization
         /// <returns>An array of Attribute instances if they exist; otherwise, <see langword="null"/>.</returns>
         public T[] GetCustomAttributes<T>() where T : Attribute
         {
-            if (!this._attributes.ContainsKey(typeof(T)))
+            if (!_attributes.ContainsKey(typeof(T)))
                 return null;
-            return (T[])this._attributes[typeof(T)].ToArray();
+            return (T[])_attributes[typeof(T)].ToArray();
         }
 
         #endregion
@@ -142,13 +188,15 @@ namespace Parcel.Serialization
         /// <returns>An ObjectCache instance.</returns>
         public static ObjectCache FromType(Type type)
         {
-            if (!ObjectCachesByType.ContainsKey(type))
+            ObjectCache storedCache;
+            while (!ObjectCachesByType.TryGetValue(type, out storedCache))
             {
+                Console.WriteLine($"Constructing New Cache From Type {type.FullName}");
                 ObjectCache cache = GenerateCache(type);
                 ObjectCachesByType.TryAdd(type, cache);
                 ObjectCachesByHash.TryAdd(type.GetTypeHashCode(), cache);
             }
-            return ObjectCachesByType[type];
+            return storedCache;
         }
 
         /// <summary>
@@ -159,8 +207,10 @@ namespace Parcel.Serialization
         /// <exception cref="ArgumentException">Thrown if no Type could be derived from <paramref name="hash"/>. This usually indicated data corruption.</exception>
         public static ObjectCache FromHash(TypeHashCode hash)
         {
-            if (!ObjectCachesByHash.ContainsKey(hash))
+            ObjectCache storedCache;
+            while (!ObjectCachesByHash.TryGetValue(hash, out storedCache))
             {
+                Console.WriteLine($"Constructing New Cache From Hash {hash}");
                 Type type = TypeHashCode.ParseType(hash);
                 if (type == null)
                     throw new ArgumentException(string.Format(EXCP_INVALID_HASH, hash), nameof(hash));
@@ -169,11 +219,11 @@ namespace Parcel.Serialization
                 ObjectCachesByType.TryAdd(type, cache);
                 ObjectCachesByHash.TryAdd(type.GetTypeHashCode(), cache);
             }
-            return ObjectCachesByHash[hash];
+            return storedCache;
         }
 
         #endregion
-        
+
 
         #region CACHE GENERATION
 
@@ -190,6 +240,8 @@ namespace Parcel.Serialization
                 optIn = true;
 
             //Create objects needed to initialize ObjectCache
+
+            //Cache Properties
             Dictionary<uint, ObjectProperty> propertiesByHash = new Dictionary<uint, ObjectProperty>();
             Dictionary<string, ObjectProperty> propertiesByName = new Dictionary<string, ObjectProperty>();
 
@@ -221,6 +273,23 @@ namespace Parcel.Serialization
                 }
             }
 
+            //Cache Procedures
+            Dictionary<ulong, ObjectProcedure> proceduresByHash = new Dictionary<ulong, ObjectProcedure>();
+            Dictionary<string, ObjectProcedure> proceduresByName = new Dictionary<string, ObjectProcedure>();
+
+            MethodInfo[] methodsArray = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance | BindingFlags.NonPublic);
+
+            foreach (MethodInfo methodInfo in methodsArray)
+            {
+                if (methodInfo.GetCustomAttribute<RPCAttribute>() == null)
+                    continue;
+                else if (ObjectProcedure.TryCreate(methodInfo, out ObjectProcedure objectProcedure))
+                {
+                    proceduresByHash.Add((ulong)methodInfo.GetProcedureHash(), objectProcedure);
+                }
+            }
+
+            //Cache Attributes
             Attribute[] allAttributes = type.GetCustomAttributes().ToArray();
 
             Dictionary<Type, List<Attribute>> sortedAttributes = new Dictionary<Type, List<Attribute>>();
@@ -233,7 +302,7 @@ namespace Parcel.Serialization
                 sortedAttributes[attType].Add(att);
             }
 
-            return new ObjectCache(type, propertiesByHash, propertiesByName, sortedAttributes);
+            return new ObjectCache(type, propertiesByHash, propertiesByName, proceduresByHash, proceduresByName, sortedAttributes);
         }
 
         #endregion

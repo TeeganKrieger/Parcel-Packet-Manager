@@ -75,11 +75,11 @@ namespace Parcel
         }
 
         /// <summary>
-        /// Set the type of <see cref="INetworkAdapter"/> for the <see cref="ParcelClient"/> or <see cref="ParcelServer"/> to use.
+        /// Set the type of <see cref="ITransportLayer"/> for the <see cref="ParcelClient"/> or <see cref="ParcelServer"/> to use.
         /// </summary>
-        /// <typeparam name="T">The type of <see cref="INetworkAdapter"/> to use.</typeparam>
+        /// <typeparam name="T">The type of <see cref="ITransportLayer"/> to use.</typeparam>
         /// <returns>The current ParcelSettingsBuilder instance.</returns>
-        public ParcelSettingsBuilder SetNetworkAdapter<T>() where T : INetworkAdapter, new()
+        public ParcelSettingsBuilder SetNetworkAdapter<T>() where T : ITransportLayer, new()
         {
             this._networkAdapterType = typeof(T);
             return this;

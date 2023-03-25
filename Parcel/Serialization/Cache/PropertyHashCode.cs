@@ -5,7 +5,7 @@ namespace Parcel.Serialization
     /// <summary>
     /// Extension methods for the PropertyInfo type.
     /// </summary>
-    internal static class PropertyInfoHashCode
+    internal static class PropertyHashCode
     {
 
         /// <summary>

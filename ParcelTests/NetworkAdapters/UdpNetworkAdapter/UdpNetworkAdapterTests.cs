@@ -20,9 +20,9 @@ namespace Parcel.Tests
         {
             Task.Run(async () =>
             {
-                FieldInfo _selfField = typeof(UdpNetworkAdapter).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance);
-                FieldInfo _channelsField = typeof(UdpNetworkAdapter).GetField("_channels", BindingFlags.NonPublic | BindingFlags.Instance);
-                PropertyInfo remoteProp = typeof(UdpNetworkAdapter).GetNestedType("PeerChannel", BindingFlags.NonPublic).GetProperty("Remote", BindingFlags.Public | BindingFlags.Instance);
+                FieldInfo _selfField = typeof(UDPTransportLayer).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance);
+                FieldInfo _channelsField = typeof(UDPTransportLayer).GetField("_channels", BindingFlags.NonPublic | BindingFlags.Instance);
+                PropertyInfo remoteProp = typeof(UDPTransportLayer).GetNestedType("PeerChannel", BindingFlags.NonPublic).GetProperty("Remote", BindingFlags.Public | BindingFlags.Instance);
 
                 //Create Peers
                 Peer clientPeer = new PeerBuilder()
@@ -37,12 +37,12 @@ namespace Parcel.Tests
                 .AddProperty("I am", "The server");
 
                 //Create two UdpNetworkAdapters with different ports
-                ParcelSettings clientSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UdpNetworkAdapter>()
+                ParcelSettings clientSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UDPTransportLayer>()
                     .SetPeer(clientPeer)
                     .SetConnectionTimeout(2000)
                     .SetDisconnectionTimeout(10000);
 
-                ParcelSettings serverSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UdpNetworkAdapter>()
+                ParcelSettings serverSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UDPTransportLayer>()
                     .SetPeer(serverPeer)
                     .SetConnectionTimeout(2000)
                     .SetDisconnectionTimeout(10000);
@@ -50,8 +50,8 @@ namespace Parcel.Tests
                 ConnectionToken clientConnectionToken = new ConnectionToken("localhost", 9898);
                 ConnectionToken serverConnectionToken = new ConnectionToken("localhost", 9899);
 
-                UdpNetworkAdapter client = new UdpNetworkAdapter();
-                UdpNetworkAdapter server = new UdpNetworkAdapter();
+                UDPTransportLayer client = new UDPTransportLayer();
+                UDPTransportLayer server = new UDPTransportLayer();
 
                 client.Start(false, clientSettings);
                 server.Start(true, serverSettings);
@@ -92,9 +92,9 @@ namespace Parcel.Tests
         {
             Task.Run(async () =>
             {
-                FieldInfo _selfField = typeof(UdpNetworkAdapter).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance);
-                FieldInfo _channelsField = typeof(UdpNetworkAdapter).GetField("_channels", BindingFlags.NonPublic | BindingFlags.Instance);
-                PropertyInfo remoteProp = typeof(UdpNetworkAdapter).GetNestedType("PeerChannel", BindingFlags.NonPublic).GetProperty("Remote", BindingFlags.Public | BindingFlags.Instance);
+                FieldInfo _selfField = typeof(UDPTransportLayer).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance);
+                FieldInfo _channelsField = typeof(UDPTransportLayer).GetField("_channels", BindingFlags.NonPublic | BindingFlags.Instance);
+                PropertyInfo remoteProp = typeof(UDPTransportLayer).GetNestedType("PeerChannel", BindingFlags.NonPublic).GetProperty("Remote", BindingFlags.Public | BindingFlags.Instance);
 
                 //Create Peers
                 Peer clientPeer = new PeerBuilder()
@@ -109,12 +109,12 @@ namespace Parcel.Tests
                 .AddProperty("I am", "The server");
 
                 //Create two UdpNetworkAdapters with different ports
-                ParcelSettings clientSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UdpNetworkAdapter>()
+                ParcelSettings clientSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UDPTransportLayer>()
                     .SetPeer(clientPeer)
                     .SetConnectionTimeout(2000)
                     .SetDisconnectionTimeout(10000);
 
-                ParcelSettings serverSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UdpNetworkAdapter>()
+                ParcelSettings serverSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UDPTransportLayer>()
                     .SetPeer(serverPeer)
                     .SetConnectionTimeout(2000)
                     .SetDisconnectionTimeout(10000);
@@ -122,8 +122,8 @@ namespace Parcel.Tests
                 ConnectionToken clientConnectionToken = new ConnectionToken("localhost", 9898);
                 ConnectionToken serverConnectionToken = new ConnectionToken("localhost", 9899);
 
-                UdpNetworkAdapter client = new UdpNetworkAdapter();
-                UdpNetworkAdapter server = new UdpNetworkAdapter();
+                UDPTransportLayer client = new UDPTransportLayer();
+                UDPTransportLayer server = new UDPTransportLayer();
 
                 //Reject all connections
                 server.OnInitialConnection += (Peer peer) => { return new InitialConnectionResult(false, "You were rejected."); };
@@ -154,9 +154,9 @@ namespace Parcel.Tests
         {
             Task.Run(async () =>
             {
-                FieldInfo _selfField = typeof(UdpNetworkAdapter).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance);
-                FieldInfo _channelsField = typeof(UdpNetworkAdapter).GetField("_channels", BindingFlags.NonPublic | BindingFlags.Instance);
-                PropertyInfo remoteProp = typeof(UdpNetworkAdapter).GetNestedType("PeerChannel", BindingFlags.NonPublic).GetProperty("Remote", BindingFlags.Public | BindingFlags.Instance);
+                FieldInfo _selfField = typeof(UDPTransportLayer).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance);
+                FieldInfo _channelsField = typeof(UDPTransportLayer).GetField("_channels", BindingFlags.NonPublic | BindingFlags.Instance);
+                PropertyInfo remoteProp = typeof(UDPTransportLayer).GetNestedType("PeerChannel", BindingFlags.NonPublic).GetProperty("Remote", BindingFlags.Public | BindingFlags.Instance);
 
                 //Create Peers
                 Peer clientPeer = new PeerBuilder()
@@ -171,12 +171,12 @@ namespace Parcel.Tests
                 .AddProperty("I am", "The server");
 
                 //Create two UdpNetworkAdapters with different ports
-                ParcelSettings clientSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UdpNetworkAdapter>()
+                ParcelSettings clientSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UDPTransportLayer>()
                     .SetPeer(clientPeer)
                     .SetConnectionTimeout(2000)
                     .SetDisconnectionTimeout(10000);
 
-                ParcelSettings serverSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UdpNetworkAdapter>()
+                ParcelSettings serverSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UDPTransportLayer>()
                     .SetPeer(serverPeer)
                     .SetConnectionTimeout(2000)
                     .SetDisconnectionTimeout(10000);
@@ -184,8 +184,8 @@ namespace Parcel.Tests
                 ConnectionToken clientConnectionToken = new ConnectionToken("localhost", 9898);
                 ConnectionToken serverConnectionToken = new ConnectionToken("localhost", 9899);
 
-                UdpNetworkAdapter client = new UdpNetworkAdapter();
-                UdpNetworkAdapter server = new UdpNetworkAdapter();
+                UDPTransportLayer client = new UDPTransportLayer();
+                UDPTransportLayer server = new UDPTransportLayer();
 
                 client.Start(false, clientSettings);
                 server.Start(true, serverSettings);
@@ -232,9 +232,9 @@ namespace Parcel.Tests
         {
             Task.Run(async () =>
             {
-                FieldInfo _selfField = typeof(UdpNetworkAdapter).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance);
-                FieldInfo _channelsField = typeof(UdpNetworkAdapter).GetField("_channels", BindingFlags.NonPublic | BindingFlags.Instance);
-                PropertyInfo remoteProp = typeof(UdpNetworkAdapter).GetNestedType("PeerChannel", BindingFlags.NonPublic).GetProperty("Remote", BindingFlags.Public | BindingFlags.Instance);
+                FieldInfo _selfField = typeof(UDPTransportLayer).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance);
+                FieldInfo _channelsField = typeof(UDPTransportLayer).GetField("_channels", BindingFlags.NonPublic | BindingFlags.Instance);
+                PropertyInfo remoteProp = typeof(UDPTransportLayer).GetNestedType("PeerChannel", BindingFlags.NonPublic).GetProperty("Remote", BindingFlags.Public | BindingFlags.Instance);
 
                 //Create Peers
                 Peer clientPeer = new PeerBuilder()
@@ -249,12 +249,12 @@ namespace Parcel.Tests
                 .AddProperty("I am", "The server");
 
                 //Create two UdpNetworkAdapters with different ports
-                ParcelSettings clientSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UdpNetworkAdapter>()
+                ParcelSettings clientSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UDPTransportLayer>()
                     .SetPeer(clientPeer)
                     .SetConnectionTimeout(2000)
                     .SetDisconnectionTimeout(10000);
 
-                ParcelSettings serverSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UdpNetworkAdapter>()
+                ParcelSettings serverSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UDPTransportLayer>()
                     .SetPeer(serverPeer)
                     .SetConnectionTimeout(2000)
                     .SetDisconnectionTimeout(10000);
@@ -262,8 +262,8 @@ namespace Parcel.Tests
                 ConnectionToken clientConnectionToken = new ConnectionToken("localhost", 9898);
                 ConnectionToken serverConnectionToken = new ConnectionToken("localhost", 9899);
 
-                UdpNetworkAdapter client = new UdpNetworkAdapter();
-                UdpNetworkAdapter server = new UdpNetworkAdapter();
+                UDPTransportLayer client = new UDPTransportLayer();
+                UDPTransportLayer server = new UDPTransportLayer();
 
                 client.OnDisconnection += (Peer peer, DisconnectionReason reason, object message) =>
                 {
@@ -311,9 +311,9 @@ namespace Parcel.Tests
         {
             Task.Run(async () =>
             {
-                FieldInfo _selfField = typeof(UdpNetworkAdapter).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance);
-                FieldInfo _channelsField = typeof(UdpNetworkAdapter).GetField("_channels", BindingFlags.NonPublic | BindingFlags.Instance);
-                PropertyInfo remoteProp = typeof(UdpNetworkAdapter).GetNestedType("PeerChannel", BindingFlags.NonPublic).GetProperty("Remote", BindingFlags.Public | BindingFlags.Instance);
+                FieldInfo _selfField = typeof(UDPTransportLayer).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance);
+                FieldInfo _channelsField = typeof(UDPTransportLayer).GetField("_channels", BindingFlags.NonPublic | BindingFlags.Instance);
+                PropertyInfo remoteProp = typeof(UDPTransportLayer).GetNestedType("PeerChannel", BindingFlags.NonPublic).GetProperty("Remote", BindingFlags.Public | BindingFlags.Instance);
 
                 //Create Peers
                 Peer clientPeer = new PeerBuilder()
@@ -328,12 +328,12 @@ namespace Parcel.Tests
                 .AddProperty("I am", "The server");
 
                 //Create two UdpNetworkAdapters with different ports
-                ParcelSettings clientSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UdpNetworkAdapter>()
+                ParcelSettings clientSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UDPTransportLayer>()
                     .SetPeer(clientPeer)
                     .SetConnectionTimeout(2000)
                     .SetDisconnectionTimeout(1); //Set the disconnection timeout timing really low to ensure a timeout event occurs
 
-                ParcelSettings serverSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UdpNetworkAdapter>()
+                ParcelSettings serverSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UDPTransportLayer>()
                     .SetPeer(serverPeer)
                     .SetConnectionTimeout(2000)
                     .SetDisconnectionTimeout(1); //Set the disconnection timeout timing really low to ensure a timeout event occurs
@@ -341,8 +341,8 @@ namespace Parcel.Tests
                 ConnectionToken clientConnectionToken = new ConnectionToken("localhost", 9898);
                 ConnectionToken serverConnectionToken = new ConnectionToken("localhost", 9899);
 
-                UdpNetworkAdapter client = new UdpNetworkAdapter();
-                UdpNetworkAdapter server = new UdpNetworkAdapter();
+                UDPTransportLayer client = new UDPTransportLayer();
+                UDPTransportLayer server = new UDPTransportLayer();
 
                 client.OnDisconnection += (Peer peer, DisconnectionReason reason, object message) =>
                 {
@@ -387,16 +387,16 @@ namespace Parcel.Tests
             //Ensure multiple clients connecting to a single server works. 
             Task.Run(async () =>
             {
-                FieldInfo _selfField = typeof(UdpNetworkAdapter).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance);
-                FieldInfo _channelsField = typeof(UdpNetworkAdapter).GetField("_channels", BindingFlags.NonPublic | BindingFlags.Instance);
-                PropertyInfo remoteProp = typeof(UdpNetworkAdapter).GetNestedType("PeerChannel", BindingFlags.NonPublic).GetProperty("Remote", BindingFlags.Public | BindingFlags.Instance);
+                FieldInfo _selfField = typeof(UDPTransportLayer).GetField("_self", BindingFlags.NonPublic | BindingFlags.Instance);
+                FieldInfo _channelsField = typeof(UDPTransportLayer).GetField("_channels", BindingFlags.NonPublic | BindingFlags.Instance);
+                PropertyInfo remoteProp = typeof(UDPTransportLayer).GetNestedType("PeerChannel", BindingFlags.NonPublic).GetProperty("Remote", BindingFlags.Public | BindingFlags.Instance);
 
                 Peer serverPeer = new PeerBuilder()
                 .SetAddress("localhost")
                 .SetPort(9901)
                 .AddProperty("I am", "The server");
 
-                ParcelSettings serverSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UdpNetworkAdapter>()
+                ParcelSettings serverSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UDPTransportLayer>()
                     .SetPeer(serverPeer)
                     .SetConnectionTimeout(2000)
                     .SetDisconnectionTimeout(10000);
@@ -404,11 +404,11 @@ namespace Parcel.Tests
 
 
                 ConnectionToken serverConnectionToken = new ConnectionToken("localhost", 9901);
-                UdpNetworkAdapter server = new UdpNetworkAdapter();
+                UDPTransportLayer server = new UDPTransportLayer();
                 server.Start(true, serverSettings);
 
                 Peer[] clientPeers = new Peer[NUM_OF_CLIENTS];
-                UdpNetworkAdapter[] clientAdapters = new UdpNetworkAdapter[NUM_OF_CLIENTS];
+                UDPTransportLayer[] clientAdapters = new UDPTransportLayer[NUM_OF_CLIENTS];
 
                 for (int i = 0; i < NUM_OF_CLIENTS; i++)
                 {
@@ -419,12 +419,12 @@ namespace Parcel.Tests
                         .AddProperty("Hello", "World");
 
                     Console.WriteLine($"Starting Client {i} on Port {9800 + i}");
-                    ParcelSettings clientSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UdpNetworkAdapter>()
+                    ParcelSettings clientSettings = new ParcelSettingsBuilder().SetNetworkAdapter<UDPTransportLayer>()
                     .SetPeer(clientPeers[i])
                     .SetConnectionTimeout(2000)
                     .SetDisconnectionTimeout(10000);
 
-                    clientAdapters[i] = new UdpNetworkAdapter();
+                    clientAdapters[i] = new UDPTransportLayer();
                     clientAdapters[i].Start(false, clientSettings);
                     ConnectionResult result = await clientAdapters[i].ConnectTo(serverConnectionToken);
 

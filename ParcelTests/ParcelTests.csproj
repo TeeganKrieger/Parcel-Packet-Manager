@@ -22,4 +22,8 @@
 		<ProjectReference Include="..\Parcel\ParcelPacketManager.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="DataStructures\" />
+	</ItemGroup>
+
 </Project>

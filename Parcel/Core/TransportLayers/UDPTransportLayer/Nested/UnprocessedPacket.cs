@@ -3,7 +3,7 @@ using System;
 
 namespace Parcel.Networking
 {
-    public sealed partial class UdpNetworkAdapter
+    public sealed partial class UDPTransportLayer
     {
         /// <summary>
         /// Represents a packet in its raw state and additional information about the packet.

@@ -16,7 +16,7 @@ namespace Parcel.Serialization
             uint propertyHash = reader.ReadUInt();
             while (propertyHash != 0U)
             {
-                ObjectProperty property = ObjectCache[propertyHash];
+                ObjectProperty property = ObjectCache.GetProperty(propertyHash);
                 bool readWithTypeHash = reader.ReadBool();
                 setterArgs[0] = readWithTypeHash ? reader.ReadObject() : reader.ReadWithoutTypeInfo(property.Type);
                 property.Setter.Invoke(obj, setterArgs);

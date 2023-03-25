@@ -32,9 +32,9 @@ namespace Parcel
         public int DisconnectionTimeout { get; private set; }
 
         /// <summary>
-        /// The type of <see cref="INetworkAdapter"/> for the <see cref="ParcelClient"/> or <see cref="ParcelServer"/> to use.
+        /// The type of <see cref="ITransportLayer"/> for the <see cref="ParcelClient"/> or <see cref="ParcelServer"/> to use.
         /// </summary>
-        public Type NetworkAdapterType { get; private set; }
+        public Type TransportLayerType { get; private set; }
 
         /// <summary>
         /// Whether updates should be performed automatically or manually.
@@ -111,7 +111,7 @@ namespace Parcel
         /// <param name="peer">The <see cref="Parcel.Peer"/> for the <see cref="ParcelClient"/> or <see cref="ParcelServer"/> to use.</param>
         /// <param name="firstConnectionTimeout">The amount of time in milliseconds allowed for connecting to a remote user before connection times out.</param>
         /// <param name="disconnectionTimeout">The amount of time in milliseconds allowed since last receiving a Packet from a user before considering them disconnected.</param>
-        /// <param name="networkAdapterType">The type of <see cref="INetworkAdapter"/> for the <see cref="ParcelClient"/> or <see cref="ParcelServer"/> to use.</param>
+        /// <param name="networkAdapterType">The type of <see cref="ITransportLayer"/> for the <see cref="ParcelClient"/> or <see cref="ParcelServer"/> to use.</param>
         /// <param name="updatesPerSecond">The number of iterations of the main loop to run every seconds.</param>
         /// <param name="performUpdatesAutomatically">Whether updates should be performed automatically or manually.</param>
         /// <param name="unreliablePacketGroupSize">The number of unreliable packets to cluster into a single real packet.</param>
@@ -129,7 +129,7 @@ namespace Parcel
             this.Peer = peer;
             this.ConnectionTimeout = firstConnectionTimeout;
             this.DisconnectionTimeout = disconnectionTimeout;
-            this.NetworkAdapterType = networkAdapterType;
+            this.TransportLayerType = networkAdapterType;
             this.UpdatesPerSecond = updatesPerSecond;
             this.PerformUpdatesAutomatically = performUpdatesAutomatically;
             this.UnreliablePacketGroupSize = unreliablePacketGroupSize;
@@ -145,12 +145,12 @@ namespace Parcel
         #region METHODS
 
         /// <summary>
-        /// Create a new <see cref="INetworkAdapter"/> instance using the <see cref="NetworkAdapterType"/> settings.
+        /// Create a new <see cref="ITransportLayer"/> instance using the <see cref="TransportLayerType"/> settings.
         /// </summary>
-        /// <returns>A new <see cref="INetworkAdapter"/> instance.</returns>
-        internal INetworkAdapter CreateNewNetworkAdapter()
+        /// <returns>A new <see cref="ITransportLayer"/> instance.</returns>
+        internal ITransportLayer CreateNewNetworkAdapter()
         {
-            return (INetworkAdapter)Create.New(NetworkAdapterType);
+            return (ITransportLayer)Create.New(TransportLayerType);
         }
 
         #endregion

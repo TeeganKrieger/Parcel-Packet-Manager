@@ -11,11 +11,11 @@ namespace Parcel.Tests
         {
             Peer settingsPeer = new PeerBuilder().SetAddress("localhost").SetPort(9991);
 
-            ParcelSettings settings = new ParcelSettingsBuilder().SetPeer(settingsPeer).SetNetworkAdapter<UdpNetworkAdapter>();
+            ParcelSettings settings = new ParcelSettingsBuilder().SetPeer(settingsPeer).SetNetworkAdapter<UDPTransportLayer>();
 
             Assert.IsNotNull(settings);
             Assert.AreEqual(settingsPeer, settings.Peer);
-            Assert.AreEqual(typeof(UdpNetworkAdapter), settings.NetworkAdapterType);
+            Assert.AreEqual(typeof(UDPTransportLayer), settings.TransportLayerType);
         }
 
         public void CreateNoPeer()
@@ -23,7 +23,7 @@ namespace Parcel.Tests
             bool caught = false;
             try
             {
-                ParcelSettings settings = new ParcelSettingsBuilder().SetNetworkAdapter<UdpNetworkAdapter>();
+                ParcelSettings settings = new ParcelSettingsBuilder().SetNetworkAdapter<UDPTransportLayer>();
             }
             catch (InvalidOperationException ex)
             {

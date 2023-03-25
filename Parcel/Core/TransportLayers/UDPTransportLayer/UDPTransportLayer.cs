@@ -18,7 +18,7 @@ namespace Parcel.Networking
     /// <summary>
     /// Network Adapter implementation using the UDP protocol.
     /// </summary>
-    public sealed partial class UdpNetworkAdapter : INetworkAdapter, IDisposable
+    public sealed partial class UDPTransportLayer : ITransportLayer, IDisposable
     {
         private const string EXCP_ALREADY_CONNECTED = "Failed to perform connection operation as the adapter is already connected to the Peer.";
 
@@ -49,7 +49,7 @@ namespace Parcel.Networking
         /// <summary>
         /// Construct a new instance of UdpNetworkAdapter.
         /// </summary>
-        public UdpNetworkAdapter()
+        public UDPTransportLayer()
         {
             this._unprocessedPackets = new ConcurrentQueue<UnprocessedPacket>();
             this._channels = new ConcurrentDictionary<ConnectionToken, PeerChannel>();

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace Parcel
         private const string MSG_ALREADY_CONNECTED = "You are already connected to this Server.";
         private const string EXCP_DISPOSED = "Failed to perform operation because the server has already been disposed.";
 
-        private INetworkAdapter _networkAdapter;
+        private ITransportLayer _networkAdapter;
 
         private ConcurrentDictionary<SyncedObjectID, SyncedObjectSubscriptions> _syncedObjectDict;
         private ConcurrentHashSet<SyncedObjectID> _syncedObjectsToUpdate;
@@ -47,6 +48,9 @@ namespace Parcel
         private CancellationTokenSource _loopTaskCancellationSource;
 
         private int _loopCounter = 0;
+
+        private ConcurrentDictionary<int, TargetedDynamicDelegate> _rpcCallbacks;
+        private int _rpcCounter = 0;
 
         private bool _disposed;
 
@@ -120,6 +124,7 @@ namespace Parcel
             this._loopTaskCancellationSource = new CancellationTokenSource();
             this._serializerResolver = settings.SerializerResolver;
             this._networkAdapter = settings.CreateNewNetworkAdapter();
+            this._rpcCallbacks = new ConcurrentDictionary<int, TargetedDynamicDelegate>();
 
             //initialize properties 
             this.NetworkSettings = settings;
@@ -191,7 +196,7 @@ namespace Parcel
         /// </summary>
         private async Task AutoLoop()
         {
-            while (true)
+            while (!this._disposed)
             {
                 int timeTook = Loop();
 
@@ -199,7 +204,6 @@ namespace Parcel
                 int delay = Math.Max(0, this.NetworkSettings.MillisecondsPerUpdate - timeTook);
                 await Task.Delay(delay);
             }
-
         }
 
         /// <summary>
@@ -267,7 +271,7 @@ namespace Parcel
                 {
                     ObjectCache cache = ObjectCache.FromType(outgoingPacket.GetType());
 
-                    SerializePacket(outgoingPacket, cache.GetReliability() == Reliability.Reliable ? peerReliableWriters : peerUnreliableWriters, sendTo);
+                    SerializePacket(outgoingPacket, PacketCacheHelper.GetReliability(cache) == Reliability.Reliable ? peerReliableWriters : peerUnreliableWriters, sendTo);
                 }
 
                 TrySendPeersPackets(peerReliableWriters, Reliability.Reliable, this.NetworkSettings.ReliablePacketGroupSize);
@@ -545,7 +549,7 @@ namespace Parcel
         {
             if (this._disposed)
                 throw new InvalidOperationException(EXCP_DISPOSED);
-            if (!this._connectedPeers.Contains(owner))
+            if (!this._connectedPeers.Contains(owner) && owner != this.Self)
                 throw new InvalidOperationException(EXCP_PEER_NOT_CONNECTED);
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
@@ -584,7 +588,7 @@ namespace Parcel
         {
             if (this._disposed)
                 throw new InvalidOperationException(EXCP_DISPOSED);
-            if (!this._connectedPeers.Contains(owner))
+            if (!this._connectedPeers.Contains(owner) && owner != this.Self)
                 throw new InvalidOperationException(EXCP_PEER_NOT_CONNECTED);
             if (owner == null)
                 throw new ArgumentNullException(nameof(owner));
@@ -796,7 +800,7 @@ namespace Parcel
             {
                 if (this._syncedObjectDict.TryGetValue(so.ID, out SyncedObjectSubscriptions sos) && this._syncedObjectsToUpdate.TryAdd(so.ID))
                 {
-                    Peer[] subscribers = sos.Subscriptions.ToArray();
+                    Peer[] subscribers = sos.Subscriptions.Where(x => x != null && this._connectedPeers.Contains(x)).ToArray();
                     PacketAndRemotes par = new PacketAndRemotes(packet, subscribers);
                     this._scheduledPackets.Enqueue(par);
                 }
@@ -841,6 +845,159 @@ namespace Parcel
                 this._scheduledPackets.Enqueue(par);
             }
         }
+
+        #endregion
+
+
+        #region RPC
+
+        private bool Call(SyncedObject caller, MethodInfo procedure, TargetedDynamicDelegate callback, Peer[] sendTo, params object[] parameters)
+        {
+            if (procedure == null)
+                return false;
+
+            Type declaringType = procedure.DeclaringType;
+            ProcedureHashCode procedureHash = procedure.GetProcedureHash();
+
+            ObjectCache objectCache = ObjectCache.FromType(declaringType);
+            ObjectProcedure objectProcedure = objectCache.GetProcedure((ulong)procedureHash);
+
+            //Validate direction this procedure would be traveling.
+            RPCDirection rpcDirection = PacketCacheHelper.GetRPCDirection(objectProcedure);
+
+            if (rpcDirection == RPCDirection.ClientToServer)
+                return false;
+
+            //Get RPC handle
+            int rpcHandle = Interlocked.Increment(ref this._rpcCounter);
+
+            //Store the callback.
+            if (!this._rpcCallbacks.TryAdd(rpcHandle, callback))
+                return false;
+
+            //Create an RPCCall Packet
+            RPCCallPacket rpcPacket = new RPCCallPacket(objectProcedure.HashCode, caller != null ? caller.ID : default(SyncedObjectID), rpcHandle, parameters);
+
+            //Send RPCCall Packet
+
+            if (sendTo == null)
+                sendTo = this._connectedPeers.ToArray();
+
+            if (caller != null)
+            {
+                if (this._syncedObjectDict.TryGetValue(caller.ID, out SyncedObjectSubscriptions sos))
+                    this.Send(rpcPacket, sos.Subscriptions.Intersect(sendTo.Where(x => x != null && this._connectedPeers.Contains(x))).ToArray());
+                else
+                    return false;
+            }
+            else
+            {
+                this.Send(rpcPacket, sendTo);
+            }
+
+            return true;
+        }
+
+
+        #region PARAMETERLESS PROCEDURES
+
+        public bool Call(Action procedure, Action callback = null)
+        {
+            return this.Call(null, procedure?.Method, callback?.Bind(), null);
+        }
+
+        public bool Call(Action procedure, Action callback = null, params Peer[] sendTo)
+        {
+            return this.Call(null, procedure?.Method, callback?.Bind(), sendTo);
+        }
+
+        public bool Call(SyncedObject caller, Action procedure, Action callback = null)
+        {
+            return this.Call(caller, procedure?.Method, callback?.Bind(), null);
+        }
+
+        public bool Call(SyncedObject caller, Action procedure, Action callback = null, params Peer[] sendTo)
+        {
+            return this.Call(caller, procedure?.Method, callback?.Bind(), sendTo);
+        }
+
+        public bool Call<TResult>(Func<TResult> procedure, Action<TResult> callback = null)
+        {
+            return this.Call(null, procedure?.Method, callback?.Bind(), null);
+        }
+
+        public bool Call<TResult>(Func<TResult> procedure, Action<TResult> callback = null, params Peer[] sendTo)
+        {
+            return this.Call(null, procedure?.Method, callback?.Bind(), sendTo);
+        }
+
+        public bool Call<TResult>(SyncedObject caller, Func<TResult> procedure, Action<TResult> callback = null)
+        {
+            return this.Call(caller, procedure?.Method, callback?.Bind(), null);
+        }
+
+        public bool Call<TResult>(SyncedObject caller, Func<TResult> procedure, Action<TResult> callback = null, params Peer[] sendTo)
+        {
+            return this.Call(caller, procedure?.Method, callback?.Bind(), sendTo);
+        }
+
+
+        #endregion
+
+
+        #region SINGLE PARAMETER PROCEDURES
+
+        public bool Call<T1>(Action<T1> procedure, T1 param1, Action callback = null)
+        {
+            return this.Call(null, procedure?.Method, callback?.Bind(), null, param1);
+        }
+
+        public bool Call<T1>(Action<T1> procedure, T1 param1, Action callback = null, params Peer[] sendTo)
+        {
+            return this.Call(null, procedure?.Method, callback?.Bind(), sendTo, param1);
+        }
+
+        public bool Call<T1>(SyncedObject caller, Action<T1> procedure, T1 param1, Action callback = null)
+        {
+            return this.Call(caller, procedure?.Method, callback?.Bind(), null, param1);
+        }
+
+        public bool Call<T1>(SyncedObject caller, Action<T1> procedure, T1 param1, Action callback = null, params Peer[] sendTo)
+        {
+            return this.Call(caller, procedure?.Method, callback?.Bind(), sendTo, param1);
+        }
+
+        public bool Call<T1, TResult>(Func<T1, TResult> procedure, T1 param1, Action<TResult> callback = null)
+        {
+            return this.Call(null, procedure?.Method, callback?.Bind(), null, param1);
+        }
+
+        public bool Call<T1, TResult>(Func<T1, TResult> procedure, T1 param1, Action<TResult> callback = null, params Peer[] sendTo)
+        {
+            return this.Call(null, procedure?.Method, callback?.Bind(), sendTo, param1);
+        }
+
+        public bool Call<T1, TResult>(SyncedObject caller, Func<T1, TResult> procedure, T1 param1, Action<TResult> callback = null)
+        {
+            return this.Call(caller, procedure?.Method, callback?.Bind(), null, param1);
+        }
+
+        public bool Call<T1, TResult>(SyncedObject caller, Func<T1, TResult> procedure, T1 param1, Action<TResult> callback = null, params Peer[] sendTo)
+        {
+            return this.Call(caller, procedure?.Method, callback?.Bind(), sendTo, param1);
+        }
+
+        #endregion
+
+
+        internal void TryExecuteCallback(int rpcHandle, bool wasRPCSuccessful, object returnValue = null)
+        {
+            if (this._rpcCallbacks.Remove(rpcHandle, out TargetedDynamicDelegate callback) && wasRPCSuccessful)
+            {
+                callback?.Invoke((returnValue != null) ? new object[] { returnValue } : new object[0]);
+            }
+        }
+
 
         #endregion
 

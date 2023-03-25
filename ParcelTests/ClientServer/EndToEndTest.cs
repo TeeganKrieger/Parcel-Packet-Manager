@@ -31,6 +31,7 @@ namespace Parcel.Tests
                     await ConnectionTest(clients, server);
                     await PacketTest(clients, server);
                     await SyncedObjectTest(clients, server);
+                    //await RPCTest(clients, server);
                 }
                 catch (Exception ex)
                 {
@@ -51,7 +52,7 @@ namespace Parcel.Tests
 
             ParcelSettings serverSettings = new ParcelSettingsBuilder().SetPeer(serverPeer).SetUpdatesPerSecond(20)
                 .SetUnreliablePacketGroupSize(4).SetReliablePacketGroupSize(10).SetConnectionTimeout(2500).SetDisconnectionTimeout(250000)
-                .SetNetworkAdapter<UdpNetworkAdapter>().AddNetworkDebugger(new NetworkDebugger(serverLogger));
+                .SetNetworkAdapter<UDPTransportLayer>().AddNetworkDebugger(new NetworkDebugger(serverLogger));
 
             server = new ParcelServer(serverSettings);
 
@@ -65,7 +66,7 @@ namespace Parcel.Tests
 
                 ParcelSettings clientSettings = new ParcelSettingsBuilder().SetPeer(clientPeer).SetUpdatesPerSecond(20)
                     .SetUnreliablePacketGroupSize(4).SetReliablePacketGroupSize(10).SetConnectionTimeout(2500).SetDisconnectionTimeout(250000)
-                    .SetNetworkAdapter<UdpNetworkAdapter>().AddNetworkDebugger(new NetworkDebugger(clientLogger));
+                    .SetNetworkAdapter<UDPTransportLayer>().AddNetworkDebugger(new NetworkDebugger(clientLogger));
 
                 clients[i] = new ParcelClient(clientSettings);
             }
@@ -321,6 +322,138 @@ namespace Parcel.Tests
             }
         }
 
+        private async Task RPCTest(ParcelClient[] clients, ParcelServer server)
+        {
+            TestSyncedObject syncedObject = server.CreateSyncedObject<TestSyncedObject>(server.Self);
+            server.AddSyncedObjectSubscriptions(syncedObject.ID, clients.Select(x => x.Self).ToArray());
+
+            await Task.Delay(1000);
+
+            await MakeRPCCallbacks();
+
+            async Task MakeRPCCallbacks()
+            {
+                bool failed = false;
+                CancellationTokenSource cancellationToken = new CancellationTokenSource();
+                Task failAfter3 = Task.Run(async () =>
+                {
+                    failed = false;
+                    await Task.Delay(3000);
+                    failed = true;
+                }, cancellationToken.Token);
+
+                List<Task> tasks = new List<Task>();
+
+                Dictionary<string, object> callbackResults = new Dictionary<string, object>();
+
+                Assert.IsTrue(server.Call(syncedObject, syncedObject.TestSyncedObjectRPCServerToClient, 5, (r) =>
+                {
+                    callbackResults.Add("Server.TestSyncedObjectRPCServerToClient", r);
+                }));
+
+                callbackResults.Add("Server.TestSyncedObjectRPCClientToServer", 15);
+                Assert.IsFalse(server.Call(syncedObject, syncedObject.TestSyncedObjectRPCClientToServer, 10, (r) =>
+                {
+                    callbackResults.Remove("Server.TestSyncedObjectRPCClientToServer");
+                }));
+
+                Assert.IsTrue(server.Call(syncedObject, syncedObject.TestSyncedObjectRPCBidirectional, 15, (r) =>
+                {
+                    callbackResults.Add("Server.TestSyncedObjectRPCBidirectional", r);
+                }));
+
+                Assert.IsTrue(server.Call(TestStaticRPCServerToClient, 20, (r) =>
+                {
+                    callbackResults.Add("Server.TestStaticRPCServerToClient", r);
+                }));
+
+                callbackResults.Add("Server.TestStaticRPCClientToServer", 30);
+                Assert.IsFalse(server.Call(TestStaticRPCClientToServer, 25, (r) =>
+                {
+                    callbackResults.Remove("Server.TestStaticRPCClientToServer");
+                }));
+
+                Assert.IsTrue(server.Call(TestStaticRPCBidirectional, 30, (r) =>
+                {
+                    callbackResults.Add("Server.TestStaticRPCBidirectional", r);
+                }));
+
+                int c = 0;
+                foreach (ParcelClient client in clients)
+                {
+                    int lc = c;
+                    callbackResults.Add($"Client-{lc}.TestSyncedObjectRPCServerToClient", 40 + lc * 30);
+                    Assert.IsFalse(client.Call(syncedObject, syncedObject.TestSyncedObjectRPCServerToClient, 35 + lc * 30, (r) =>
+                    {
+                        callbackResults.Remove($"Client-{lc}.TestSyncedObjectRPCServerToClient");
+                    }));
+
+                    Assert.IsTrue(client.Call(syncedObject, syncedObject.TestSyncedObjectRPCClientToServer, 40 + lc * 30, (r) =>
+                    {
+                        callbackResults.Add($"Client-{lc}.TestSyncedObjectRPCClientToServer", r);
+                    }));
+
+                    Assert.IsTrue(client.Call(syncedObject, syncedObject.TestSyncedObjectRPCBidirectional, 45 + lc * 30, (r) =>
+                    {
+                        callbackResults.Add($"Client-{lc}.TestSyncedObjectRPCBidirectional", r);
+                    }));
+
+                    callbackResults.Add($"Client-{lc}.TestStaticRPCServerToClient", 55 + lc * 30);
+                    Assert.IsFalse(client.Call(TestStaticRPCServerToClient, 50 + lc * 30, (r) =>
+                    {
+                        callbackResults.Remove($"Client-{lc}.TestStaticRPCServerToClient");
+                    }));
+
+                    Assert.IsTrue(client.Call(TestStaticRPCClientToServer, 55 + lc * 30, (r) =>
+                    {
+                        callbackResults.Add($"Client-{lc}.TestStaticRPCClientToServer", r);
+                    }));
+
+                    Assert.IsTrue(client.Call(TestStaticRPCBidirectional, 60 + lc * 30, (r) =>
+                    {
+                        callbackResults.Add($"Client-{lc}.TestStaticRPCBidirectional", r);
+                    }));
+
+                    c++;
+                }
+
+                tasks.Add(Task.Run(async () =>
+                {
+                    while (callbackResults.Count < clients.Length * 6 + 6)
+                        await Task.Delay(server.NetworkSettings.MillisecondsPerUpdate);
+
+                    failed |= (int)callbackResults["Server.TestSyncedObjectRPCServerToClient"] != 10;
+                    failed |= (int)callbackResults["Server.TestSyncedObjectRPCClientToServer"] != 15;
+                    failed |= (int)callbackResults["Server.TestSyncedObjectRPCBidirectional"] != 20;
+                    failed |= (int)callbackResults["Server.TestStaticRPCServerToClient"] != 25;
+                    failed |= (int)callbackResults["Server.TestStaticRPCClientToServer"] != 30;
+                    failed |= (int)callbackResults["Server.TestStaticRPCBidirectional"] != 35;
+
+                    int cc = 0;
+                    foreach (ParcelClient client in clients)
+                    {
+                        failed |= (int)callbackResults[$"Client-{cc}.TestSyncedObjectRPCServerToClient"] != 40 + cc * 30;
+                        failed |= (int)callbackResults[$"Client-{cc}.TestSyncedObjectRPCClientToServer"] != 45 + cc * 30;
+                        failed |= (int)callbackResults[$"Client-{cc}.TestSyncedObjectRPCBidirectional"] != 50 + cc * 30;
+                        failed |= (int)callbackResults[$"Client-{cc}.TestStaticRPCServerToClient"] != 55 + cc * 30;
+                        failed |= (int)callbackResults[$"Client-{cc}.TestStaticRPCClientToServer"] != 60 + cc * 30;
+                        failed |= (int)callbackResults[$"Client-{cc}.TestStaticRPCBidirectional"] != 65 + cc * 30;
+                        cc++;
+                    }
+                }));
+
+                await Task.WhenAny(failAfter3, Task.WhenAll(tasks));
+                cancellationToken.Cancel();
+
+                if (failed)
+                    Console.Write($"Only found {callbackResults.Count} / 54 callbacks");
+
+                if (failed)
+                    Assert.Fail();
+            }
+
+        }
+
         private void Cleanup(ParcelClient[] clients, ParcelServer server)
         {
             foreach (ParcelClient client in clients)
@@ -331,6 +464,23 @@ namespace Parcel.Tests
             server.Dispose();
         }
 
+        [RPC(RPCDirection.ServerToClient)]
+        private static int TestStaticRPCServerToClient(int input)
+        {
+            return input + 5;
+        }
+
+        [RPC(RPCDirection.ClientToServer)]
+        private static int TestStaticRPCClientToServer(int input)
+        {
+            return input + 5;
+        }
+
+        [RPC(RPCDirection.BiDirectional)]
+        private static int TestStaticRPCBidirectional(int input)
+        {
+            return input + 5;
+        }
 
         private class TestPacket : Packet
         {
@@ -455,6 +605,25 @@ namespace Parcel.Tests
             {
                 return base.Equals(obj) && obj is TestSyncedObject so && so.String == this.String && so.Int == this.Int;
             }
+
+            [RPC(RPCDirection.ServerToClient)]
+            public int TestSyncedObjectRPCServerToClient(int input)
+            {
+                return input + 5;
+            }
+
+            [RPC(RPCDirection.ClientToServer)]
+            public int TestSyncedObjectRPCClientToServer(int input)
+            {
+                return input + 5;
+            }
+
+            [RPC(RPCDirection.BiDirectional)]
+            public int TestSyncedObjectRPCBidirectional(int input)
+            {
+                return input + 5;
+            }
+
         }
 
     }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Parcel.Networking
 {
-    public sealed partial class UdpNetworkAdapter
+    public sealed partial class UDPTransportLayer
     {
         /// <summary>
         /// Represents a connection with a singular <see cref="Peer"/> and handles all logic for sending and receiving packets.
@@ -32,7 +32,7 @@ namespace Parcel.Networking
 
             private ConcurrentQueue<UnprocessedPacket> _unprocessedPackets;
 
-            private UdpNetworkAdapter _adapter;
+            private UDPTransportLayer _adapter;
             private ParcelSettings _settings;
             private NetworkDebugger _debugger;
 
@@ -59,9 +59,9 @@ namespace Parcel.Networking
             /// <summary>
             /// Construct a new instance of PeerChannel.
             /// </summary>
-            /// <param name="adapter">The <see cref="UdpNetworkAdapter"/> that owns this channel.</param>
+            /// <param name="adapter">The <see cref="UDPTransportLayer"/> that owns this channel.</param>
             /// <param name="remote">The <see cref="Peer"/> this channel will represent.</param>
-            public PeerChannel(UdpNetworkAdapter adapter, Peer remote)
+            public PeerChannel(UDPTransportLayer adapter, Peer remote)
             {
                 //Populate fields
                 this._reliableIncoming = new SequenceNumber(1);

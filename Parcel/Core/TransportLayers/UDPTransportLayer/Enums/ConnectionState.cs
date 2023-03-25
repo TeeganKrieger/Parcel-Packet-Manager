@@ -1,6 +1,6 @@
 ﻿namespace Parcel.Networking
 {
-    public sealed partial class UdpNetworkAdapter
+    public sealed partial class UDPTransportLayer
     {
         /// <summary>
         /// Represents the state of a connection with a remote user.

@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Parcel.Serialization;
 using Parcel.Serialization.Tests;
 using System;
 using System.Collections.Generic;

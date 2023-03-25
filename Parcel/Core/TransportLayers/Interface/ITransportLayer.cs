@@ -16,7 +16,7 @@ namespace Parcel.Networking
     /// The <see cref="Parcel.UdpNetworkAdapter">UDP Network Adapter</see>: Handles packets using the udp protocol.<br/>
     /// The <see cref="">Steam Adapter</see>: Handles packets using the Steam API's networking solution.
     /// </remarks>
-    public interface INetworkAdapter
+    public interface ITransportLayer
     {
 
         /// <summary>

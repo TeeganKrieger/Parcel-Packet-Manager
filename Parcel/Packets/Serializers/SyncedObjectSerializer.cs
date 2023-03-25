@@ -78,7 +78,7 @@ namespace Parcel.Packets
                 uint propertyHash = reader.ReadUInt();
                 while (propertyHash != 0U)
                 {
-                    ObjectProperty property = cache[propertyHash];
+                    ObjectProperty property = cache.GetProperty(propertyHash);
                     reader.SerializerResolver.GetSerializer(property.Type).Deserialize(reader);
                     propertyHash = reader.ReadUInt();
                 }
@@ -92,7 +92,7 @@ namespace Parcel.Packets
                 uint propertyHash = reader.ReadUInt();
                 while (propertyHash != 0U)
                 {
-                    ObjectProperty property = cache[propertyHash];
+                    ObjectProperty property = cache.GetProperty(propertyHash);
                     setterArgs[0] = reader.SerializerResolver.GetSerializer(property.Type).Deserialize(reader);
 
                     object previousValue = property.Getter.Invoke(syncedObject, getterArgs);
@@ -104,7 +104,7 @@ namespace Parcel.Packets
                         changes.Add(property.Name, new SyncedObject.PropertyChanges(previousValue, currentValue));
                         //Make changes on server instance of packet so that packet redirection works
                         if (this._isServer)
-                            (property.GetReliability() == Reliability.Reliable ? syncedObject.ReliablePropertiesToSync
+                            (PacketCacheHelper.GetReliability(property) == Reliability.Reliable ? syncedObject.ReliablePropertiesToSync
                                 : syncedObject.UnreliablePropertiesToSync).TryAdd(property.NameHash);
                     }
 
@@ -138,7 +138,7 @@ namespace Parcel.Packets
             uint propertyHash = reader.ReadUInt();
             while (propertyHash != 0U)
             {
-                ObjectProperty property = cache[propertyHash];
+                ObjectProperty property = cache.GetProperty(propertyHash);
                 setterArgs[0] = reader.SerializerResolver.GetSerializer(property.Type).Deserialize(reader);
 
                 property.Setter.Invoke(syncedObject, setterArgs);
@@ -181,10 +181,10 @@ namespace Parcel.Packets
                 {
                     ObjectProperty property = enumerator.Current;
 
-                    if (!property.WillAlwaysSerialize())
+                    if (!PacketCacheHelper.WillAlwaysSerialize(property))
                         continue;
 
-                    if (property.GetReliability() == reliability)
+                    if (PacketCacheHelper.GetReliability(property) == reliability)
                     {
                         writer.Write(property.NameHash);
                         writer.SerializerResolver.GetSerializer(property.Type).Serialize(writer, property.Getter.Invoke(syncedObject, getterArgs));
@@ -195,8 +195,8 @@ namespace Parcel.Packets
             //Write properties that have changed
             foreach (uint propertyHash in propertiesToUpdate)
             {
-                ObjectProperty property = cache[propertyHash];
-                if (property.GetReliability() == reliability)
+                ObjectProperty property = cache.GetProperty(propertyHash);
+                if (PacketCacheHelper.GetReliability(property) == reliability)
                 {
                     writer.Write(property.NameHash);
                     writer.SerializerResolver.GetSerializer(property.Type).Serialize(writer, property.Getter.Invoke(syncedObject, getterArgs));
