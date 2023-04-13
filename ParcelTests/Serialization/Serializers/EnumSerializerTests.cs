@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Parcel.Serialization.Binary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -70,10 +71,10 @@ namespace Parcel.Serialization.Tests
             EnumSerializer serializer = new EnumSerializer();
             serializer.ObjectCache = ObjectCache.FromType(value.GetType());
 
-            ByteWriter writer = new ByteWriter();
+            BinaryWriter writer = new BinaryWriter(BinarySerializerResolver.Default);
             serializer.Serialize(writer, value);
 
-            ByteReader reader = new ByteReader(writer.Data);
+            BinaryReader reader = new BinaryReader(BinarySerializerResolver.Default, writer.Data);
             Enum compareVal = reader.ReadEnum(value.GetType());
 
             Assert.AreEqual(value, compareVal);

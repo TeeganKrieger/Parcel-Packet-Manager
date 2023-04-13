@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Parcel.Serialization.Binary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -45,10 +46,10 @@ namespace Parcel.Serialization.Tests
             IGenericDictionarySerializer serializer = new IGenericDictionarySerializer();
             serializer.ObjectCache = ObjectCache.FromType(dict.GetType());
 
-            ByteWriter writer = new ByteWriter();
+            BinaryWriter writer = new BinaryWriter(BinarySerializerResolver.Default);
             writer.Write(dict);
 
-            ByteReader reader = new ByteReader(writer.Data);
+            BinaryReader reader = new BinaryReader(BinarySerializerResolver.Default, writer.Data);
             Dictionary<T1, T2> compareObject = (Dictionary<T1, T2>)reader.ReadObject();
             Assert.AreEqual(dict.Count, compareObject.Count);
 

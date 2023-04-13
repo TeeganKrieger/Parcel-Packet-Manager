@@ -61,7 +61,7 @@ namespace Parcel.Networking
         /// <param name="peer">The <see cref="Peer"/> to send the packet to.</param>
         /// <param name="reliability">The <see cref="Reliability"/> of the packet.</param>
         /// <param name="writer">A <see cref="Parcel.Serialization.ByteWriter">ByteWriter</see> containing the packet payload.</param>
-        void SendPacketTo(Peer peer, Reliability reliability, ByteWriter writer);
+        void SendPacketTo(Peer peer, Reliability reliability, DataWriter writer);
         
         /// <summary>
         /// Get the next incoming packet.
@@ -69,7 +69,7 @@ namespace Parcel.Networking
         /// <param name="reader">A <see cref="Parcel.Serialization.ByteReader">ByteReader</see> containing the entirety of the packet, advanced to the start of the payload.</param>
         /// <param name="sender">The <see cref="Peer"/> the packet came from.</param>
         /// <returns><see langword="true"/> if a packet was found; otherwise, <see langword="false"/>.</returns>
-        bool GetNextPacket(out ByteReader reader, out Peer sender);
+        bool GetNextPacket(out DataReader reader, out Peer sender);
 
         /// <summary>
         /// Get the ping of a remote user.

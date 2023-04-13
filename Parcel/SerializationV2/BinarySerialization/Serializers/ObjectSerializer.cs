@@ -1,13 +1,11 @@
 ﻿using Parcel.Lib;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Parcel.Serialization
+namespace Parcel.Serialization.Binary
 {
-    internal class ObjectSerializer : Serializer
+    internal class ObjectSerializer : SerializerV2, IBinarySerializer
     {
-        public override object Deserialize(ByteReader reader)
+        public override object Deserialize(DataReader reader)
         {
             object[] setterArgs = new object[1];
 
@@ -17,8 +15,8 @@ namespace Parcel.Serialization
             while (propertyHash != 0U)
             {
                 ObjectProperty property = ObjectCache.GetProperty(propertyHash);
-                bool readWithTypeHash = reader.ReadBool();
-                setterArgs[0] = readWithTypeHash ? reader.ReadObject() : reader.ReadWithoutTypeInfo(property.Type);
+                bool readWithTypeHash = reader.ReadBoolean();
+                setterArgs[0] = readWithTypeHash ? reader.ReadObject() : reader.ReadObject(false, property.Type);
                 property.Setter.Invoke(obj, setterArgs);
                 propertyHash = reader.ReadUInt();
             }
@@ -26,7 +24,7 @@ namespace Parcel.Serialization
             return obj;
         }
 
-        public override void Serialize(ByteWriter writer, object obj)
+        public override void Serialize(DataWriter writer, object obj)
         {
             object[] getterArgs = new object[0];
 
@@ -39,7 +37,7 @@ namespace Parcel.Serialization
                 if (writeWithTypeHash)
                     writer.Write(value);
                 else
-                    writer.WriteWithoutTypeInfo(value);
+                    writer.Write(value, false);
             }
 
             writer.Write(0U);

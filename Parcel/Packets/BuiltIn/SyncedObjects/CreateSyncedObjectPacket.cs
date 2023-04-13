@@ -52,7 +52,7 @@ namespace Parcel.Packets
         /// <inheritdoc/>
         protected internal override void OnSend()
         {
-            ByteWriter writer = new ByteWriter();
+            DataWriter writer = this.IsClient ? this.Client.NetworkSettings.SerializerResolver.NewDataWriter() : this.Server.NetworkSettings.SerializerResolver.NewDataWriter();
             SyncedObjectSerializer.SerializeAll(writer, SyncedObject);
             this.RawSyncedObject = writer.Data;
         }
@@ -60,7 +60,7 @@ namespace Parcel.Packets
         /// <inheritdoc/>
         protected internal override void OnReceive()
         {
-            ByteReader reader = new ByteReader(RawSyncedObject);
+            DataReader reader = this.IsClient ? this.Client.NetworkSettings.SerializerResolver.NewDataReader(RawSyncedObject) : this.Server.NetworkSettings.SerializerResolver.NewDataReader(RawSyncedObject);
             SyncedObject = SyncedObjectSerializer.DeserializeAll(reader);
             this.Client.AddSyncedObject(SyncedObject);
         }

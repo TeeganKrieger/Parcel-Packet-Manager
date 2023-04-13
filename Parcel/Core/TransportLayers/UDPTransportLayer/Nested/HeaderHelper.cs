@@ -27,18 +27,31 @@ namespace Parcel.Networking
             /// <param name="payload">A <see cref="ByteWriter"/> containing the packet payload.</param>
             /// <returns>A byte array containing the packet.</returns>
             /// <exception cref="ArgumentException">Thrown if the combination of <paramref name="reliability"/> and <paramref name="packetType"/> are incompatible.</exception>
-            public static byte[] CreatePacket(Reliability reliability, PacketType packetType, int sequenceNumber, ByteWriter payload = null)
+            public static byte[] CreatePacket(ParcelSettings settings, Reliability reliability, PacketType packetType, int sequenceNumber, DataWriter payload = null)
             {
                 if (reliability == Reliability.Reliable && packetType == PacketType.Acknowledgment)
                     throw new ArgumentException(string.Format(EXCP_INVALID_RELIABLE, packetType), nameof(packetType));
                 else if (reliability == Reliability.Unreliable && !(packetType == PacketType.Acknowledgment || packetType == PacketType.Data))
                     throw new ArgumentException(string.Format(EXCP_INVALID_UNRELIABLE, packetType), nameof(packetType));
 
-                ByteWriter header = new ByteWriter();
+                DataWriter header = settings.SerializerResolver.NewDataWriter();
                 header.Write((byte)((reliability == Reliability.Reliable ? RELIABLE_MASK : UNRELIABLE_MASK) | (byte)packetType));
                 header.Write(sequenceNumber);
 
-                return payload == null ? header.Data : header.MergeData(payload);
+                if (payload == null)
+                    return header.Data;
+                else
+                {
+                    byte[] finalArr = new byte[header.Length + payload.Length];
+
+                    int i = 0;
+                    foreach (byte b in header)
+                        finalArr[i++] = b;
+                    foreach (byte b in payload)
+                        finalArr[i++] = b;
+
+                    return finalArr;
+                }
             }
 
             /// <summary>
@@ -48,7 +61,7 @@ namespace Parcel.Networking
             /// <param name="packetType">The type of the packet.</param>
             /// <param name="sequenceNumber">The sequence number of the packet.</param>
             /// <returns>The reliability of the packet.</returns>
-            public static Reliability ParseHeader(ByteReader reader, out PacketType packetType, out int sequenceNumber)
+            public static Reliability ParseHeader(DataReader reader, out PacketType packetType, out int sequenceNumber)
             {
                 byte headerByte = reader.ReadByte();
                 sequenceNumber = reader.ReadInt();

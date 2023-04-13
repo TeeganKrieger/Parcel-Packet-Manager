@@ -42,7 +42,7 @@ namespace Parcel
         private ConcurrentQueue<PacketAndRemotes> _scheduledPackets;
         private ConcurrentHashSet<Peer> _connectedPeers;
 
-        private SerializerResolver _serializerResolver;
+        private SerializerResolverV2 _serializerResolver;
         private SyncedObjectSerializer _syncedObjectSerializer;
 
         private CancellationTokenSource _loopTaskCancellationSource;
@@ -109,6 +109,17 @@ namespace Parcel
         /// <param name="settings">The <see cref="ParcelSettings">Network Settings</see> to use.</param>
         public ParcelServer(ParcelSettings settings)
         {
+            //Attach MetaData to Packet and SyncedObject Serializers in the SerializerResolver
+            SerializerResolverV2 serializerResolver = settings.SerializerResolver;
+
+            foreach (SerializerV2 serializer in serializerResolver.GetRegisteredSerializers())
+                if (serializer is SyncedObjectSerializer syncedObjectSerializer)
+                    syncedObjectSerializer.SetMetadata(this);
+
+            foreach (SerializerV2 serializer in serializerResolver.GetResolvedSerializers())
+                if (serializer is SyncedObjectSerializer syncedObjectSerializer)
+                    syncedObjectSerializer.SetMetadata(this);
+
             //Try to lock settings
             if (settings.Locked)
                 throw new ArgumentException(EXCP_SETTINGS, nameof(settings));
@@ -119,7 +130,6 @@ namespace Parcel
             this._syncedObjectDict = new ConcurrentDictionary<SyncedObjectID, SyncedObjectSubscriptions>();
             this._syncedObjectsToUpdate = new ConcurrentHashSet<SyncedObjectID>();
             this._scheduledPackets = new ConcurrentQueue<PacketAndRemotes>();
-            this._syncedObjectSerializer = new SyncedObjectSerializer(this);
             this._connectedPeers = new ConcurrentHashSet<Peer>();
             this._loopTaskCancellationSource = new CancellationTokenSource();
             this._serializerResolver = settings.SerializerResolver;
@@ -253,9 +263,9 @@ namespace Parcel
                     if (!this._connectedPeers.Contains(peer))
                         continue;
                     if (!peerUnreliableWriters.ContainsKey(peer))
-                        peerUnreliableWriters.Add(peer, new WriterAndCount(new ByteWriter(this._serializerResolver)));
+                        peerUnreliableWriters.Add(peer, new WriterAndCount(this._serializerResolver.NewDataWriter()));
                     if (!peerReliableWriters.ContainsKey(peer))
-                        peerReliableWriters.Add(peer, new WriterAndCount(new ByteWriter(this._serializerResolver)));
+                        peerReliableWriters.Add(peer, new WriterAndCount(this._serializerResolver.NewDataWriter()));
                 }
 
                 //Handle Synced Objects
@@ -284,7 +294,7 @@ namespace Parcel
 
             void SerializePacket(Packet packet, Dictionary<Peer, WriterAndCount> peersDict, Peer[] sendTo)
             {
-                ByteWriter localWriter = new ByteWriter(this._serializerResolver);
+                DataWriter localWriter = this._serializerResolver.NewDataWriter();
 
                 try
                 {
@@ -329,7 +339,7 @@ namespace Parcel
             {
                 if (this._syncedObjectSerializer.WillSerialize(so, reliability))
                 {
-                    ByteWriter localWriter = new ByteWriter(this._serializerResolver);
+                    DataWriter localWriter = this._serializerResolver.NewDataWriter();
 
                     try
                     {
@@ -398,7 +408,7 @@ namespace Parcel
 
             //Loop until either a time limit is exceeded or until no more packets are left to be processed.
             while (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - start < (0.45f * this.NetworkSettings.MillisecondsPerUpdate)
-                && this._networkAdapter.GetNextPacket(out ByteReader reader, out Peer sender))
+                && this._networkAdapter.GetNextPacket(out DataReader reader, out Peer sender))
             {
                 this.NetworkSettings.Debugger?.AddReceivePacketEvent(reader.Length);
 
@@ -1031,14 +1041,14 @@ namespace Parcel
         }
 
         /// <summary>
-        /// Represents a <see cref="ByteWriter"/> and packet count.
+        /// Represents a <see cref="DataWriter"/> and packet count.
         /// </summary>
         private class WriterAndCount
         {
             /// <summary>
-            /// The <see cref="ByteWriter"/>.
+            /// The <see cref="DataWriter"/>.
             /// </summary>
-            public ByteWriter Writer { get; private set; }
+            public DataWriter Writer { get; private set; }
 
             /// <summary>
             /// The packet count.
@@ -1048,8 +1058,8 @@ namespace Parcel
             /// <summary>
             /// Construct a new instance of WriterAndCount.
             /// </summary>
-            /// <param name="writer">The <see cref="ByteWriter"/> to use.</param>
-            public WriterAndCount(ByteWriter writer)
+            /// <param name="writer">The <see cref="DataWriter"/> to use.</param>
+            public WriterAndCount(DataWriter writer)
             {
                 this.Writer = writer;
                 this.Count = 0;

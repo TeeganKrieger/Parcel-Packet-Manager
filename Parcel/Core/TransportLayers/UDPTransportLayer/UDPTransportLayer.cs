@@ -109,7 +109,7 @@ namespace Parcel.Networking
         }
 
         /// <inheritdoc/>
-        public bool GetNextPacket(out ByteReader reader, out Peer sender)
+        public bool GetNextPacket(out DataReader reader, out Peer sender)
         {
             if (this._unprocessedPackets.TryDequeue(out UnprocessedPacket next))
             {
@@ -123,7 +123,7 @@ namespace Parcel.Networking
         }
 
         /// <inheritdoc/>
-        public void SendPacketTo(Peer peer, Reliability reliability, ByteWriter writer)
+        public void SendPacketTo(Peer peer, Reliability reliability, DataWriter writer)
         {
             ConnectionToken key = peer.GetConnectionToken();
 

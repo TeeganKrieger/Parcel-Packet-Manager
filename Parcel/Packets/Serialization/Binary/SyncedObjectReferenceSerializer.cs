@@ -1,12 +1,10 @@
-﻿using Parcel.Lib;
-using Parcel.Serialization;
+﻿using Parcel.Serialization;
+using Parcel.Serialization.Binary;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Parcel.Packets
 {
-    internal class SyncedObjectReferenceSerializer : Serializer
+    internal class SyncedObjectReferenceSerializer : BinarySerializer
     {
         private bool _isServer;
         private ParcelClient _client;
@@ -29,7 +27,7 @@ namespace Parcel.Packets
             return typeof(SyncedObject).IsAssignableFrom(type);
         }
 
-        public override object Deserialize(ByteReader reader)
+        public override object Deserialize(DataReader reader)
         {
             uint id = reader.ReadUInt();
             SyncedObjectID soid = new SyncedObjectID(id);
@@ -46,7 +44,7 @@ namespace Parcel.Packets
             }
         }
 
-        public override void Serialize(ByteWriter writer, object obj)
+        public override void Serialize(DataWriter writer, object obj)
         {
             SyncedObject so = (SyncedObject)obj;
             uint soid = so.ID;

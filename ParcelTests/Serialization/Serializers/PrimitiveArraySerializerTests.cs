@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Parcel.Serialization.Binary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -180,11 +181,11 @@ namespace Parcel.Serialization.Tests
 
         private void GenericTest<T>(T[] testArr) where T : struct
         {
-            ByteWriter writer = new ByteWriter();
+            BinaryWriter writer = new BinaryWriter(BinarySerializerResolver.Default);
             PrimitiveArraySerializer<T> serializer = new PrimitiveArraySerializer<T>();
             serializer.Serialize(writer, testArr);
 
-            ByteReader reader = new ByteReader(writer.Data);
+            BinaryReader reader = new BinaryReader(BinarySerializerResolver.Default, writer.Data);
             T[] compareArr = (T[])serializer.Deserialize(reader);
 
             Console.WriteLine($"TestArr Length: {testArr.Length}");

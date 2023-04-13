@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Parcel.Serialization.Binary;
 using Parcel.Serialization.Tests;
 using System;
 using System.Collections.Generic;
@@ -38,10 +39,10 @@ namespace Parcel.Serialization.Tests
             ObjectArraySerializer serializer = new ObjectArraySerializer();
             serializer.ObjectCache = ObjectCache.FromType(typeof(object[]));
 
-            ByteWriter writer = new ByteWriter();
+            BinaryWriter writer = new BinaryWriter(BinarySerializerResolver.Default);
             serializer.Serialize(writer, value);
 
-            ByteReader reader = new ByteReader(writer.Data);
+            BinaryReader reader = new BinaryReader(BinarySerializerResolver.Default, writer.Data);
             object[] compareVal = reader.ReadObjectArray();
 
             if (value == null)

@@ -6,6 +6,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Core\TransportLayers\UDPTransportLayerV2\**" />
+	  <Compile Remove="Serialization\**" />
+	  <EmbeddedResource Remove="Core\TransportLayers\UDPTransportLayerV2\**" />
+	  <EmbeddedResource Remove="Serialization\**" />
+	  <None Remove="Core\TransportLayers\UDPTransportLayerV2\**" />
+	  <None Remove="Serialization\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
 			<_Parameter1>ParcelTests</_Parameter1>
 		</AssemblyAttribute>
@@ -13,10 +22,6 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Lib.Harmony" Version="2.2.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Extensions\" />
 	</ItemGroup>
 
 </Project>

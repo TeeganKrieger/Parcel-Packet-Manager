@@ -40,7 +40,7 @@ namespace Parcel
 
         private ConcurrentQueue<Packet> _scheduledPackets;
 
-        private SerializerResolver _serializerResolver;
+        private SerializerResolverV2 _serializerResolver;
         private SyncedObjectSerializer _syncedObjectSerializer;
 
         private CancellationTokenSource _loopTaskCancellationSource;
@@ -99,6 +99,17 @@ namespace Parcel
         /// <param name="settings">The <see cref="ParcelSettings">Network Settings</see> to use.</param>
         public ParcelClient(ParcelSettings settings)
         {
+            //Attach MetaData to Packet and SyncedObject Serializers in the SerializerResolver
+            SerializerResolverV2 serializerResolver = settings.SerializerResolver;
+
+            foreach (SerializerV2 serializer in serializerResolver.GetRegisteredSerializers())
+                if (serializer is SyncedObjectSerializer syncedObjectSerializer)
+                    syncedObjectSerializer.SetMetadata(this);
+
+            foreach (SerializerV2 serializer in serializerResolver.GetResolvedSerializers())
+                if (serializer is SyncedObjectSerializer syncedObjectSerializer)
+                    syncedObjectSerializer.SetMetadata(this);
+
             //Try to lock settings
             if (settings.Locked)
                 throw new ArgumentException(EXCP_SETTINGS, nameof(settings));
@@ -109,7 +120,6 @@ namespace Parcel
             this._syncedObjectDict = new ConcurrentDictionary<SyncedObjectID, SyncedObject>();
             this._syncedObjectsToUpdate = new ConcurrentHashSet<SyncedObjectID>();
             this._scheduledPackets = new ConcurrentQueue<Packet>();
-            this._syncedObjectSerializer = new SyncedObjectSerializer(this);
             this._loopTaskCancellationSource = new CancellationTokenSource();
             this._serializerResolver = settings.SerializerResolver;
             this._networkAdapter = settings.CreateNewNetworkAdapter();
@@ -121,7 +131,6 @@ namespace Parcel
 
             //perform setup
             this.OnDisconnected += DisconnectionCleanup;
-            this._serializerResolver.RegisterSerializer(new SyncedObjectReferenceSerializer(this));
             this._networkAdapter.Start(false, settings);
             if (settings.PerformUpdatesAutomatically)
                 Task.Run(AutoLoop, this._loopTaskCancellationSource.Token);
@@ -305,8 +314,8 @@ namespace Parcel
             long start = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
             //Create byte writers for reliable and unreliable packets
-            WriterAndCount unreliableWaC = new WriterAndCount(new ByteWriter(this._serializerResolver));
-            WriterAndCount reliableWaC = new WriterAndCount(new ByteWriter(this._serializerResolver));
+            WriterAndCount unreliableWaC = new WriterAndCount(this.NetworkSettings.SerializerResolver.NewDataWriter());
+            WriterAndCount reliableWaC = new WriterAndCount(this.NetworkSettings.SerializerResolver.NewDataWriter());
 
             //Loop: Serialize and send packets until either no packets are left to send or 40% of the allotted milliseconds for this tick have
             //been consumed.
@@ -433,7 +442,7 @@ namespace Parcel
             long start = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
             while (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() - start < (0.45f * this.NetworkSettings.MillisecondsPerUpdate)
-                && this._networkAdapter.GetNextPacket(out ByteReader reader, out Peer sender))
+                && this._networkAdapter.GetNextPacket(out DataReader reader, out Peer sender))
             {
                 this.NetworkSettings.Debugger?.AddReceivePacketEvent(reader.Length);
 
@@ -861,14 +870,14 @@ namespace Parcel
         #region NESTED CLASSES
 
         /// <summary>
-        /// Represents a <see cref="ByteWriter"/> and packet count.
+        /// Represents a <see cref="DataWriter"/> and packet count.
         /// </summary>
         private class WriterAndCount
         {
             /// <summary>
-            /// The <see cref="ByteWriter"/>.
+            /// The <see cref="DataWriter"/>.
             /// </summary>
-            public ByteWriter Writer { get; private set; }
+            public DataWriter Writer { get; private set; }
 
             /// <summary>
             /// The packet count.
@@ -878,8 +887,8 @@ namespace Parcel
             /// <summary>
             /// Construct a new instance of WriterAndCount.
             /// </summary>
-            /// <param name="writer">The <see cref="ByteWriter"/> to use.</param>
-            public WriterAndCount(ByteWriter writer)
+            /// <param name="writer">The <see cref="DataWriter"/> to use.</param>
+            public WriterAndCount(DataWriter writer)
             {
                 this.Writer = writer;
                 this.Count = 0;

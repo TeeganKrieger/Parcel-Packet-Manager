@@ -82,7 +82,7 @@ namespace Parcel
         /// <summary>
         /// The <see cref="Serialization.SerializerResolver"/> for the <see cref="ParcelClient"/> or <see cref="ParcelServer"/> to use.
         /// </summary>
-        public SerializerResolver SerializerResolver { get; private set; }
+        public SerializerResolverV2 SerializerResolver { get; private set; }
 
         /// <summary>
         /// The behavior for handling <see cref="Packets.SyncedObject">SyncedObjects</see> a <see cref="ParcelServer"/> should perform when a user disconnects.
@@ -124,7 +124,7 @@ namespace Parcel
         /// </remarks>
         internal ParcelSettings(Peer peer, int firstConnectionTimeout, int disconnectionTimeout, Type networkAdapterType, int updatesPerSecond,
             bool performUpdatesAutomatically, int unreliablePacketGroupSize, int reliablePacketGroupSize, NetworkDebugger debugger, 
-            SerializerResolver serializerResolver, ServerDisconnectionBehavior serverDisconnectionBehavior)
+            SerializerResolverV2 serializerResolver, ServerDisconnectionBehavior serverDisconnectionBehavior)
         {
             this.Peer = peer;
             this.ConnectionTimeout = firstConnectionTimeout;

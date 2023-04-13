@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace Parcel.Serialization
+namespace Parcel.Serialization.Binary
 {
-    internal class ObjectArraySerializer : Serializer
+    internal class ObjectArraySerializer : SerializerV2, IBinarySerializer
     {
-        public override object Deserialize(ByteReader reader)
+        public override object Deserialize(DataReader reader)
         {
             return reader.ReadObjectArray();
         }
 
-        public override void Serialize(ByteWriter writer, object obj)
+        public override void Serialize(DataWriter writer, object obj)
         {
             writer.Write((object[])obj);
         }

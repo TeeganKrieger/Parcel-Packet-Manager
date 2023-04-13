@@ -120,12 +120,12 @@ namespace Parcel.Networking
                 }
 
                 //Try writing packet data
-                ByteWriter writer = new ByteWriter(this._settings.SerializerResolver);
+                DataWriter writer = this._settings.SerializerResolver.NewDataWriter();
 
                 try
                 {
                     writer.Write(awaitableIndex);
-                    writer.WriteWithoutTypeInfo(selfProperties);
+                    writer.Write(selfProperties, false);
                 }
                 catch (Exception ex)
                 {
@@ -137,7 +137,7 @@ namespace Parcel.Networking
 
                 //Send and wait for response
                 SendPacket(writer, Reliability.Reliable, PacketType.ConnectionRequest);
-                ByteReader responsePacket = await AwaitPacket(awaitableIndex, this._settings.ConnectionTimeout);
+                DataReader responsePacket = await AwaitPacket(awaitableIndex, this._settings.ConnectionTimeout);
 
                 //Handle response
                 if (responsePacket == null)
@@ -157,7 +157,7 @@ namespace Parcel.Networking
                     //Try reading response packet
                     try
                     {
-                        rejected = responsePacket.ReadBool();
+                        rejected = responsePacket.ReadBoolean();
 
                         if (rejected)
                         {
@@ -167,7 +167,7 @@ namespace Parcel.Networking
                         {
                             selfGUID = responsePacket.ReadString();
                             remoteGUID = responsePacket.ReadString();
-                            remoteProperties = responsePacket.ReadWithoutTypeInfo<Dictionary<string, object>>();
+                            remoteProperties = responsePacket.ReadObject<Dictionary<string, object>>(false);
                         }
 
                     }
@@ -206,7 +206,7 @@ namespace Parcel.Networking
             /// Process a Connection Request packet.
             /// </summary>
             /// <param name="reader">The <see cref="ByteReader"/> containing the packet.</param>
-            private void HandleConnectionRequest(ByteReader reader)
+            private void HandleConnectionRequest(DataReader reader)
             {
                 if (!this._adapter._isServer)
                     return;
@@ -219,7 +219,7 @@ namespace Parcel.Networking
                 {
                     //Read awaitableIndex and remote Peer properties
                     awaitableIndex = reader.ReadShort();
-                    remotePeerProperties = reader.ReadWithoutTypeInfo<Dictionary<string, object>>();
+                    remotePeerProperties = reader.ReadObject<Dictionary<string, object>>(false);
                 }
                 catch (Exception ex)
                 {
@@ -259,7 +259,7 @@ namespace Parcel.Networking
                     selfProperties.Add(key, self[key]);
                 }
 
-                ByteWriter writer = new ByteWriter(this._settings.SerializerResolver);
+                DataWriter writer = this._settings.SerializerResolver.NewDataWriter();
 
                 try
                 {
@@ -275,7 +275,7 @@ namespace Parcel.Networking
                         writer.Write(false);
                         writer.Write(this.Remote.GUID.ToString());
                         writer.Write(self.GUID.ToString());
-                        writer.WriteWithoutTypeInfo(selfProperties);
+                        writer.Write(selfProperties, false);
                     }
                 }
                 catch (Exception ex)
@@ -300,7 +300,7 @@ namespace Parcel.Networking
             /// Process a Connection Response packet.
             /// </summary>
             /// <param name="reader">The <see cref="ByteReader"/> containing the packet.</param>
-            private void HandleConnectionResponse(ByteReader reader)
+            private void HandleConnectionResponse(DataReader reader)
             {
                 if (this._adapter._isServer)
                     return;
@@ -332,7 +332,7 @@ namespace Parcel.Networking
             public async Task Disconnect(object disconnectionObject = null)
             {
                 short awaitableIndex = (short)this._awaitableCounter.Increment();
-                ByteWriter writer = new ByteWriter(this._settings.SerializerResolver);
+                DataWriter writer = this._settings.SerializerResolver.NewDataWriter();
 
                 try
                 {
@@ -357,7 +357,7 @@ namespace Parcel.Networking
             /// Process a Disconnection Request packet.
             /// </summary>
             /// <param name="reader">The <see cref="ByteReader"/> containing the packet.</param>
-            private void HandleDisconnectionRequest(ByteReader reader)
+            private void HandleDisconnectionRequest(DataReader reader)
             {
                 //Try read
                 short awaitableIndex;
@@ -374,7 +374,7 @@ namespace Parcel.Networking
                     return;
                 }
 
-                ByteWriter writer = new ByteWriter(this._settings.SerializerResolver);
+                DataWriter writer = this._settings.SerializerResolver.NewDataWriter();
 
                 try
                 {
@@ -403,7 +403,7 @@ namespace Parcel.Networking
             /// Process a Disconnection Response packet.
             /// </summary>
             /// <param name="reader">The <see cref="ByteReader"/> containing the packet.</param>
-            private void HandleDisconnectionResponse(ByteReader reader)
+            private void HandleDisconnectionResponse(DataReader reader)
             {
                 short awaitableIndex;
                 try
@@ -433,7 +433,7 @@ namespace Parcel.Networking
                 long start = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
                 short awaitableIndex = (short)this._awaitableCounter.Increment();
-                ByteWriter writer = new ByteWriter(this._settings.SerializerResolver);
+                DataWriter writer = this._settings.SerializerResolver.NewDataWriter();
 
                 try
                 {
@@ -446,7 +446,7 @@ namespace Parcel.Networking
                 }
 
                 SendPacket(writer, Reliability.Reliable, PacketType.PingRequest);
-                ByteReader reader = await AwaitPacket(awaitableIndex, this._settings.DisconnectionTimeout);
+                DataReader reader = await AwaitPacket(awaitableIndex, this._settings.DisconnectionTimeout);
 
                 if (reader == null)
                 {
@@ -466,7 +466,7 @@ namespace Parcel.Networking
             /// Process a Ping Request packet.
             /// </summary>
             /// <param name="reader">The <see cref="ByteReader"/> containing the packet.</param>
-            private void HandlePingRequest(ByteReader reader)
+            private void HandlePingRequest(DataReader reader)
             {
                 short awaitableIndex;
 
@@ -480,7 +480,7 @@ namespace Parcel.Networking
                     return;
                 }
 
-                ByteWriter writer = new ByteWriter(this._settings.SerializerResolver);
+                DataWriter writer = this._settings.SerializerResolver.NewDataWriter();
 
                 try
                 {
@@ -499,7 +499,7 @@ namespace Parcel.Networking
             /// Process a Ping Response packet.
             /// </summary>
             /// <param name="reader">The <see cref="ByteReader"/> containing the packet.</param>
-            private void HandlePingResponse(ByteReader reader)
+            private void HandlePingResponse(DataReader reader)
             {
                 short awaitableIndex;
                 try
@@ -526,7 +526,7 @@ namespace Parcel.Networking
             /// </summary>
             /// <param name="writer">The <see cref="ByteWriter"/> containing the packet.</param>
             /// <param name="reliability">The reliability of the packet.</param>
-            public void Send(ByteWriter writer, Reliability reliability)
+            public void Send(DataWriter writer, Reliability reliability)
             {
                 SendPacket(writer, reliability, PacketType.Data);
             }
@@ -535,7 +535,7 @@ namespace Parcel.Networking
             /// Process a Data packet.
             /// </summary>
             /// <param name="reader">The <see cref="ByteReader"/> containing the packet.</param>
-            private void HandleData(ByteReader reader)
+            private void HandleData(DataReader reader)
             {
                 this._unprocessedPackets.Enqueue(new UnprocessedPacket(reader, this.Remote));
             }
@@ -552,7 +552,7 @@ namespace Parcel.Networking
             /// <param name="reliability">The reliability of the packet.</param>
             /// <param name="packetType">The type of the packet.</param>
             /// <returns>The sequence number of the packet being sent.</returns>
-            private int SendPacket(ByteWriter writer, Reliability reliability, PacketType packetType)
+            private int SendPacket(DataWriter writer, Reliability reliability, PacketType packetType)
             {
                 SequenceNumber sequenceNumber = reliability == Reliability.Reliable ? this._reliableOutgoing : this._unreliableOutgoing;
                 sequenceNumber.Increment();
@@ -560,7 +560,7 @@ namespace Parcel.Networking
                 byte[] packet;
                 try
                 {
-                    packet = HeaderHelper.CreatePacket(reliability, packetType, sequenceNumber, writer);
+                    packet = HeaderHelper.CreatePacket(this._settings, reliability, packetType, sequenceNumber, writer);
                 }
                 catch (Exception ex)
                 {
@@ -583,7 +583,7 @@ namespace Parcel.Networking
                 byte[] packet;
                 try
                 {
-                    packet = HeaderHelper.CreatePacket(Reliability.Unreliable, PacketType.Acknowledgment, sequenceNumber, null);
+                    packet = HeaderHelper.CreatePacket(this._settings, Reliability.Unreliable, PacketType.Acknowledgment, sequenceNumber, null);
                 }
                 catch (Exception ex)
                 {
@@ -607,7 +607,7 @@ namespace Parcel.Networking
             {
                 try
                 {
-                    ByteReader reader = new ByteReader(packet, this._settings.SerializerResolver);
+                    DataReader reader = this._settings.SerializerResolver.NewDataReader(packet);
 
                     Reliability reliability = HeaderHelper.ParseHeader(reader, out PacketType packetType, out int sequenceNumber);
 
@@ -651,7 +651,7 @@ namespace Parcel.Networking
             /// <param name="awaitableIndex">The awaitable index of the packet.</param>
             /// <param name="timeout">The time in milliseconds to wait before the packet is considered lost.</param>
             /// <returns>The <see cref="ByteReader"/> of the awaited packet.</returns>
-            private async Task<ByteReader> AwaitPacket(short awaitableIndex, int timeout)
+            private async Task<DataReader> AwaitPacket(short awaitableIndex, int timeout)
             {
                 CancellationTokenSource cancellationToken = new CancellationTokenSource();
                 AwaitablePacket awaitablePacket = new AwaitablePacket();
@@ -788,7 +788,7 @@ namespace Parcel.Networking
                 private PeerChannel _channel;
                 private PacketType _packetType;
                 private int _sequenceNumber;
-                private ByteReader _reader;
+                private DataReader _reader;
 
                 /// <summary>
                 /// Construct a new instance of SequencedPacket.
@@ -797,7 +797,7 @@ namespace Parcel.Networking
                 /// <param name="packetType">The type of this packet.</param>
                 /// <param name="sequenceNumber">The sequence number of this packet.</param>
                 /// <param name="reader">A <see cref="ByteReader"/> containing the packets data.</param>
-                public SequencedPacket(PeerChannel channel, PacketType packetType, int sequenceNumber, ByteReader reader)
+                public SequencedPacket(PeerChannel channel, PacketType packetType, int sequenceNumber, DataReader reader)
                 {
                     this._channel = channel;
                     this._packetType = packetType;
@@ -852,7 +852,7 @@ namespace Parcel.Networking
                 /// <summary>
                 /// The <see cref="ByteReader"/> containing the packet's data.
                 /// </summary>
-                public ByteReader Reader { get; private set; }
+                public DataReader Reader { get; private set; }
 
                 /// <summary>
                 /// Construct a new instance of AwaitablePacket.
@@ -868,7 +868,7 @@ namespace Parcel.Networking
                 /// Mark this packet as having been received.
                 /// </summary>
                 /// <param name="reader">The <see cref="ByteReader"/> containing the packet's data.</param>
-                public void Receive(ByteReader reader)
+                public void Receive(DataReader reader)
                 {
                     lock (_lock)
                     {

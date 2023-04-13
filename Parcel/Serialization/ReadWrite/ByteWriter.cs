@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -9,7 +10,7 @@ namespace Parcel.Serialization
     /// <summary>
     /// Facilitates the writing of primitives and objects to an array of bytes.
     /// </summary>
-    public sealed class ByteWriter
+    public sealed class ByteWriter : IEnumerable<byte>
     {
         private static string EXCP_INVALID_POS = "Cannot write to position {0} as it would write out of the current boundaries of the stream.";
         private static string EXCP_POS_RANGE = "Cannot set position to {0}. NewPosition must be between 0 and the length of the internal data stream.";
@@ -979,6 +980,27 @@ namespace Parcel.Serialization
         internal void Reset()
         {
             this._position = 0;
+        }
+
+        #endregion
+
+
+        #region IENUMERABLE IMPLEMENTATION
+
+        public IEnumerator<byte> GetEnumerator()
+        {
+            for (int i = 0; i < this.Length; i++)
+            {
+                yield return this._data[i];
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            for (int i = 0; i < this.Length; i++)
+            {
+                yield return this._data[i];
+            }
         }
 
         #endregion

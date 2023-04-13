@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
@@ -11,7 +12,7 @@ namespace Parcel.Serialization
     /// <summary>
     /// Facilitates the reading of primitives and objects to an array of bytes.
     /// </summary>
-    public sealed class ByteReader
+    public sealed class ByteReader : IEnumerable<byte>
     {
         private static string EXCP_POS_RANGE = "Cannot set postion to {0}. NewPosition must be between 0 and the length of the internal data stream.";
         private static string EXCP_NOT_ENUM = "Cannot read enum. Type provided '{0}' is not an enum.";
@@ -561,6 +562,45 @@ namespace Parcel.Serialization
         #endregion
 
 
+        #region IENUMERABLE IMPLEMENTATION
+
+        public IEnumerator<byte> GetEnumerator()
+        {
+            for (int i = 0; i < this.Length; i++)
+            {
+                yield return this._data[i];
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            for (int i = 0; i < this.Length; i++)
+            {
+                yield return this._data[i];
+            }
+        }
+
+        #endregion
+
+
+        #region MISC
+
+        /// <summary>
+        /// Set the read position of the ByteReader.
+        /// </summary>
+        /// <param name="newPosition">The new read position.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="newPosition"/> is below 0 or greater than the length of the internal data stream.</exception>
+        internal void SetPosition(int newPosition)
+        {
+            if (newPosition < 0 || newPosition > _data.Length)
+                throw new ArgumentOutOfRangeException(nameof(newPosition), string.Format(EXCP_POS_RANGE, newPosition));
+
+            this._position = newPosition;
+        }
+
+        #endregion
+
+
         #region HELPERS
 
         /// <summary>
@@ -612,22 +652,5 @@ namespace Parcel.Serialization
 
         #endregion
 
-
-        #region MISC
-
-        /// <summary>
-        /// Set the read position of the ByteReader.
-        /// </summary>
-        /// <param name="newPosition">The new read position.</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="newPosition"/> is below 0 or greater than the length of the internal data stream.</exception>
-        internal void SetPosition(int newPosition)
-        {
-            if (newPosition < 0 || newPosition > _data.Length)
-                throw new ArgumentOutOfRangeException(nameof(newPosition), string.Format(EXCP_POS_RANGE, newPosition));
-
-            this._position = newPosition;
-        }
-
-        #endregion
     }
 }

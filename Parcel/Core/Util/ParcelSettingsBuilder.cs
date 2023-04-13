@@ -1,6 +1,7 @@
 ﻿using Parcel.Debug;
 using Parcel.Networking;
 using Parcel.Serialization;
+using Parcel.Serialization.Binary;
 using System;
 
 namespace Parcel
@@ -40,7 +41,7 @@ namespace Parcel
         private int _reliablePacketGroupSize = 8;
         private Type _networkAdapterType = null;
         private NetworkDebugger _debugger = null;
-        private SerializerResolver _serializerResolver = SerializerResolver.Global;
+        private SerializerResolverV2 _serializerResolver = (SerializerResolverV2)BinarySerializerResolver.Default.Clone();
         private ServerDisconnectionBehavior _serverDisconnectionBehavior;
 
 
@@ -188,12 +189,12 @@ namespace Parcel
         /// <param name="serializerResolver">The <see cref="SerializerResolver"/> to use.</param>
         /// <returns>The current ParcelSettingsBuilder instance.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="serializerResolver"/> is null.</exception>
-        public ParcelSettingsBuilder SetSerializerResolver(SerializerResolver serializerResolver)
+        public ParcelSettingsBuilder SetSerializerResolver(SerializerResolverV2 serializerResolver)
         {
             if (serializerResolver == null)
                 throw new ArgumentNullException(nameof(serializerResolver));
 
-            this._serializerResolver = serializerResolver;
+            this._serializerResolver = (SerializerResolverV2)serializerResolver.Clone();
             return this;
         }
 

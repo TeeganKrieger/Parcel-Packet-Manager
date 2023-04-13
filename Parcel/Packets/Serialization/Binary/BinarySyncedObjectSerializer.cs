@@ -2,9 +2,9 @@
 using Parcel.Lib;
 using Parcel.Networking;
 using Parcel.Serialization;
+using Parcel.Serialization.Binary;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Parcel.Packets
 {
@@ -15,30 +15,15 @@ namespace Parcel.Packets
     /// This serializer diverges from the standard serializer conventions quite heavily, as a result, it is not compatible with the 
     /// SerializerResolver. 
     /// </remarks>
-    internal class SyncedObjectSerializer
+    public sealed class BinarySyncedObjectSerializer : SyncedObjectSerializer, IBinarySerializer
     {
-        private bool _isServer;
-        private ParcelClient _client;
-        private ParcelServer _server;
 
-        public SyncedObjectSerializer(ParcelClient client)
-        {
-            this._isServer = false;
-            this._client = client;
-        }
-
-        public SyncedObjectSerializer(ParcelServer server)
-        {
-            this._isServer = true;
-            this._server = server;
-        }
-
-        public SyncedObject Deserialize(ByteReader reader, Peer sender, out Dictionary<string, SyncedObject.PropertyChanges> changes)
+        public SyncedObject Deserialize(DataReader reader, Peer sender, out Dictionary<string, SyncedObject.PropertyChanges> changes)
         {
             //auto reject will be set to true if the sender and owner of an existing SyncedObject do not match.
             //Packet will then reject all changes but still be read to the end.
             bool reject = false;
-            TypeHashCode typeHash = reader.ReadTypeHashCode();
+            TypeHashCode typeHash = reader.ReadObject<TypeHashCode>();
             SyncedObjectID soid = (SyncedObjectID)reader.ReadUInt();
 
             ObjectCache cache = ObjectCache.FromHash(typeHash);
@@ -118,9 +103,9 @@ namespace Parcel.Packets
             return syncedObject;
         }
 
-        public SyncedObject DeserializeAll(ByteReader reader)
+        public SyncedObject DeserializeAll(DataReader reader)
         {
-            TypeHashCode typeHash = reader.ReadTypeHashCode();
+            TypeHashCode typeHash = reader.ReadObject<TypeHashCode>();
             SyncedObjectID soid = (SyncedObjectID)reader.ReadUInt();
 
             ObjectCache cache = ObjectCache.FromHash(typeHash);
@@ -161,7 +146,7 @@ namespace Parcel.Packets
             return true;
         }
 
-        public void Serialize(ByteWriter writer, SyncedObject syncedObject, Reliability reliability)
+        public void Serialize(DataWriter writer, SyncedObject syncedObject, Reliability reliability)
         {
             ConcurrentHashSet<uint> propertiesToUpdate = reliability == Reliability.Reliable ? syncedObject.ReliablePropertiesToSync : syncedObject.UnreliablePropertiesToSync;
 
@@ -207,7 +192,40 @@ namespace Parcel.Packets
             writer.Write(0U);
         }
 
-        public void SerializeAll(ByteWriter writer, SyncedObject syncedObject)
+        
+
+        public override void Serialize(DataWriter writer, object obj)
+        {
+            SyncedObject syncedObject = (SyncedObject)obj;
+
+            switch (this.GetSyncedObjectSerializationMode(syncedObject))
+            {
+                case SyncedObjectSerializationMode.All:
+
+                    break;
+                case SyncedObjectSerializationMode.Reliable:
+
+                    break;
+                case SyncedObjectSerializationMode.Unreliable:
+
+                    break;
+                case SyncedObjectSerializationMode.Reference:
+
+                    break;
+            }
+        }
+
+        public override object Deserialize(DataReader reader)
+        {
+
+        }
+
+        public override bool CanSerialize(Type type)
+        {
+            return typeof(SyncedObject).IsAssignableFrom(type);
+        }
+
+        public void SerializeAllProperties(DataWriter writer, SyncedObject syncedObject)
         {
             ObjectCache cache = ObjectCache.FromType(syncedObject.GetType());
             object[] getterArgs = new object[0];
@@ -232,5 +250,21 @@ namespace Parcel.Packets
 
             writer.Write(0U);
         }
+
+        public void SerializeReliableProperties()
+        {
+
+        }
+
+        public void SerializeUnreliableProperties()
+        {
+
+        }
+
+        public void SerializeReference()
+        {
+
+        }
+
     }
 }

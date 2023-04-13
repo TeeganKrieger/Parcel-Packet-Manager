@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Parcel.Serialization.Binary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,14 +13,14 @@ namespace Parcel.Serialization.Tests
         [TestMethod]
         public void ObjectTest()
         {
-            ByteWriter writer = new ByteWriter();
+            BinaryWriter writer = new BinaryWriter(BinarySerializerResolver.Default);
             ObjectSerializer serializer = new ObjectSerializer();
             ParcelTestObject testObj = ParcelTestObject.Random();
 
             serializer.ObjectCache = ObjectCache.FromType(typeof(ParcelTestObject));
             serializer.Serialize(writer, testObj);
 
-            ByteReader reader = new ByteReader(writer.Data);
+            BinaryReader reader = new BinaryReader(BinarySerializerResolver.Default, writer.Data);
             ParcelTestObject compareObj = (ParcelTestObject)serializer.Deserialize(reader);
 
             Assert.IsTrue(testObj.Equals(compareObj));

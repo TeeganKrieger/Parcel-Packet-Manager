@@ -13,7 +13,7 @@ namespace Parcel.Networking
             /// <summary>
             /// The <see cref="ByteReader"/> containing the packet.
             /// </summary>
-            public ByteReader ByteReader { get; private set; }
+            public DataReader ByteReader { get; private set; }
 
             /// <summary>
             /// The <see cref="Peer"/> that sent the packet.
@@ -25,7 +25,7 @@ namespace Parcel.Networking
             /// </summary>
             /// <param name="byteReader">A <see cref="Parcel.Serialization.ByteReader"/> with the packet payload.</param>
             /// <param name="sender">The <see cref="Peer"/> that sent the packet.</param>
-            public UnprocessedPacket(ByteReader byteReader, Peer sender)
+            public UnprocessedPacket(DataReader byteReader, Peer sender)
             {
                 ByteReader = byteReader;
                 Sender = sender;

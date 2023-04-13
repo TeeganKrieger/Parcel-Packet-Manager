@@ -42,6 +42,13 @@ namespace Parcel.Packets
         internal bool DontSync { get; set; }
 
         /// <summary>
+        /// The current serialization mode used to inform SyncedObject serializers in what manner to serialize.
+        /// </summary>
+        [Ignore]
+        [DontPatch]
+        internal SyncedObjectSerializationMode SerializationMode { get; set; }
+
+        /// <summary>
         /// The <see cref="SyncedObjectID">ID</see> of this SyncedObject.
         /// </summary>
         [Serialize]

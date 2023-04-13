@@ -3,11 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
-namespace Parcel.Serialization
+namespace Parcel.Serialization.Binary
 {
-    internal class IGenericCollectionSerializer : Serializer
+    internal class IGenericCollectionSerializer : SerializerV2, IBinarySerializer
     {
         private QuickDelegate AddDelegate { get; set; }
         private QuickDelegate GetEnumeratorDelegate { get; set; }
@@ -22,7 +21,7 @@ namespace Parcel.Serialization
             return genericICollection.IsAssignableFrom(type);
         }
 
-        public override object Deserialize(ByteReader reader)
+        public override object Deserialize(DataReader reader)
         {
             if (AddDelegate == null)
                 AddDelegate = ObjectCache.Type.GetMethod("Add", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Bind();
@@ -38,15 +37,15 @@ namespace Parcel.Serialization
             {
                 int flag = reader.ReadByte();
 
-                ObjectCache cache = flag == 1 ? ObjectCache.FromHash(reader.ReadTypeHashCode()) : entryCache;
-                setterArgs[0] = reader.ReadWithoutTypeInfo(cache.Type);
+                ObjectCache cache = flag == 1 ? ObjectCache.FromHash(reader.ReadObject<TypeHashCode>()) : entryCache;
+                setterArgs[0] = reader.ReadObject(false, cache.Type);
                 AddDelegate(collection, setterArgs);
             }
 
             return collection;
         }
 
-        public override void Serialize(ByteWriter writer, object obj)
+        public override void Serialize(DataWriter writer, object obj)
         {
             if (GetEnumeratorDelegate == null)
                 GetEnumeratorDelegate = ObjectCache.Type.GetMethod("GetEnumerator", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Bind();
@@ -74,7 +73,7 @@ namespace Parcel.Serialization
 
                 if (flag == 1)
                     writer.Write(entryType.GetTypeHashCode());
-                writer.WriteWithoutTypeInfo(entry);
+                writer.Write(entry, false);
             }
 
             writer.Write(count, countPosition);

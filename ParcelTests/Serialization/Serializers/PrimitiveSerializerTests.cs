@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Parcel.Serialization.Binary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -89,11 +90,11 @@ namespace Parcel.Serialization.Tests
 
         private void GenericTest<T>(T testVal) where T : struct
         {
-            ByteWriter writer = new ByteWriter();
+            BinaryWriter writer = new BinaryWriter(BinarySerializerResolver.Default);
             PrimitiveSerializer<T> serializer = new PrimitiveSerializer<T>();
             serializer.Serialize(writer, testVal);
 
-            ByteReader reader = new ByteReader(writer.Data);
+            BinaryReader reader = new BinaryReader(BinarySerializerResolver.Default, writer.Data);
             T compareVal = (T)serializer.Deserialize(reader);
             Console.WriteLine($"TestVal: {testVal}");
             Console.WriteLine($"CompareVal: {compareVal}");
