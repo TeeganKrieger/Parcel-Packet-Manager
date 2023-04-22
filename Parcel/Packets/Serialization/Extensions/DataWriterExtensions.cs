@@ -5,38 +5,26 @@ namespace Parcel.Packets
 {
     internal static class DataWriterExtensions
     {
-        private static ConcurrentDictionary<DataWriter, ParcelClient> AttachedClients = new ConcurrentDictionary<DataWriter, ParcelClient>();
-        private static ConcurrentDictionary<DataWriter, ParcelServer> AttachedServers = new ConcurrentDictionary<DataWriter, ParcelServer>();
+        private static ConcurrentDictionary<DataWriter, SyncedObjectSerializationContext> AttachedContexts = new ConcurrentDictionary<DataWriter, SyncedObjectSerializationContext>();
 
-        public static bool TryAttachClient(this DataWriter dataWriter, ParcelClient client)
+        public static bool TryAttachSyncedObjectSerializationContext(this DataWriter dataWriter, ParcelClient client, SyncedObjectSerializationMode serializationMode)
         {
-            return DataWriterExtensions.AttachedClients.TryAdd(dataWriter, client);
+            return DataWriterExtensions.AttachedContexts.TryAdd(dataWriter, new SyncedObjectSerializationContext(client, serializationMode));
         }
 
-        public static bool TryAttachServer(this DataWriter dataWriter, ParcelServer server)
+        public static bool TryAttachSyncedObjectSerializationContext(this DataWriter dataWriter, ParcelServer server, SyncedObjectSerializationMode serializationMode)
         {
-            return DataWriterExtensions.AttachedServers.TryAdd(dataWriter, server);
+            return DataWriterExtensions.AttachedContexts.TryAdd(dataWriter, new SyncedObjectSerializationContext(server, serializationMode));
         }
 
-        public static bool TryGetClient(this DataWriter dataWriter, out ParcelClient client)
+        public static bool TryGetSyncedObjectSerializationContext(this DataWriter dataWriter, out SyncedObjectSerializationContext context)
         {
-            return DataWriterExtensions.AttachedClients.TryGetValue(dataWriter, out client);
+            return DataWriterExtensions.AttachedContexts.TryGetValue(dataWriter, out context);
         }
 
-        public static bool TryGetServer(this DataWriter dataWriter, out ParcelServer server)
+        public static bool TryDetatchSyncedObjectSerializationContext(this DataWriter dataWriter, out SyncedObjectSerializationContext context)
         {
-            return DataWriterExtensions.AttachedServers.TryGetValue(dataWriter, out server);
+            return DataWriterExtensions.AttachedContexts.TryRemove(dataWriter, out context);
         }
-
-        public static bool TryDetatchClient(this DataWriter dataWriter)
-        {
-            return DataWriterExtensions.AttachedClients.TryRemove(dataWriter, out _);
-        }
-
-        public static bool TryDetatchServer(this DataWriter dataWriter)
-        {
-            return DataWriterExtensions.AttachedServers.TryRemove(dataWriter, out _);
-        }
-
     }
 }
